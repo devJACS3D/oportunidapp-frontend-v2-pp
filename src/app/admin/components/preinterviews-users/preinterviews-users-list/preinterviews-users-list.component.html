@@ -1,0 +1,114 @@
+<!-- Title page -->
+<div class="row mt-4">
+  <p class="ml-3 title-page">{{ titlePage }}</p>
+</div>
+
+<ng-container *ngIf="!_loadingInit">
+  <!-- Filters for users -->
+  <filtered-search
+    searchQueryPlaceholder="Nombre o identificación"
+    [filterValues]="filterParams"
+    [showOpts]="filterOpts"
+    (onApplyFilter)="applyFilters($event)"
+    *ngIf="!_error"
+  >
+  </filtered-search>
+  <ng-container *ngIf="data.length && data.length > 0; else noDataTemplate">
+    <!-- Table -->
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive-sm">
+          <table class="table card-table">
+            <thead>
+              <tr>
+                <th *ngFor="let head of tableHeaders" scope="col">
+                  {{ head }}
+                </th>
+                <!-- actions -->
+                <th scope="col" style="width: 150px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Separator for showing a space between thead an tbody -->
+              <tr class="table-separator">
+                <td [colSpan]="this.tableHeaders.length + 1"></td>
+              </tr>
+
+              <tr *ngFor="let data of data" (click)="data && showVideo(data)">
+                <td class="font-weight-light">
+                  <img
+                    class="table-img"
+                    alt="User profile picture"
+                    [src]="utils.getImgSrc(data.user.image)"
+                  />
+                </td>
+                <td class="font-weight-light">{{ data.user.fullName }}</td>
+                <td class="font-weight-light">{{ data.vacancy.name }}</td>
+                <td class="font-weight-light">{{ data.status.name }}</td>
+                <!-- Eyes -->
+                <td>
+                  <img
+                    class="img-fluid cursor"
+                    [src]="
+                      !data.administratorId
+                        ? assetsPath + 'eye-blind.png'
+                        : assetsPath + 'eye.png'
+                    "
+                    alt="eye"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal video pre interview -->
+    <ng-container *ngIf="showModalVideo">
+      <app-preinterviews-video
+        [preinterview]="preinterviewsStatus"
+        (modalVideo)="onModalVideo($event)"
+      ></app-preinterviews-video>
+    </ng-container>
+
+    <!-- Pagination -->
+    <div class="row mt-4" *ngIf="pagination">
+      <div class="col-md-12 ml-2">
+        <app-pagination
+          [pagination]="pagination"
+          [loader]="loadingPage"
+          (_changePage)="goToPage($event)"
+        >
+        </app-pagination>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<!-- No data template -->
+<ng-template #noDataTemplate>
+  <div class="row p-2" *ngIf="!_error">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 text-secondary">
+        No se encontrarón resultados.
+      </h4>
+    </div>
+  </div>
+
+  <!-- Error  -->
+  <div class="row" *ngIf="_error">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 ">
+        Error cargando información
+      </h4>
+      <p class="text-center">
+        {{ _error }}
+      </p>
+    </div>
+  </div>
+</ng-template>
+
+<router-outlet></router-outlet>

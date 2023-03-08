@@ -1,0 +1,41 @@
+
+$small: 765px;
+
+.main {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: 220px auto;
+  overflow: auto;
+
+  @media screen and (max-width: $small) {
+    //do Smth
+    grid-template-columns: 80px 1fr;
+  }
+}
+
+ .sidebar {
+ /*   overflow-y: hidden; //lines overflow
+   overflow-x: hidden; //lines overflow */
+ }
+
+.sidebar::-webkit-scrollbar-track {
+  // box-shadow: 8px 6px 0px 0px rgba(0, 0, 0, 0.07);
+  background-color: #f5f5f5;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+  background-color: #f5f5f5;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #28283680;
+}
+
+.site {
+  padding-top: 80px;
+  padding-bottom: 20px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}

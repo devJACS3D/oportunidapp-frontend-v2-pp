@@ -1,0 +1,9 @@
+<video [id]="id" *ngIf="src" controls [ngStyle]="{  
+  'width' : width ? width : '100%',
+  'height': height ? height : '403px'
+}"
+[autoplay]="autoplay"
+>
+  <source  [src]="src" type="video/mp4">
+  Your browser does not support the video tag.
+</video>

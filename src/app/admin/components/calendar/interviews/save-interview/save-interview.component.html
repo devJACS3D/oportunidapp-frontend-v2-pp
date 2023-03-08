@@ -1,0 +1,175 @@
+<!-- ................................................................................................. -->
+<!-- Title -->
+<!-- ................................................................................................. -->
+<div class="row">
+  <div class="col-12">
+    <h5 class="text-left font-weight-light">{{header}}</h5>
+  </div>
+</div>
+<hr>
+<!-- ................................................................................................. -->
+<!-- FORM -->
+<!-- ................................................................................................. -->
+<form [formGroup]="interviewForm">
+  <div class="form-group row">
+    <label class="col-sm col-form-label font-weight-semi-bold">Fecha:</label>
+    <div class="col-sm-5 input-group">
+      <input [ngClass]="{'readonly-input': data.type == ACTIONS.DETAIL}" type="text" class="form-control input-3"
+        [minDate]="minDate" formControlName="date" ngbDatepicker #f_date="ngbDatepicker" placeholder="Año/Mes/Día"
+        readonly>
+      <div *ngIf="data.type !== ACTIONS.DETAIL" class="input-group-append">
+        <button class="btn btn-outline-nleft" type="button" id="button-addon2" (click)="f_date.toggle();">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <div class="col"></div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm col-form-label font-weight-semi-bold">Hora:</label>
+    <div class="col-sm-5 input-group">
+      <input [ngClass]="{'readonly-input': data.type == ACTIONS.DETAIL}" [value]="time" type="text"
+        [ngbPopover]="popTemplate" [autoClose]="'outside'" readonly #popTime="ngbPopover" class="form-control input-3"
+        placeholder="HH:MM:SS">
+      <div *ngIf="data.type !== ACTIONS.DETAIL" class="input-group-append">
+        <button class="btn btn-outline-nleft" type="button" id="button-addon2" (click)="popTime.toggle();">
+          <i class="fa fa-clock-o" aria-hidden="true"></i>
+        </button>
+      </div>
+      <ng-template #popTemplate>
+        <ng-container *ngIf="data.type !== ACTIONS.DETAIL">
+          <ngb-timepicker formControlName="hour" meridian="true">
+          </ngb-timepicker>
+        </ng-container>
+      </ng-template>
+
+      <span class="text-danger invalid-control"
+        *ngIf="interviewForm.controls.hour.invalid && interviewForm.controls.hour.dirty">
+        {{timeError}}
+      </span>
+    </div>
+    <div class="col"></div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm col-form-label font-weight-semi-bold">Vacante:</label>
+    <div class="col-sm-5">
+      <ng-select notFoundText="No se han encontrado resultados" typeToSearchText="Buscar" clearAllText="Limpiar"
+        [typeahead]="vacancySearch$" formControlName="vacancyId" [virtualScroll]="true" [loading]="loadingVacancies"
+        placeholder="Seleccionar vacante" appendTo="body">
+        <ng-option *ngFor="let vacancy of vacancies$ | async" [value]="vacancy.id">{{vacancy.name}}</ng-option>
+      </ng-select>
+    </div>
+    <div class="col"></div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm col-form-label font-weight-semi-bold">Usuario:</label>
+    <div class="col-sm-5">
+      <ng-select notFoundText="No se han encontrado resultados" typeToSearchText="Buscar" clearAllText="Limpiar"
+        [typeahead]="userSearch$" formControlName="userId" [virtualScroll]="true" [loading]="loadingUsers"
+        placeholder="Seleccionar vacante" appendTo="body">
+        <ng-option *ngFor="let vacancy of users$ | async" [value]="vacancy.user.id">{{vacancy.user.fullName+' - '+
+          vacancy.user.identification}}
+        </ng-option>
+      </ng-select>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm col-form-label font-weight-semi-bold">Persona a cargo:</label>
+    <div class="col-sm-5">
+      <ng-select notFoundText="No se han encontrado resultados" typeToSearchText="Buscar" clearAllText="Limpiar"
+        [typeahead]="interviewerSearch$" formControlName="interviewerId" [virtualScroll]="true"
+        [loading]="loadingInterviewers" placeholder="Seleccionar persona a cargo" appendTo="body">
+        <ng-option *ngFor="let interviewer of interviewers$ | async" [value]="interviewer.id">{{interviewer.name}}
+        </ng-option>
+      </ng-select>
+    </div>
+    <div class="col"></div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm col-form-label font-weight-semi-bold">Dirección:</label>
+    <div class="col-sm-5">
+      <input [ngClass]="{'readonly-input': data.type == ACTIONS.DETAIL}" [readOnly]="data.type == ACTIONS.DETAIL"
+        formControlName="address" type="text" class="form-control input-3" maxlength="100">
+        <field-error [fcontrol]="interviewForm.get('address')"></field-error>
+    </div>
+    <div class="col"></div>
+  </div>
+  <div class="form-group row align-items-center">
+    <label class="col-sm col-form-label font-weight-semi-bold">Estado:</label>
+    <div class="col-sm-5">
+      <input [readOnly]="true" type="text" class="readonly-input form-control input-3" [value]="status">
+    </div>
+    <div class="col"></div>
+  </div>
+
+  <div class="row justify-content-center">
+
+    <!-- ................................................................................................. -->
+    <!-- DETAIL CASE-->
+    <!-- ................................................................................................. -->
+    <ng-container *ngIf="data.type == ACTIONS.DETAIL">
+      <div class="col-6 mb-2">
+        <button class="btn btn-block btn-ok--blue btn-lg fs-1rem" (click)="notifyClient()">Notificar al cliente</button>
+      </div>
+      <div class="col-6 mb-2" *ngIf="!data.done">
+        <button class="btn btn-block btn-app-secondary btn-lg" (click)="setEditableForm()">Editar</button>
+      </div>
+      <div class="col-6 mb-2">
+        <button class="btn btn-block btn-app-dark btn-lg" (click)="schedule(interviewForm.get('id'))" >Agendar en mi calendario</button>
+      </div>
+      <div class="col-6 mb-2">
+        <button [disabled]="isSubmitting" class="btn btn-block btn-outline-danger btn-lg fs-1rem"
+          (click)="confirmDelete()">
+          <ng-container *ngIf="!isSubmitting;else deleting">
+            Eliminar
+          </ng-container>
+          <ng-template #deleting>
+            Eliminando
+            <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+          </ng-template>
+        </button>
+      </div>
+      <!-- ................................................................................................. -->
+      <!-- FINISH INTERVIEW -->
+      <!-- ................................................................................................. -->
+      <hr>
+      <div class="col d-flex flex-column" *ngIf="!data.done">
+        <p class="text-black-50 mb-2">
+          ¿Quiere marcar esta entrevista como realizada?
+        </p>
+        <button [disabled]="isSubmittingDoneStatus" class="btn btn-app-primary btn-lg w-50" (click)="questionModal()">
+          <ng-container *ngIf="!isSubmittingDoneStatus;else fetching">
+            Realizada
+          </ng-container>
+          <ng-template #fetching>
+            Guardando
+            <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+          </ng-template>
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- ................................................................................................. -->
+    <!-- SAVE/EDITING CASE -->
+    <!-- ................................................................................................. -->
+    <ng-container *ngIf="data.type == ACTIONS.CREATE ||data.type == ACTIONS.EDIT || data.type == ACTIONS.SCHEDULE">
+      <div class="col-12 col-sm-5">
+        <button [disabled]="interviewForm.invalid || isSubmitting" (click)="saveInterview()"
+          class="btn btn-block btn-ok--blue">
+          <ng-container *ngIf="!isSubmitting;else deleting">
+            Guardar
+          </ng-container>
+          <ng-template #deleting>
+            Guardando
+            <i class="fa fa-circle-o-notch fa-spin text-white" aria-hidden="true"></i>
+          </ng-template>
+        </button>
+      </div>
+    </ng-container>
+  </div>
+</form>

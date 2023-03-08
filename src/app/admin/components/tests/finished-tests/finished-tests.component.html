@@ -1,0 +1,89 @@
+<only-search-filter searchKey="searchTest" (onSearch)="applyFilters($event)"></only-search-filter>
+<ng-container *ngIf="tests.length && tests.length > 0; else noDataTemplate">
+  <!-- ................................................................................................. -->
+  <!-- Table -->
+  <!-- ................................................................................................. -->
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive-sm">
+        <table class="table card-table">
+          <thead>
+            <tr>
+              <th class="text-left" *ngFor="let head of tableHeaders" scope="col">
+                {{ head }}
+              </th>
+              <!-- actions -->
+              <th scope="col" style="width: 150px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Separator for showing a space between thead an tbody -->
+            <tr class="table-separator">
+              <td [colSpan]="this.tableHeaders.length + 1"></td>
+            </tr>
+            <tr *ngFor="let test of tests">
+              <ng-container *ngIf="test.vacancyApplication">
+                <td class="font-weight-light text-left pointer">
+                  {{ test.test.name }}
+                </td>
+                <td class="font-weight-light text-left pointer">
+                  {{ test.user.fullName }}
+                </td>
+                <td class="font-weight-light text-left pointer" (click)="downloadReport(test)">
+                  <a class="text-primary pointer">Ver resultado </a>
+                </td>
+                <td>
+                  <ng-container *ngIf="
+                      !test.rejectedTestsToVacancyApplication;
+                      else rejected
+                    ">
+                    <a *ngIf="
+                        test.vacancyApplication?.vacancyApplymentStatusId == 3
+                      " (click)="showSetCompetentAlert(test)" class="text-primary pointer">Calificar usuario</a>
+
+                    <span disabled *ngIf="
+                        test.vacancyApplication?.vacancyApplymentStatusId > 3
+                      " class="text-primary pointer">Usuario apto</span>
+                  </ng-container>
+
+                  <ng-template #rejected>
+                    <span disabled class="text-primary pointer">Usuario rechazado</span>
+                  </ng-template>
+                </td>
+              </ng-container>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ................................................................................................. -->
+  <!-- Table pagination -->
+  <!-- ................................................................................................. -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <app-pagination [pagination]="pagination" [loader]="loadingPage" (_changePage)="goToPage($event)">
+      </app-pagination>
+    </div>
+  </div>
+</ng-container>
+
+<!-- ................................................................................................. -->
+<!-- Show add comment modal-->
+<!-- ................................................................................................. -->
+<add-comment-modal #addComentComponent (onSend)="deny($event)"></add-comment-modal>
+
+<!-- ................................................................................................. -->
+<!-- Show template if we do not have data to show -->
+<!-- ................................................................................................. -->
+<ng-template #noDataTemplate>
+  <div class="row p-2">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-filter fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 text-secondary">
+        No se encontrarón resultados.
+      </h4>
+    </div>
+  </div>
+</ng-template>

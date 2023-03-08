@@ -1,0 +1,33 @@
+@import '../../../../sass/vars';
+
+.img-wrapper{
+    max-width: 375px;
+    max-height: 375px;
+    width: 325px;
+    height: 325px;
+    border-radius: 50%;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: cover !important;
+}
+
+.img-icon{
+    max-width: 75px;
+}
+
+.business-features{
+    position: relative;
+
+    &::after{
+        position: absolute;
+        content: '';
+        height: 70%;
+        bottom: 0;
+        right: 0;
+        border-right: 1px dashed $primary;
+    }
+}
+
+.pre-wrap{
+    white-space: pre-wrap;
+}

@@ -1,0 +1,87 @@
+<page-header header="Planes contratados" [backButton]="false" class="my-3"></page-header>
+
+<ng-container *ngIf="(packages$ | async); let packages;else loading">
+
+  <ng-container *ngIf="packages?.length > 0;else noData">
+    <!-- ................................................................................................. -->
+    <!-- TABLE -->
+    <!-- ................................................................................................. -->
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive-sm">
+          <table class="table card-table">
+            <thead>
+              <tr>
+                <th *ngFor="let head of tableHeaders" scope="col">{{head}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Separator for showing a space between thead an tbody -->
+              <tr class="table-separator">
+                <td [colSpan]="this.tableHeaders.length+1000"></td>
+              </tr>
+
+              <ng-container *ngFor="let package of packages">
+                <tr>
+                  <td class="font-weight-light">
+                    {{package._label}}
+                  </td>
+                  <td class="font-weight-light">
+                    {{package.count}}
+                  </td>
+                  <td class="font-weight-light">
+                    {{package._price | currency:'COP':'symbol-narrow'}}
+                  </td>
+                  <td class="font-weight-light">
+                    {{package.expireAt | date : 'dd/MM/yy'}}
+                  </td>
+                  <td class="font-weight-light">
+                    {{package.createdAt | date : 'dd/MM/yy'}}
+                  </td>
+                </tr>
+              </ng-container>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ................................................................................................. -->
+    <!-- PAGINATION -->
+    <!-- ................................................................................................. -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <app-pagination [pagination]="pagination" [loader]="loadingPage" (_changePage)="goToPage($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </ng-container>
+
+
+</ng-container>
+
+<!-- ................................................................................................. -->
+<!-- LOADING TEMPLATE -->
+<!-- ................................................................................................. -->
+<ng-template #loading>
+  <div class="row">
+    <div class="col text-center">
+      <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ................................................................................................. -->
+<!-- NO DATA -->
+<!-- ................................................................................................. -->
+<ng-template #noData>
+  <div class="row mt-4">
+    <div class="col-12 text-center">
+      <h4 class="h4 text-secondary">
+        No se han encontrado resultados.
+      </h4>
+    </div>
+  </div>
+</ng-template>

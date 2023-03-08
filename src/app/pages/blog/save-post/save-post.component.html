@@ -1,0 +1,100 @@
+<div class="row">
+  <div class="col-12">
+    <h5 class="font-weight-semi-bold">{{title}}</h5>
+  </div>
+
+  <hr />
+  <div class="col-12">
+    <form class="row" [formGroup]="postForm" (ngSubmit)="save()">
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-bold small">Nombre del blog *</label>
+        <input
+          type="text"
+          class="form-control input-3"
+          formControlName="name"
+        />
+        <field-error [fcontrol]="postForm.get('name')"></field-error>
+      </div>
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-bold small">Autor *</label>
+        <input
+          type="text"
+          class="form-control input-3"
+          formControlName="author"
+        />
+        <field-error [fcontrol]="postForm.get('author')"></field-error>
+      </div>
+      <div class="col-12 form-group">
+        <label class="font-weight-bold small">Descripción general *</label>
+        <textarea
+          rows="4"
+          class="form-control input-3"
+          formControlName="description"
+        ></textarea>
+        <field-error [fcontrol]="postForm.get('description')"></field-error>
+      </div>
+      <div class="col-12 form-group">
+        <label class="font-weight-bold small">Acerca del autor *</label>
+        <textarea
+          rows="4"
+          class="form-control input-3"
+          formControlName="aboutAuthor"
+        ></textarea>
+        <field-error [fcontrol]="postForm.get('aboutAuthor')"></field-error>
+      </div>
+
+      <div class="col-6">
+        <div class="row">
+          <div
+            class="col-12 img-thumbnail img-fluid image-contain-picture"
+            [style.background]="
+              'url(' + utils.getImgSrc(postForm.get('images').value) + ')'
+            "
+          >
+            <input
+              type="file"
+              (change)="setFile($event)"
+              id="inputUpload"
+              #inputFile
+              accept="image/*"
+              style="display: none;"
+            />
+          </div>
+
+          <div class="col-12 mt-2">
+            <button
+              type="button"
+              (click)="inputFile.click()"
+              class="btn bg-light-gray text-white"
+            >
+              Seleccionar imagen
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 mt-4">
+        <div class="row justify-content-center">
+          <div class="col-6">
+            <button
+              type="submit"
+              [disabled]="postForm.invalid || (submitting$ | async)"
+              class="btn btn-ok--blue btn-block"
+            >
+              <ng-container *ngIf="!(submitting$ | async); else saving">
+                Guardar
+              </ng-container>
+              <ng-template #saving>
+                Guardando
+                <i
+                  class="fa fa-circle-o-notch fa-spin text-white"
+                  aria-hidden="true"
+                ></i>
+              </ng-template>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

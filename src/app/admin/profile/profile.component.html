@@ -1,0 +1,202 @@
+<div class="row" *ngIf="_loadingInit">
+	<div class="col">
+		Cargando...
+	</div>
+</div>
+
+<ng-container *ngIf="!_loadingInit && _error != ''">
+	<div class="row">
+		<div class="col text-center text-secondary">
+			<i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+			<h4 class="h4 ">
+				Error cargando información de usuario
+			</h4>
+			<p class="text-center">
+				{{ _error }}
+			</p>
+		</div>
+	</div>
+</ng-container>
+
+<div class="row" *ngIf="!_loadingInit && _error == ''">
+	<ng-container  *ngIf="currentUser">
+		<div class="col-auto">
+
+			<div class="img-rounded" [style.background]="'url(' + _userImage.Url + ')'"
+				style="width: 12rem; height: 12rem; position: relative;">
+	
+				<input type="file" (change)="onInputImageChange($event)" id="inputUpload" accept="image/*"
+					style="display: none;">
+				<label for="inputUpload" style="cursor: pointer;">
+					<span class="fa-stack fa-lg edit-icon">
+						<i class="fa fa-circle fa-stack-2x"></i>
+						<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+					</span>
+				</label>
+			</div>
+			<div class="col-12" style="max-width: 192px;" *ngIf="_userImage.Name">
+				{{ _userImage.Name }}
+			</div>
+			<div class="col-12 mt-2 mb-2" *ngIf="_userImage.Name">
+				<button [disabled]="_loadingImg" class="btn btn-ok btn-outline-secondary" (click)="saveImg()">
+					<i *ngIf="_loadingImg" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+					Guardar cambios
+				</button>
+			</div>
+		</div>
+	
+		<div class="col">
+			<h4 class="text-secondary">Mi cuenta</h4>
+	
+			<div class="card">
+				<div class="card-body card-body--header">
+					<span class="h5">Datos personales</span>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<ng-container *ngIf="!_editMode">
+						<div class="row">
+							<div class="col">
+								<div class="col-12">
+									<label class="font-weight-bold">Nombre</label>
+									<p class="text-secondary">{{ currentUser.name }}</p>
+								</div>
+								<div class="col-12">
+									<label class="font-weight-bold">Correo electrónico</label>
+									<p class="text-secondary"> {{ currentUser?.credential.email }} </p>
+								</div>
+								<div class="col-12">
+									<label class="font-weight-bold">Tipo de documento</label>
+									<p class="text-secondary">{{ currentUser.identificationType.name }}</p>
+								</div>
+								<div class="col-12">
+									<label class="font-weight-bold">Número de documento</label>
+									<p class="text-secondary">{{ currentUser.identification }}</p>
+								</div>
+	
+								<div class="col-12">
+									<label class="font-weight-bold">Teléfono</label>
+									<p class="text-secondary"> {{ currentUser.telephone }} </p>
+								</div>
+								<div class="col-12">
+									<label class="font-weight-bold">Ciudad</label>
+									<p class="text-secondary"> {{ currentUser.cityAdministrator.name }}</p>
+								</div>
+	
+								<div class="col-12 text-right">
+									<button class="btn btn-ok btn-ok--blue" (click)="_editMode = true;">
+										Editar perfil
+									</button>
+								</div>
+							</div>
+						</div>
+					</ng-container>
+					<ng-container *ngIf="_editMode">
+						<form [formGroup]="FormEntity">
+							<div class="row">
+								<div class="col form-group">
+									<label class="font-weight-bold">Nombre</label>
+									<input type="text" class="form-control input-2" formControlName="name" maxlength="100">
+									<span class="text-danger invalid-control"
+										*ngIf="FormEntity.controls.name.invalid && FormEntity.controls.name.dirty">
+										Campo requerido.
+									</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-group">
+									<label class="font-weight-bold">Correo electrónico</label>
+									<input type="text" class="form-control input-2" formControlName="email" maxlength="60" [ngClass]="{'disabled': currentUser.userTypeId == 2}">
+									<span class="text-danger invalid-control"
+										*ngIf="FormEntity.controls.email.invalid && FormEntity.controls.email.dirty">
+										Campo requerido.
+									</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-group">
+									<label class="font-weight-bold">Tipo de documento</label>
+									<select class="form-control input-2" formControlName="identificationTypeId">
+										<option value="">Seleccionar</option>
+										<option *ngFor="let docType of _identificationTypes" [value]="docType.id">
+											{{ docType.name }}</option>
+									</select>
+									<span class="text-danger invalid-control"
+										*ngIf="FormEntity.controls.identificationTypeId.invalid && FormEntity.controls.identificationTypeId.dirty">
+										Campo requerido.
+									</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-group">
+									<label for="" class="font-weight-bold">Número de documento</label>
+									<input type="text" class="form-control input-2" formControlName="identification"
+										maxlength="15">
+									<span class="text-danger invalid-control"
+										*ngIf="FormEntity.controls.identification.invalid && FormEntity.controls.identification.dirty">
+										Campo requerido.
+									</span>
+								</div>
+							</div>
+	
+							<div class="row">
+								<div class="col form-group">
+									<label class="font-weight-bold">Teléfono</label>
+									<input type="text" class="form-control input-2" formControlName="telephone"
+									[patterns]="_maskPhone" mask='ABBBBBBBBBBBBBB' [validation]="false" [dropSpecialCharacters]="false" maxlength="15">
+									<span class="text-danger invalid-control"
+										*ngIf="FormEntity.controls.telephone.invalid && FormEntity.controls.telephone.dirty">
+										Campo requerido.
+									</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-group">
+									<label for="" class="font-weight-bold">Departamento</label>
+									<select class="form-control input-2" formControlName="stateId"
+										(change)="changeDepartment($event)">
+										<option value="">Seleccionar</option>
+										<option *ngFor="let state of _states" [value]="state.id">
+											{{ state.name }}
+										</option>
+									</select>
+									<span class="text-danger invalid-control"
+										*ngIf="FormEntity.controls.stateId.invalid && FormEntity.controls.stateId.dirty">
+										Campo requerido.
+									</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-group">
+									<label for="" class="font-weight-bold">Ciudad</label>
+									<select class="form-control input-2" formControlName="cityId"
+										[ngClass]="{'select-loading': _loadingCities}">
+										<option value="">Seleccionar</option>
+										<option *ngFor="let city of _cities" [value]="city.id">
+											{{ city.name }}
+										</option>
+									</select>
+									<span class="text-danger invalid-control"
+										*ngIf="FormEntity.controls.cityId.invalid && FormEntity.controls.cityId.dirty">
+										Campo requerido.
+									</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col text-center">
+									<button class="btn btn-ok btn-ok--blue" [disabled]="_loading" (click)="save()"
+										style="min-width: 100px;">
+										<i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+										Guardar
+									</button>
+								</div>
+							</div>
+						</form>
+					</ng-container>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+	
+</div>

@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-12">
+    <card-wrapper [rounded]="false">
+
+      <ng-container *ngIf="(personalityTest$ | async); let personalityTest;else loading">
+        <app-card-with-footer>
+          <div class="row pt-4 pb-2 pl-3 pr-3" body>
+            <div class="col-md-9 col-sm-12 col-xs-12 col-body-one">
+              <p>{{personalityTest.name}}</p>
+            </div>
+            <div class="col-md-3 col-sm-12 col-xs-12 col-body-two">
+              <p class="text-center">
+                Estado: <span>{{personalityTest.status.name}}</span>
+              </p>
+            </div>
+          </div>
+          <!-- ................................................................................................. -->
+          <!-- Data for component footer-->
+          <!-- ................................................................................................. -->
+          <div class="row pt-3 pb-1 pl-3 pr-3" footer>
+            <div class="col-md-9 col-sm-12 col-xs-12 col-footer-one">
+              <p></p>
+            </div>
+            <div *ngIf="personalityTest.status.id == 1" class="col-md-3 col-sm-12 col-xs-12 col-footer-two">
+              <button (click)="openInstructions()" class="btn btn-block btn-ok--blue">Realizar test</button>
+            </div>
+          </div>
+        </app-card-with-footer>
+      </ng-container>
+
+
+      <ng-template #loading>
+        <div class="row justify-content-center align-items-center">
+          <div class="col-auto">
+            <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+          </div>
+        </div>
+      </ng-template>
+
+    </card-wrapper>
+  </div>
+</div>

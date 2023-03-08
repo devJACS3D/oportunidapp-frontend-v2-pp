@@ -1,0 +1,28 @@
+<page-header class="my-3" [header]="header" [backButton]="false"></page-header>
+
+<div class="row">
+  <div class="col-12">
+    <card-header header="Información"></card-header>
+  </div>
+
+  <div class="col-12">
+    <card-wrapper>
+      <ng-container *ngIf="data">
+        <app-entry-order-form
+          [data]="data"
+          [loadOpts]="{
+            states$: states$,
+            cities$: cities$,
+            branchOffices$: branchOffices$,
+            contractTypes$: contractTypes$,
+            payrollDays$: payrollDays$,
+            memberTypes$: memberTypes$,
+            submitting$: submitting$
+          }"
+          (onChange)="handleChange($event)"
+          (onSubmit)="handleSubmit($event)"
+        ></app-entry-order-form>
+      </ng-container>
+    </card-wrapper>
+  </div>
+</div>

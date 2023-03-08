@@ -1,0 +1,103 @@
+<!-- ................................................................................................. -->
+<!-- PAGE HEADER -->
+<!-- ................................................................................................. -->
+<page-header [header]="title" [backButton]="false"></page-header>
+
+<!-- ................................................................................................. -->
+<!-- FILTERS -->
+<!-- ................................................................................................. -->
+<filtered-search searchQueryPlaceholder="Nombre" [filterValues]="filterParams" [showOpts]="filterOpts" (onApplyFilter)="applyFilters($event)">
+</filtered-search>
+
+<!-- ................................................................................................. -->
+<!-- TABLE DATA -->
+<!-- ................................................................................................. -->
+<ng-container *ngIf="(requisitions?.length && requisitions?.length > 0 );else noDataTemplate">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive-sm">
+                <table class="table card-table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let head of tableHeaders" scope="col">{{head}}</th>
+                            <!-- actions -->
+                            <th scope="col" style="width: 50px;"></th>
+                            <ng-container *ShowAuthorized="[AUTHORIZED.ADMIN,AUTHORIZED.PSYCHOLOGIST]">
+                                <th scope="col" style="width: 50px;"></th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Separator for showing a space between thead an tbody -->
+                        <tr class="table-separator">
+                            <td [colSpan]="this.tableHeaders.length+3"></td>
+                        </tr>
+
+                        <tr class="pointer" *ngFor="let requisition of requisitions">
+                            <ng-container *ShowAuthorized="AUTHORIZED.BUSINESS">
+                                <td class="font-weight-light" routerLink="../detail/{{requisition.id}}">
+                                    {{requisition.name}}</td>
+                                <td class="font-weight-light" routerLink="../detail/{{requisition.id}}">
+                                    {{requisition.createdAt | date: 'dd/MM/yy'}}</td>
+                                <td class="font-weight-light" routerLink="../detail/{{requisition.id}}">
+                                    {{requisition.createdAt | date: 'dd/MM/yy'}}</td>
+                                <td class="font-weight-light" routerLink="../detail/{{requisition.id}}">
+                                    {{requisition.serviceType.name}}</td>
+                                <td class="font-weight-light" routerLink="../detail/{{requisition.id}}">
+                                    <span class="text-primary">En requisición</span>
+                                </td>
+                            </ng-container>
+
+                            <ng-container *ShowAuthorized="[AUTHORIZED.ADMIN,AUTHORIZED.PSYCHOLOGIST]">
+                                <td class="font-weight-light" routerLink="../detail/{{requisition.id}}">
+                                    {{requisition.company.name}}</td>
+                                <td class="font-weight-light" routerLink="../detail/{{requisition.id}}">
+                                    {{requisition.sector.name}}</td>
+                                <td class="font-weight-light" routerLink="../detail/{{requisition.id}}">
+                                    {{requisition.name}}</td>
+                                <td class="font-weight-light" routerLink="../detail/{{requisition.id}}">
+                                    {{requisition.city.name}}</td>
+                                <td class="font-weight-light" routerLink="../detail/{{requisition.id}}">
+                                    {{requisition.createdAt | date: 'dd/MM/yy'}}</td>
+                                <td class="font-weight-light" routerLink="../detail/{{requisition.id}}">
+                                    {{requisition.serviceType.name}}</td>
+                                <td class="font-weight-light" (click)="publishRequisition(requisition)">
+                                    <span class="text-primary">Publicar</span>
+                                </td>
+                                <td class="font-weight-light" routerLink="../edit/{{requisition.id}}">
+                                    <img class="action-icon" [src]="utils.assets('actions/edit.png')">
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <app-pagination [pagination]="pagination" [loader]="loadingPage" (_changePage)="goToPage($event)">
+            </app-pagination>
+        </div>
+    </div>
+</ng-container>
+
+<!-- ................................................................................................. -->
+<!-- NO DATA TEMPLATE -->
+<!-- ................................................................................................. -->
+<ng-template #noDataTemplate>
+    <div class="row p-2">
+        <div class="col text-center text-secondary">
+            <i class="fa fa-filter fa-4x" aria-hidden="true"></i>
+            <h4 class="h4 text-secondary">
+                No se encontrarón resultados.
+            </h4>
+        </div>
+    </div>
+</ng-template>
+<!-- ................................................................................................. -->
+<!-- ADD NEW REQUISITION BUTTON (ONLY FOR BUSINESS ROLE) -->
+<!-- ................................................................................................. -->
+<floating-button [icon]="utils.assets('actions/addplus.png')" *ShowAuthorized="AUTHORIZED.BUSINESS" (click)="createRequisition()"></floating-button>

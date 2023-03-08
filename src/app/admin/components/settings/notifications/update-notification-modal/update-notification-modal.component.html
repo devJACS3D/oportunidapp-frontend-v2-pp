@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-12">
+    <h5 class="text-left font-weight-light">Notificación - {{ data.name }}</h5>
+  </div>
+</div>
+<hr />
+
+<form
+  class="row flex-column align-items-center justify-content center"
+  [formGroup]="notificationForm"
+  (ngSubmit)="save()"
+>
+  <div class="col-12">
+    <textarea
+      formControlName="content"
+      rows="8"
+      class="form-control input-3"
+    ></textarea>
+  </div>
+
+  <div class="col-6 mt-5">
+    <button
+      type="submit"
+      [disabled]="notificationForm.invalid"
+      class="btn btn-block btn-ok--blue"
+    >
+      <ng-container *ngIf="!(this.submitting$ | async); else saving">
+        Guardar
+      </ng-container>
+
+      <ng-template #saving>
+        Guardando...
+        <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+      </ng-template>
+    </button>
+  </div>
+</form>

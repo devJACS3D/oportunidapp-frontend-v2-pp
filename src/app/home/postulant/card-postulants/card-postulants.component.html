@@ -1,0 +1,32 @@
+<ng-container *ngIf="item">
+    <div class="card " style="width:100%; height: 100%;">
+      <div class="bg-image-responsive" [style.background]="'url(' + urlImage + ')'" style="width: 100%; height: 13em;">
+      </div>
+      <div class="text-center card-body ">
+        <h6 class="card-title card-title--blue">{{ item.user.firstName}} {{ item.user.lastName}}</h6>
+        <h6 class="card-subtitle mb-2 card-subtitle--blue"> {{ item.vacancy.name }} </h6>
+       </div>
+      <div class="text-center card-body">
+        <!-- <pre class="card-text card-text--info text-secondary custom-font">{{ item.description | truncate: 100 }}</pre> -->
+      
+        <button class="btn btn-ok btn-ok--blue" (click)="goToDetail(item)">Ver detalles</button>
+      </div>
+    </div>
+  </ng-container>
+  
+  <ng-container *ngIf="!item">
+    <div class="card animated fadeIn" style="width:100%; height: 100%; opacity: 0.9;">
+      <div class="bg-image-responsive bg-light text-center" style="width: 100%; height: 8em; padding-top: 2em;">
+        <i class="fa fa-picture-o fa-4x ph-loading-img" aria-hidden="true"></i>
+      </div>
+      <div class="text-center card-body card-body--grey">
+        <div class="ph-loading-sm"></div><br>
+        <div class="ph-loading-xs"></div>
+        <div class="ph-loading-md"></div>
+      </div>
+      <div class="text-center card-body">
+        <div class="ph-loading"></div>
+      </div>
+    </div>
+  </ng-container>
+  

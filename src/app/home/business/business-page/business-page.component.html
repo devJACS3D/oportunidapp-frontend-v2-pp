@@ -1,0 +1,66 @@
+<div class="container-fluid mb-4">
+
+  <div class="row my-2">
+    <div class="col-auto">
+      <img (click)="goBack()" [src]="utils.assets('actions/back-arrow.png')" class="pointer" alt="Back arrow">
+      <span class="ml-2">Atrás</span>
+    </div>
+  </div>
+
+  <ng-container *ngIf="item">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-auto">
+        <div class="img-wrapper" [style.background]="'url(' + utils.getImgSrc(item.image) + ')'">
+        </div>
+      </div>
+      <div class="col-12 col-md-7">
+        <div class="row flex-column align-items-md-start align-items-center">
+          <div class="col-12 my-3">
+            <h2 class="font-weight-bolder text-dark m-0">{{item.name}}</h2>
+          </div>
+          <div class="col-7 mb-3" *ngIf="item?.url !=='' && item?.url">
+            <button style="border-radius: 1.25rem;color:#1A8AC4"
+              class="btn-block btn btn-app-darkblue">
+            <a [href]="item.url" target="_blank" style="word-wrap:break-word;color:#1A8AC4">
+              {{item.url}}
+            </a>
+            </button>
+          </div>
+          <div class="col-12">
+            <p class="text-muted m-0 text-justify pre-wrap">
+              {{item.description}}
+            </p>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+
+    <div class="row my-5">
+      <div class="col-12 col-sm d-flex flex-column business-features" *ngIf="item.principles">
+        <img [src]="utils.assets('puzzle.png')" alt="Valores" class="img-icon">
+        <h5 class="font-weight-bolder text-dark my-2 p-2">Valores</h5>
+        <p class="text-muted m-0 text-justify pre-wrap">
+          {{item.principles}}
+        </p>
+      </div>
+      <div class="col-12 col-sm d-flex flex-column business-features" *ngIf="item.mission">
+        <img [src]="utils.assets('mission.png')" alt="Misión" class="img-icon">
+        <h5 class="font-weight-bolder text-dark my-2 p-2">Misión</h5>
+        <p class="text-muted m-0 text-justify pre-wrap">
+          {{item.mission}}
+        </p>
+      </div>
+      <div class="col-12 col-sm d-flex flex-column business-features" *ngIf="item.vision">
+        <img [src]="utils.assets('vision.png')" alt="Valores" class="img-icon">
+        <h5 class="font-weight-bolder text-dark my-2 p-2">Visión</h5>
+        <p class="text-muted m-0 text-justify pre-wrap">
+          {{item.vision}}
+        </p>
+      </div>
+    </div>
+  </ng-container>
+  
+
+
+</div>

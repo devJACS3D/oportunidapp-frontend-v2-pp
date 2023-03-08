@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-12">
+    <h5 class="text-left font-weight-light">{{title}}</h5>
+  </div>
+</div>
+
+<!-- ................................................................................................. -->
+<!-- FORM -->
+<!-- ................................................................................................. -->
+<form [formGroup]="membershipForm" (ngSubmit)="save()">
+  <div class="form-group row">
+    <div class="col-12 col-md-6">
+      <label for="">Título</label>
+      <input type="text" formControlName="label" class="form-control input 3" placeholder="Título">
+      <field-error [fcontrol]="membershipForm.get('label')"></field-error>
+    </div>
+    <div class="col-12 col-md-6">
+      <label for="">Precio</label>
+      <input type="text" [textMask]="{mask: maskCurrency}" maxlength="14" formControlName="price"
+        class="form-control input 3" placeholder="ej 1000">
+        <field-error [fcontrol]="membershipForm.get('price')"></field-error>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-12">
+      <label for="">Sub-Título</label>
+      <input type="text" formControlName="subtitulo" class="form-control input 3" placeholder="subtitulo">
+      <field-error [fcontrol]="membershipForm.get('subtitulo')"></field-error>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-12 col-md-6">
+      <label for="">Días de vigencia</label>
+      <input max="365" maxlength="3" type="number" formControlName="range" class="form-control input 3" placeholder="1">
+      <field-error [fcontrol]="membershipForm.get('range')"></field-error>
+    </div>
+    <div class="col-12 col-md-6">
+      <label for="">Número de vacantes</label>
+      <input max="99" maxlength="2" type="number" formControlName="vacancies" class="form-control input 3"
+        placeholder="1">
+        <field-error [fcontrol]="membershipForm.get('vacancies')"></field-error>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-12">
+      <label for="">Descripción</label>
+      <input type="text" formControlName="description" class="form-control input 3" placeholder="Descripción">
+      <field-error [fcontrol]="membershipForm.get('description')"></field-error>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <button type="submit" [disabled]="membershipForm.invalid" class="btn btn-ok--blue btn-block btn-lg">
+        <ng-container *ngIf="!(submitting$ | async); else loading">
+          Guardar
+        </ng-container>
+
+        <ng-template #loading>
+          Guardando
+          <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        </ng-template>
+      </button>
+    </div>
+  </div>
+
+</form>

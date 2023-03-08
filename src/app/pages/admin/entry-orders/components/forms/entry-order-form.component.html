@@ -1,0 +1,312 @@
+<form (ngSubmit)="submit()" class="row justify-content-center" [formGroup]="entryOrderForm">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Identificación</label>
+        <input
+          type="text"
+          readonly
+          class="form-control input-3"
+          [value]="data.user.identification"
+        />
+      </div>
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold"
+          >Nombre y apellidos del afiliado</label
+        >
+        <input
+          type="text"
+          readonly
+          class="form-control input-3"
+          [value]="data.user.fullName"
+        />
+      </div>
+
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Correo electrónico</label>
+        <input
+          type="text"
+          readonly
+          class="form-control input-3"
+          [value]="data.user.credentialUser.email"
+        />
+      </div>
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Teléfono/Celular</label>
+        <input
+          type="text"
+          readonly
+          class="form-control input-3"
+          [value]="data.user.telephone"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Cargo a desempeñar</label>
+        <input
+          type="text"
+          readonly
+          class="form-control input-3"
+          [value]="data.vacancy.name"
+        />
+      </div>
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Salario</label>
+        <input
+          formControlName="salary"
+          type="text"
+          [textMask]="{ mask: maskCurrency }"
+          class="form-control input-3"
+        />
+        <p class="small text-muted">
+          Rango salarial para esta vacante
+          {{ data.vacancy.minSalary | currency: "COP" }} -
+          {{ data.vacancy.maxSalary | currency: "COP" }}
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Fecha de ingreso</label>
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control input-2"
+            formControlName="hireDate"
+            [minDate]="minDate"
+            ngbDatepicker
+            #hireDate="ngbDatepicker"
+            placeholder="año-mes-día"
+            (focus)="hireDate.toggle()"
+            readonly
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="button-addon2"
+              (click)="hireDate.toggle()"
+            >
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Fecha de retiro</label>
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control input-2"
+            formControlName="terminationDate"
+            [minDate]="minDate"
+            ngbDatepicker
+            #terminationDate="ngbDatepicker"
+            placeholder="año-mes-día"
+            (focus)="terminationDate.toggle()"
+            readonly
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="button-addon2"
+              (click)="terminationDate.toggle()"
+            >
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Estádo</label>
+        <ng-select
+          (change)="stateChange($event)"
+          notFoundText="No se han encontrado resultados"
+          typeToSearchText="Buscar estádo"
+          clearAllText="Limpiar"
+          [loading]="loadingState"
+          placeholder="Seleccionar estádo"
+          appendTo="body"
+        >
+          <ng-option
+            *ngFor="let state of dataOpts.states$ | async"
+            [value]="state.id"
+            >{{ state.name }}
+          </ng-option>
+        </ng-select>
+      </div>
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Ciudad</label>
+        <ng-select
+          formControlName="cityId"
+          notFoundText="No se han encontrado resultados"
+          typeToSearchText="Buscar ciudad"
+          clearAllText="Limpiar"
+          placeholder="Seleccionar ciudad"
+          appendTo="body"
+        >
+          <ng-option
+            *ngFor="let city of dataOpts.cities$ | async"
+            [value]="city.id"
+            >{{ city.name }}
+          </ng-option>
+        </ng-select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Empresa usuario a ingresar</label>
+        <ng-select
+          formControlName="groupBusinessId"
+          notFoundText="No se han encontrado resultados"
+          typeToSearchText="Buscar Empresa"
+          clearAllText="Limpiar"
+          placeholder="Seleccionar empresa"
+          appendTo="body"
+        >
+          <ng-option
+            *ngFor="let branchOffice of dataOpts.branchOffices$ | async"
+            [value]="branchOffice.id"
+            >{{ branchOffice.name }}
+          </ng-option>
+        </ng-select>
+      </div>
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Centro costo</label>
+        <input
+          type="text"
+          class="form-control input-3"
+          formControlName="costCenter"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold"
+          >Auxilio/Bonificaciones (especificar valor y concepto)</label
+        >
+        <textarea
+          type="text"
+          class="form-control input-3"
+          rows="4"
+          formControlName="bonuses"
+        ></textarea>
+      </div>
+
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Comisiones u otros</label>
+        <textarea
+          type="text"
+          class="form-control input-3"
+          rows="4"
+          formControlName="others"
+        ></textarea>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-12 col-md form-group">
+        <label class="font-weight-semi-bold">Tipo de contrato</label>
+        <ng-select
+          formControlName="contractTypeId"
+          notFoundText="No se han encontrado contratos disponibles"
+          typeToSearchText="Buscar tipo de contrato"
+          clearAllText="Limpiar"
+          placeholder="Seleccionar tipo de contrato"
+          appendTo="body"
+        >
+          <ng-option
+            *ngFor="let contract of dataOpts.contractTypes$ | async"
+            [value]="contract.id"
+            >{{ contract.name }}
+          </ng-option>
+        </ng-select>
+      </div>
+
+      <ng-container *ngIf="entryOrderForm.get('contractTypeId').value == 4">
+        <div class="col-12 col-md form-group" *ngIf="entryOrderForm.get('work')">
+          <label class="font-weight-semi-bold">Obra</label>
+          <input
+            type="text"
+            class="form-control input-3"
+            formControlName="work"
+          />
+        </div>
+        <div class="col-12 col-md form-group" *ngIf="entryOrderForm.get('task')">
+          <label class="font-weight-semi-bold">Labor</label>
+          <input
+            type="text"
+            class="form-control input-3"
+            formControlName="task"
+          />
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Paga día</label>
+        <ng-select
+          formControlName="payrollOn"
+          notFoundText="No se han encontrado días de pago"
+          typeToSearchText="Buscar día de pago"
+          clearAllText="Limpiar"
+          placeholder="Seleccionar día de pago"
+          appendTo="body"
+        >
+          <ng-option
+            *ngFor="let day of dataOpts.payrollDays$ | async"
+            [value]="day"
+            >{{ day }}
+          </ng-option>
+        </ng-select>
+      </div>
+      <div class="col-12 col-md-6 form-group">
+        <label class="font-weight-semi-bold">Tipo de afiliado</label>
+        <ng-select
+          formControlName="memberType"
+          notFoundText="No se han tipo de afiliado"
+          typeToSearchText="Buscar tipo de afiliado"
+          clearAllText="Limpiar"
+          placeholder="Seleccionar tipo de afiliado"
+          appendTo="body"
+        >
+          <ng-option
+            *ngFor="let memberType of dataOpts.memberTypes$ | async"
+            [value]="memberType"
+            >{{ memberType }}
+          </ng-option>
+        </ng-select>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-4 mt-4">
+    <button
+      type="submit"
+      [disabled]="entryOrderForm.invalid || (dataOpts.submitting$ | async)"
+      class="btn btn-ok--blue btn-block"
+    >
+      <ng-container *ngIf="!(dataOpts.submitting$ | async); else saving">
+        Guardar
+      </ng-container>
+      <ng-template #saving>
+        Guardando
+        <i
+          class="fa fa-circle-o-notch fa-spin text-white"
+          aria-hidden="true"
+        ></i>
+      </ng-template>
+    </button>
+  </div>
+</form>

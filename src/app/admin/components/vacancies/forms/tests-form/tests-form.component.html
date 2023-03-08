@@ -1,0 +1,48 @@
+<div class="modal-backdrop" style="background-color: #0000007a;"></div>
+<div class="modal modal-2 animated fadeInDown" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+  <div class="modal-dialog modal-dialog-centered animated fadeInDown" role="document">
+    <div class="modal-content">
+      <div class="d-flex justify-content-center">
+        <button class="btn btn-rounded btn-rounded-close" (click)="close()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="modal-body modal-body--logis">
+        <h5>Seleccionar prueba</h5>
+        <br>
+        <ng-container *ngFor="let item of $tests | async">
+          <div class="col-12 form-group">
+            <div class="custom-control custom-checkbox">
+              <input [checked]="compare(item.id)" (change)="addOrRemove($event,item)" type="checkbox"
+                class="custom-control-input" [id]="'test-check-'+ item.id" [value]="item.id">
+              <label class="custom-control-label" [for]="'test-check-'+ item.id">
+                {{ item.name }}
+              </label>
+            </div>
+          </div>
+        </ng-container>
+        <h3>Pruebas Evaluatest</h3>
+        <ng-container *ngFor="let itemEval of evalPruebaSel">
+          <div class="custom-control custom-checkbox" id="evaluatestPruebas">
+            <input type="checkbox" [id]="'prueba-check-'+itemEval.id" [value]="itemEval.id"
+              [checked]="itemEval.isActive" class="custom-control-input"
+              (change)="updatePrueba(itemEval.id, idPuesto, $event.target.checked)">
+            <label [for]="'prueba-check-'+itemEval.id" [id]="'lbl-prueba-check-'+itemEval.id"
+              class="custom-control-label">
+              {{ itemEval.jobProfileEvaluationTypeDescription }}
+            </label>
+          </div>
+        </ng-container>
+        <br>
+        <div class="col-12 text-center">
+          <button [disabled]="!tests.length || tests.length === 0 || isSubmitting" class="btn btn-block btn-ok--blue"
+            (click)="save()">
+            <i *ngIf="isSubmitting" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

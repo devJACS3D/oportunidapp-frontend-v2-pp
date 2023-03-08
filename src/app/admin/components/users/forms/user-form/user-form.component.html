@@ -1,0 +1,65 @@
+<div class="row" [formGroup]="userForm">
+  <div class="col">
+
+    <!-- name -->
+    <div class="row">
+      <div class="col-12 form-group">
+        <label for="">Nombre</label>
+        <input type="text" class="form-control input-3" formControlName="name" maxlength="100">
+        <span class="text-danger invalid-control"
+          *ngIf="userForm.controls.name.invalid && userForm.controls.name.dirty">
+          Campo requerido.
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 form-group">
+        <label for="">Email</label>
+        <input type="email" class="form-control input-3" formControlName="email" maxlength="100">
+        <span class="text-danger invalid-control"
+          *ngIf="userForm.controls.email.invalid && userForm.controls.email.dirty">
+          Campo requerido.
+        </span>
+      </div>
+      <div class="col-12 col-md-6 form-group">
+        <label for="">Username</label>
+        <input type="text" class="form-control input-3" formControlName="username" maxlength="100">
+        <span class="text-danger invalid-control"
+          *ngIf="userForm.controls.username.invalid && userForm.controls.username.dirty">
+          Campo requerido.
+        </span>
+      </div>
+
+      
+    </div>
+
+    <div class="row">
+      <div class="col-12 form-group">
+        <async-select [defaultValue]="getFormControlValue('userTypeId')" (onChange)="handleSelectChange($event)" label="Tipo de usuario" name="userTypeId" placeholder="Seleccionar" [async-data]="$userTypes"></async-select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 form-group">
+        <async-select [defaultValue]="getFormControlValue('identificationTypeId')"  (onChange)="handleSelectChange($event)" label="Tipo de identificación" name="identificationTypeId" placeholder="Seleccionar" [async-data]="$idTypes"></async-select>
+      </div>
+
+      <div class="col-12 col-md-6 form-group">
+        <label for="">Número de identificación</label>
+        <input type="text" class="form-control input-3" formControlName="identification" maxlength="100">
+        <span class="text-danger invalid-control"
+          *ngIf="userForm.controls.identification.invalid && userForm.controls.identification.dirty">
+          Campo requerido.
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 form-group">
+        <async-select [defaultValue]="getFormControlValue('cityId')" (onChange)="handleSelectChange($event)" label="Ciudad" name="cityId" placeholder="Seleccionar" [async-data]="$cities"></async-select>
+      </div>
+    </div>
+
+  </div>
+</div>

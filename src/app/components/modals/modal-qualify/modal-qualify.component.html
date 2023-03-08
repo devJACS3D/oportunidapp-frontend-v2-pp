@@ -1,0 +1,56 @@
+<form [formGroup]="qualifyForm" (ngSubmit)="save()">
+  <div class="row mt-3 ">
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <!------------------------------------ COMMENT HTML ---------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <div class="col-12 text-center">
+      <h4>{{title}}</h4>
+      <br>
+      <p class="subtitle">
+        {{subtitle}}
+        <ng-container *ngIf="fullName">
+          <span class="title-user">{{fullName}}</span>?
+        </ng-container>
+      </p>
+    </div>
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <!------------------------------------ COMMENT HTML ---------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <div class="col-12 text-center mt-2 mb-2">
+      <ngb-rating [rate]="0" max="5" formControlName="qualification">
+        <ng-template let-fill="fill" let-index="index">
+          <span class="star" [class.filled]="fill === 100" [class.bad]="index < 5">&#9733;</span>
+        </ng-template>
+      </ngb-rating>
+    </div>
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <!------------------------------------ COMMENT HTML ---------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <div class="col-12">
+      <div class="form-group row">
+        <div class="col-12 col-md-12">
+          <label class="title-comment" for="">Añadir comentario</label>
+          <textarea type="text" class="form-control input-2" rows="3" maxlength="100"
+            formControlName="comment"></textarea>
+          <span class="text-danger invalid-control"
+            *ngIf="qualifyForm.controls.comment.invalid && qualifyForm.controls.comment.dirty">
+            Campo requerido
+          </span>
+        </div>
+      </div>
+      <div class="form-group justify-content-center pl-5 pr-5">
+        <div class="mt-5">
+          <button type="submit" class="btn btn-ok--blue btn-block" [disabled]="qualifyForm.invalid || loadingData">
+            <ng-container *ngIf="!(submitting$ | async); else loading">
+              Enviar
+            </ng-container>
+            <ng-template #loading>
+              <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+              Guardando
+            </ng-template>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,134 @@
+<!-- ................................................................................................. -->
+<!-- Filters -->
+<!-- ................................................................................................. -->
+<div class="row my-4 align-items-center">
+  <div class="col-12 col-md-3 form-group">
+    <label class="font-weight-light">Indicadores</label>
+    <select
+      [formControl]="statisticsByControl"
+      class="input-3 borderless form-control"
+    >
+      <option *ngFor="let by of statisticsBy; let i = index" [value]="i">{{
+        by
+      }}</option>
+    </select>
+  </div>
+  <div class="col-12 col-md-9">
+    <app-date-filter (onFilter)="filter($event)"></app-date-filter>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <ng-container *ngIf="statisticsByControl.value == 0">
+      <ng-container
+        *ngIf="dataVisitByRole$ | async; let chart; else: noDataToDisplay"
+      >
+        <h5 class="font-weight-semi-bold">Número de visitas</h5>
+        <canvas
+          baseChart
+          [options]="chartBarOptions"
+          [colors]="chartBarColors"
+          [datasets]="chart.datasets"
+          [labels]="chart.labels"
+          [legend]="true"
+          [chartType]="'bar'"
+        >
+        </canvas>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="statisticsByControl.value == 2">
+      <ng-container
+        *ngIf="dataPagesVisited$ | async; let chart; else: noDataToDisplay"
+      >
+        <h5 class="font-weight-semi-bold">Número de visitas</h5>
+        <canvas
+          baseChart
+          [options]="chartBarOptions"
+          [colors]="chartBarColors"
+          [datasets]="chart.datasets"
+          [labels]="chart.labels"
+          [legend]="true"
+          [chartType]="'bar'"
+        >
+        </canvas>
+      </ng-container>
+    </ng-container>
+
+    <!-- LOGINS / INICIOS DE SESIÓN -->
+    <ng-container *ngIf="statisticsByControl.value == 1">
+      <ng-container
+        *ngIf="dataLoging$ | async; let dataset; else: noDataToDisplay"
+      >
+        <div class="row">
+          <div class="col-3">
+            <h5 class="font-weight-semi-bold">Horas de duración</h5>
+          </div>
+        </div>
+        <app-progress-chart
+          [showCount]="false"
+          [datasets]="dataset?.data"
+          [backgroundColors]="bgColors"
+        ></app-progress-chart>
+      </ng-container>
+    </ng-container>
+
+    <!-- SECTORS / Sectores vacantes -->
+    <ng-container *ngIf="statisticsByControl.value == 3">
+      <ng-container
+        *ngIf="vacancySectors$ | async; let dataset; else: noDataToDisplay"
+      >
+        <div class="row">
+          <div class="col-3">
+            <h5 class="font-weight-semi-bold">
+              Publicados en vacantes
+            </h5>
+          </div>
+        </div>
+        <app-progress-chart
+          [showCount]="true"
+          [datasets]="dataset?.data"
+        ></app-progress-chart>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="statisticsByControl.value == 4">
+      <ng-container
+        *ngIf="userSectors$ | async; let dataset; else: noDataToDisplay"
+      >
+        <div class="row">
+          <div class="col-3">
+            <h5 class="font-weight-semi-bold">
+              Usados por agentes
+            </h5>
+          </div>
+        </div>
+        <app-progress-chart
+          [showCount]="true"
+          [datasets]="dataset?.data"
+        ></app-progress-chart>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #loadingData>
+  <div class="row p-2">
+    <div class="col text-center text-secondary">
+      <h4 class="h4 text-secondary">
+        Cargando información...
+      </h4>
+    </div>
+  </div>
+</ng-template>
+<ng-template #noDataToDisplay>
+  <div class="row p-2">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-filter fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 text-secondary">
+        No se encontrarón resultados.
+      </h4>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,258 @@
+<div class="bg-oportunidapp">
+  <div class="bg-left">
+    <img [src]="utils.assets('banner.png')" alt="" />
+  </div>
+  <div class="container">
+    <ng-container *ngIf="test$ | async; let test">
+      <div class="row my-3">
+        <div class="col-12 col-md">
+          <label class="font-weight-bold">Nombre:</label>
+          <span class="ml-1">{{ test?.user?.fullName }} </span>
+        </div>
+        <div class="col-12 col-md">
+          <label class="font-weight-bold">Edad:</label>
+          <span class="ml-1">{{ test?.user?.age || "No aplica." }} </span>
+        </div>
+        <div class="col-12 col-md">
+          <label class="font-weight-bold">Cédula:</label>
+          <span class="ml-1"
+            >{{ test?.user?.identification || "No aplica." }}
+          </span>
+        </div>
+        <div class="col-12 col-md">
+          <label class="font-weight-bold">Sexo:</label>
+          <span class="ml-1"
+            >{{ test?.user?.maritalGender?.name || "No especificado." }}
+          </span>
+        </div>
+      </div>
+      <div class="row my-3">
+        <div class="col-12 col-md">
+          <label class="font-weight-bold">Fecha de aplicación:</label>
+          <span class="ml-1">{{ test.updatedAt | date: "dd/MM/yy" }} </span>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="row justify-content-center my-3">
+      <div class="col-8">
+        <h2 class="font-weight-bold text-center">
+          Resultado de prueba de personalidad
+        </h2>
+      </div>
+    </div>
+    <div class="row justify-content-center my-3">
+      <div class="col-12">
+        <p class="text-justify font-weight-normal">
+          {{ description$ | async }}
+        </p>
+      </div>
+    </div>
+
+    <!-- ................................................................................................. -->
+    <!-- TABLE FACTORS -->
+    <!-- ................................................................................................. -->
+    <div class="row my-3" *ngIf="factors$ | async; let factors">
+      <div class="col-12">
+        <table class="table-print table-border-on-right">
+          <thead>
+            <tr>
+              <th
+                style="background-color: #00528c;"
+                [ngClass]="{ 'border-lr-only': i == 0 }"
+                class="text-white font-weight-bold"
+                *ngFor="let h of headers; let i = index"
+              >
+                {{ h }}
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <ng-container *ngFor="let factor of factors; let i = index">
+              <tr [ngClass]="0 === (i + 1) % 2 ? 'bg-cell-info' : ''">
+                <td
+                  class="border-lr-only text-white"
+                  [ngClass]="
+                    0 === (i + 1) % 2
+                      ? 'bg-cell-info-darken'
+                      : 'bg-cell-info-soft'
+                  "
+                >
+                  {{ factor.value.name }}
+                </td>
+                <td>{{ factor.value.score }}</td>
+                <td>{{ factor.value.pc }}</td>
+                <td>{{ factor.value.pt }}</td>
+                <td class="font-weight-bold">
+                  {{ factor.value.grade == grades.MuyBajo ? "X" : "" }}
+                </td>
+                <td class="font-weight-bold">
+                  {{ factor.value.grade == grades.Bajo ? "X" : "" }}
+                </td>
+                <td class="font-weight-bold">
+                  {{ factor.value.grade == grades.Promedio ? "X" : "" }}
+                </td>
+                <td class="font-weight-bold">
+                  {{ factor.value.grade == grades.Alto ? "X" : "" }}
+                </td>
+                <td class="font-weight-bold">
+                  {{ factor.value.grade == grades.MuyAlto ? "X" : "" }}
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ................................................................................................. -->
+    <!-- TABLE FACETS-->
+    <!-- ................................................................................................. -->
+    <div class="row my-3" *ngIf="factors$ | async; let factors">
+      <div class="col-12">
+        <table class="table-print table-border-on-right">
+          <thead>
+            <tr>
+              <th
+                [ngClass]="{ 'border-lr-only': i == 0 }"
+                class="text-white font-weight-bold bg-blue-primary"
+                *ngFor="let h of headersFacet; let i = index"
+              >
+                {{ h }}
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <ng-container *ngFor="let data of factors; let i = index">
+              <tr>
+                <td>
+                  <div
+                    class="table-rounded-factor"
+                    [ngClass]="
+                      i % 2 == 0 ? 'bg-cell-info-soft' : 'bg-cell-info-darken'
+                    "
+                  >
+                    {{ data.factor }}
+                  </div>
+                </td>
+                <td
+                  [ngClass]="
+                    i % 2 == 0 ? 'bg-cell-info-soft' : 'bg-cell-info-darken'
+                  "
+                  class="border-lr-only text-white"
+                  style="vertical-align: middle;"
+                >
+                  <p *ngFor="let facet of data.value.facets">
+                    {{ facet.name }}
+                  </p>
+                </td>
+                <td style="vertical-align: middle;">
+                  <p *ngFor="let facet of data.value.facets">
+                    {{ facet.score }}
+                  </p>
+                </td>
+                <td style="vertical-align: middle;">
+                  <p *ngFor="let facet of data.value.facets">
+                    {{ facet.pc }}
+                  </p>
+                </td>
+                <td style="vertical-align: middle;">
+                  <p *ngFor="let facet of data.value.facets">
+                    {{ facet.pt }}
+                  </p>
+                </td>
+                <td class="font-weight-bold" style="vertical-align: middle;">
+                  <p *ngFor="let facet of data.value.facets">
+                    {{ facet.grade == grades.MuyBajo ? "X" : "" }}
+                  </p>
+                </td>
+                <td class="font-weight-bold" style="vertical-align: middle;">
+                  <p *ngFor="let facet of data.value.facets">
+                    {{ facet.grade == grades.Bajo ? "X" : "" }}
+                  </p>
+                </td>
+                <td class="font-weight-bold" style="vertical-align: middle;">
+                  <p *ngFor="let facet of data.value.facets">
+                    {{ facet.grade == grades.Promedio ? "X" : "" }}
+                  </p>
+                </td>
+                <td class="font-weight-bold" style="vertical-align: middle;">
+                  <p *ngFor="let facet of data.value.facets">
+                    {{ facet.grade == grades.Alto ? "X" : "" }}
+                  </p>
+                </td>
+                <td class="font-weight-bold" style="vertical-align: middle;">
+                  <p *ngFor="let facet of data.value.facets">
+                    {{ facet.grade == grades.MuyAlto ? "X" : "" }}
+                  </p>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ................................................................................................. -->
+    <!-- TABLE FACTORS 2 -->
+    <!-- ................................................................................................. -->
+    <div class="row my-3" *ngIf="factors$ | async; let factors">
+      <div class="col-12">
+        <table class="table-print table-border-down">
+          <thead>
+            <tr>
+              <th
+                [ngClass]="{ 'border-lr-only': i == 0 }"
+                class="text-white font-weight-bold bg-blue-primary"
+                *ngFor="let h of headersFactorsTwo; let i = index"
+              >
+                {{ h }}
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <ng-container *ngFor="let factor of factors; let i = index">
+              <tr>
+                <td class="font-weight-bold">{{ factor.value.name }}</td>
+                <td>{{ factor.value.grade }}</td>
+                <td>{{ getComments(factor) }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <ng-container *ngIf="(factorDataSets$ | async);let factorDataSets">
+      <div class="row justify-content-center mt-4 mb-10percentage">
+        <div class="col-8">
+          <bars-pt
+            chartType="radar"
+            [chartLabels]="factorLabels"
+            [chartData]="factorDataSets"
+          ></bars-pt>
+        </div>
+      </div>
+
+      <div class="row justify-content-center mt-4 mb-10percentage">
+        <div class="col-8">
+          <bars-pt
+            [chartLabels]="factorLabels"
+            [chartData]="factorDataSets"
+          ></bars-pt>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <a class="text-alignt right text-primary pointer" (click)="print()"
+          >Imprimir este registro</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

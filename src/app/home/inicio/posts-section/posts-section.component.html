@@ -1,0 +1,21 @@
+<!-- Titulo del componente -->
+<div class="row">
+  <div class="col-12 text-center">
+    <h4 class="section-title text-center font-weight-bold my-4">
+      Últimos artículos
+    </h4>
+  </div>
+</div>
+
+<div class="container">
+	<app-post-card-list [showPagination]="false" [itemsPerPage]="3"></app-post-card-list>
+	<br /><br />
+	<div class="row">
+	  <div class="col-12 text-center">
+		<button class="btn btn btn-outline-secondary" routerLink="./blogs/posts">
+		  Ver más
+		</button>
+	  </div>
+	</div>
+</div>
+

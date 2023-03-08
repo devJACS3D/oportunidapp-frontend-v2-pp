@@ -1,0 +1,18 @@
+$bgContent: #FFFFFF;
+$bgFooter: #F0F0F7;
+$boxShadow: 0px 0px 4px rgba(164, 175, 183, 0.4);
+$borderRadiusContent:  5px 5px 0px 0px;
+$borderRadiusFooter:  0px 0px 5px 5px;
+
+.cardContent{
+    border: 1px solid $bgContent;
+    box-sizing: border-box;
+    box-shadow: $boxShadow;
+    border-radius: $borderRadiusContent;
+}
+
+.cardFooter{
+    background: $bgFooter;
+    border-radius: $borderRadiusFooter;
+    box-shadow: $boxShadow;
+}

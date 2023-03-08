@@ -1,0 +1,52 @@
+<div class="container-fluid">
+  <div class="row my-5">
+    <div class="col-12 text-center">
+      <h2 class="section-title font-weight-bold">Nuestros clientes</h2>
+    </div>
+  </div>
+
+
+  <!-- ................................................................................................. -->
+  <!-- Partners card -->
+  <!-- ................................................................................................. -->
+  <ng-container *ngIf="(clients$ | async); let clients;else loading">
+    <ng-container *ngIf="clients?.length > 0;else noData">
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-12">
+          <div class="row justify-content-center justify-content-md-start">
+            <div class="col-12 col-sm-6 col-md-4" *ngFor="let client of clients">
+              <preview-card [item]="mapItem(client)" (onPress)="goToDetail($event)"></preview-card>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </ng-container>
+
+  </ng-container>
+
+  <!-- ................................................................................................. -->
+  <!-- LOADING TEMPLATE -->
+  <!-- ................................................................................................. -->
+  <ng-template #loading>
+    <div class="row">
+      <div class="col text-center">
+        <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- ................................................................................................. -->
+  <!-- NO DATA -->
+  <!-- ................................................................................................. -->
+  <ng-template #noData>
+    <div class="row mt-4">
+      <div class="col-12 text-center">
+        <h4 class="h4 text-secondary">
+          No se han encontrado resultados.
+        </h4>
+      </div>
+    </div>
+  </ng-template>
+
+</div>

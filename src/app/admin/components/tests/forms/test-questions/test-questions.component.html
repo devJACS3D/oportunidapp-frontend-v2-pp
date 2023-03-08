@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col">
+    <ng-container [formGroup]="questionsFormGroup">
+      <ng-container formArrayName="questions">
+        <div class="row align-items-center" *ngFor="let question of questions.controls;let idx = index">
+          <div class="col-auto form-group">
+            {{idx+1}}.
+          </div>
+          <div class="col form-group">
+            <input 
+            [formControlName]=idx 
+            type="text" 
+            class="form-control input-3"
+            [placeholder]="'¿Pregunta '+(idx+1)+'?'"
+            maxlength="100">
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+  </div>
+</div>

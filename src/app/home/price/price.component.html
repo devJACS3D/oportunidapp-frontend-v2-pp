@@ -1,0 +1,27 @@
+<div class="bg-oportunidapp-light-two">
+  <div class="container">
+    <!-- Titulo del componente -->
+    <div class="col-12 text-center" style="padding: 50px;">
+      <h2 class="section-title font-weight-bold">Membresia</h2>
+    </div>
+
+    <div class="col-md-12" *ngIf="_loading">
+      Cargando...
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <div class="row">
+          <div class="col-md-4 col-12" *ngFor="let item of _result; let i = index">
+            <app-plan-complement [index]="(i+1)" [item]="item" (onSelectItem)="_savePlan($event);">
+            </app-plan-complement>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="_showPaymentModal">
+  <!-- <app-modal-payment-plan [amount]=_amount [vacancyId]=_planId (close)="_showPaymentModal=false"
+    (saveTransaction)="saveTransaction($event)"></app-modal-payment-plan> -->
+</ng-container>

@@ -1,0 +1,15 @@
+<div class="container">
+
+  <div class="row mb-2" [hidden]="hidden$ | async">
+    <div class="col-12">
+      <tabs-wrapper (tabChange)="handleTabChange($event)" #tabsWrapper>
+        <tab #tabChild (click)="tabsWrapper.selectTab(tabChild)" *ngFor="let tapOpt of tabOptions; let idx = index"
+          [tabTitle]="tapOpt" [tabValue]="idx">
+        </tab>
+      </tabs-wrapper>
+    </div>
+  </div>
+
+
+  <router-outlet></router-outlet>
+</div>

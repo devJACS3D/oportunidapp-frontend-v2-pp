@@ -1,0 +1,44 @@
+<!-- Ver en detalle el post -->
+<router-outlet></router-outlet>
+
+<div class="bg-oportunidapp-light-two">
+	<div class="container blog-container">
+		<!-- Titulo del componente -->
+		<div class="col-12 text-center" style="padding-top: 50px;">
+			<span class="section-title">Nuestro blog</span>
+		</div>
+
+		<div class="col-md-12" *ngIf="_loadingInit">
+			Cargando...
+		</div>
+
+		<!-- Error cargando información de vacantes -->
+		<div class="row" *ngIf="!_loadingInit && !_result?.data?.length">
+			<div class="col-12 text-center noResults">
+				<i class="fa fa-inbox" aria-hidden="true"></i>
+
+				<h4 class="h4 text-secondary">
+					Error cargando registros
+				</h4>
+			</div>
+		</div>
+
+		<br>
+
+		<ng-container *ngIf="!_loadingInit && _result?.data?.length">
+			<div class="row">
+				<div class="col-12 justify-content-center our-blog-page">
+					<ng-container *ngFor="let item of _result?.data">
+						<!-- <app-card-blog [blog]="item" (viewDetail)="viewDetail($event)"></app-card-blog> -->
+					</ng-container>
+				</div>
+			</div>
+
+
+			<div class="col-12">
+				<app-pagination [pagination]="_pagination" [loader]="_loadingPage" (_changePage)="goToPage($event)"></app-pagination>
+			</div>
+		</ng-container>
+
+	</div>
+</div>

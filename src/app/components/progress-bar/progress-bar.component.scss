@@ -1,0 +1,14 @@
+@import "../../../sass/vars";
+.progress-bar-container{
+    border: .3px solid $primary;
+    width: 100%;
+    border-radius: 30px;
+    height: 30px;
+    background-color: #e4eaf1;
+}
+
+.progress-bar-content{
+    border-radius: 30px;
+    height: 28px;
+    background-color: $primary;
+}

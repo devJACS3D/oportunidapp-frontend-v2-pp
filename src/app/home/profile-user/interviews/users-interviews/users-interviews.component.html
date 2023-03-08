@@ -1,0 +1,71 @@
+<!-- ................................................................................................. -->
+<!-- Check if there are records to show-->
+<!-- ................................................................................................. -->
+<ng-container *ngIf="interviews$ | async; let interviews; else: noDataTemplate">
+  <div class="row mb-4 mt-1" *ngFor="let data of interviews">
+    <div class="col-12" [ngClass]="!data.done && 'unrealided'">
+      <!-- ................................................................................................. -->
+      <!-- When using this component, you must assign the reference of the content that will have both the body and the footer -->
+      <!-- ................................................................................................. -->
+      <app-card-with-footer>
+        <!-- ................................................................................................. -->
+        <!-- Data for component body-->
+        <!-- ................................................................................................. -->
+        <div class="row pt-4 pb-2 pl-3 pr-3" body>
+          <div class="col-md-9 col-sm-12 col-xs-12 col-body-one">
+            <p>{{ data.vacancy.name }}</p>
+          </div>
+          <div class="col-md-3 col-sm-12 col-xs-12 col-body-two">
+            <p class="text-center">
+              Estado:
+              <span [ngStyle]="{ color: onDone(data, false) }">{{data.done? "Realizada": "No realizada"}}</span>
+            </p>
+          </div>
+        </div>
+        <!-- ................................................................................................. -->
+        <!-- Data for component footer-->
+        <!-- ................................................................................................. -->
+        <div class="row pt-3 pb-1 pl-3 pr-3" footer>
+          <div class="col-md-9 col-sm-12 col-xs-12 col-footer-one">
+            <p>{{ data?.interviewer?.name }}</p>
+            <p>Persona a cargo</p>
+          </div>
+          <div
+            class="col-md-3 col-sm-12 col-xs-12 col-footer-two"
+          >
+            <p class="text-center">
+              {{ data.date | date: "dd/MM/yyyy" +" - "+ getMinutes(data.hour) }}
+            </p>
+          </div>
+        </div>
+      </app-card-with-footer>
+    </div>
+  </div>
+  <!-- ................................................................................................. -->
+  <!-- Show pagination-->
+  <!-- ................................................................................................. -->
+  <div class="row mt-4" *ngIf="pagination">
+    <div class="col-md-12 ml-2">
+      <app-pagination
+        [pagination]="pagination"
+        [loader]="loadingPage"
+        (_changePage)="goToPage($event)"
+      >
+      </app-pagination>
+    </div>
+  </div>
+</ng-container>
+
+<!-- ................................................................................................. -->
+<!-- Check if there are no records and if an error occurs -->
+<!-- ................................................................................................. -->
+<ng-template #noDataTemplate>
+  <div class="row mt-5 p-2">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 text-secondary">
+        No se han encontrado resultados.
+      </h4>
+    </div>
+  </div>
+</ng-template>

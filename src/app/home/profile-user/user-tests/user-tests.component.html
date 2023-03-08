@@ -1,0 +1,95 @@
+<div class="card">
+  <div class="card-body">
+    <ng-container *ngIf="_loadingInit">
+      <div class="row">
+        <div class="col-12">
+          Cargando...
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!_loadingInit && !_result?.length">
+      <div class="row">
+        <div class="col text-center">
+          <i class="fa fa-inbox noResults" aria-hidden="true"></i>
+
+          <ng-container *ngIf="_error == ''">
+            <h4 class="h4 text-secondary">
+              No tienes pruebas por realizar.
+            </h4>
+          </ng-container>
+
+          <ng-container *ngIf="_error != ''">
+            <h4 class="h4 text-secondary">
+              Error cargando información de pruebas
+            </h4>
+            <p class="text-center text-secondary">
+              {{ _error }}
+            </p>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="col" *ngIf="!_loadingInit && _result?.length">
+      <div class="row mb-4">
+        <div class="col">
+          <small class="text-secondary"
+            >Recuerde que cada test refleja lo que usted es como persona a nivel
+            personal y profesional.</small
+          >
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <ng-container *ngFor="let item of _result">
+            <div
+              class="card shadow-sm bg-light"
+              *ngFor="let application of item.testsToVacancyApplications"
+            >
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <div class="font-weight-bold" style="font-size: 1rem;">
+                      {{ application?.test?.name }}
+                    </div>
+                    <div style="font-size: 1rem;">
+                      {{ item.vacancy?.name }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <ng-container *ngIf="!application.done">
+                      <span>No realizada</span>
+                    </ng-container>
+                    <ng-container *ngIf="application.done == true">
+                      <span>Evaluada</span>
+                    </ng-container>
+                  </div>
+                  <div class="col-auto" *ngIf="application.done == false && item.vacancyApplymentStatusId == 3">
+                    <a
+                      [routerLink]="
+                        './form-user-tests/' +
+                        application.testId +
+                        '/' +
+                        item.vacancy.id
+                      "
+                      class="btn btn-ok btn-ok--blue"
+                    >
+                      Realizar prueba
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

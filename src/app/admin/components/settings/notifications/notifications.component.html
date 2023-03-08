@@ -1,0 +1,84 @@
+<page-header class="my-4" header="Notificaciones" [backButton]="false"></page-header>
+
+<only-search-filter searchKey="searchNotification" (onSearch)="searchFilter($event)"></only-search-filter>
+<ng-container *ngIf="(notifications$ | async); let notifications;else loading">
+  <ng-container *ngIf="notifications?.length > 0;else noData">
+    <!-- ................................................................................................. -->
+    <!-- TABLE -->
+    <!-- ................................................................................................. -->
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive-sm">
+          <table class="table card-table">
+            <thead>
+              <tr>
+                <th *ngFor="let head of tableHeaders" scope="col">{{head}}</th>
+                <!-- actions -->
+                <th scope="col" style="width: 150px;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Separator for showing a space between thead an tbody -->
+              <tr class="table-separator">
+                <td [colSpan]="this.tableHeaders.length+1000"></td>
+              </tr>
+
+              <ng-container *ngFor="let notification of notifications">
+                <tr class="pointer">
+                  <td class="font-weight-light">
+                    {{notification.name}}
+                  </td>
+                  <td class="font-weight-light">
+                    {{notification.updatedAt | date: 'dd/MM/yy'}}
+                  </td>
+
+                  <td class="font-weight-light">
+                    <img (click)="edit(notification)" class="action-icon" [src]="utils.assets('actions/edit.png')">
+                  </td>
+                </tr>
+              </ng-container>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ................................................................................................. -->
+    <!-- PAGINATION -->
+    <!-- ................................................................................................. -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <app-pagination [pagination]="pagination" [loader]="loadingPage" (_changePage)="goToPage($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </ng-container>
+
+
+</ng-container>
+
+<!-- ................................................................................................. -->
+<!-- LOADING TEMPLATE -->
+<!-- ................................................................................................. -->
+<ng-template #loading>
+  <div class="row">
+    <div class="col text-center">
+      <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ................................................................................................. -->
+<!-- NO DATA -->
+<!-- ................................................................................................. -->
+<ng-template #noData>
+  <div class="row mt-4">
+    <div class="col-12 text-center">
+      <h4 class="h4 text-secondary">
+        No se han encontrado resultados.
+      </h4>
+    </div>
+  </div>
+</ng-template>

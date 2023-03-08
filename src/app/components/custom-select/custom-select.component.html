@@ -1,0 +1,64 @@
+<form [formGroup]="formGroup">
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ NG SELECT ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <ng-select
+    (change)="stateChange($event)"
+    [items]="items"
+    [multiple]="multiple"
+    [bindLabel]="bindLabel"
+    [bindValue]="bindValue"
+    [selectableGroup]="multiple"
+    [selectableGroupAsModel]="false"
+    [closeOnSelect]="!multiple"
+    notFoundText="No se han encontrado resultados"
+    clearAllText="Limpiar"
+    [placeholder]="placeholder"
+    [typeahead]="typeahead"
+    [virtualScroll]="true"
+    [loading]="loading"
+    [formControlName]="controlName"
+    [typeToSearchText]="typeToSearchText"
+    [searchable]="searchable"
+    [clearable]="true"
+  >
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <!------------------------------------ IF MULTIPLE THEN SHOW ALL AND CLEAR ALL ---------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <ng-container *ngIf="multiple">
+      <ng-template ng-header-tmp>
+        <div>
+          <div class="btn-cursor-pointer" (click)="onSelectAll()">
+            Seleccionar Todos
+          </div>
+          <div class="btn-cursor-pointer" (click)="onClearAll()">
+            Eliminar todos
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <!------------------------------------ OPTIONS SELECTEDS ---------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+      <div class="ng-value" *ngFor="let item of items | slice: 0:2">
+        <span class="ng-value-label">
+          <ng-container *ngIf="item?.image">
+            <img [src]="item.image" />
+          </ng-container>
+          {{ item?.name || item?.fullName }}
+        </span>
+        <span
+          class="ng-value-icon right"
+          (click)="clear(item)"
+          aria-hidden="true"
+          >×</span
+        >
+      </div>
+      <div class="ng-value" *ngIf="items.length > 2">
+        <span class="ng-value-label">{{ items.length - 2 }} más...</span>
+      </div>
+    </ng-template>
+    <!------------------------------------------------------------------------------------------------------------------------>
+  </ng-select>
+</form>

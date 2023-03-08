@@ -1,0 +1,12 @@
+<a
+  class="d-flex align-items-center p-4 pointer"
+  style="gap: 10px; text-decoration: none;"
+  [routerLink]="item.url"
+  [routerLinkActive]="['active']"
+  (click)="onItemClick.next(item)"
+>
+  <img *ngIf="item.icon" src="assets/menu_icons/{{ item.icon }}" />
+  <span class="menu-title" *ngIf="!hiddenText">
+    {{ item.title }}
+  </span>
+</a>

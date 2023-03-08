@@ -1,0 +1,35 @@
+<div class="container">
+
+  <page-header [header]="title" [backTo]="backTo()" class="my-4"></page-header>
+
+  <!-- Form -->
+  <ng-container>
+    <div class="row justify-content-center">
+      <form class="col-12 col-md-10">
+        <!-- Card Header for  "Información" -->
+        <card-header header="Información"></card-header>
+
+        <card-wrapper>
+          <user-form *ngIf="userForm" [formGroup]="userForm"></user-form>
+        </card-wrapper>
+
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-12">
+            <!-- Submit button -->
+            <button (click)="handleSave()" class="btn btn-block btn-ok--blue"
+              [disabled]="userForm.invalid || (submitting$|async)">
+              <ng-container *ngIf="!(submitting$ | async);else saving">
+                {{user.id? 'Actualizar': 'Guardar'}}
+              </ng-container>
+
+              <ng-template #saving>
+                Guardando...
+                <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+              </ng-template>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+</div>

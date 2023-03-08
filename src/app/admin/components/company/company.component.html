@@ -1,0 +1,202 @@
+<ng-container *ngIf="_filterForm">
+  <div class="filterform-container">
+    <div class="card animated fadeInLeft">
+      <div class="card-header bg-white">
+        <div class="row">
+          <div class="col">
+            <span class="h5">Filtrar Empresas</span>
+
+            <button type="button" class="close" (click)="_filterForm = false;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="FormFilter">
+          <div class="row">
+            <div class="col-12 form-group">
+              <input type="text" class="form-control" placeholder="Nombre vacante"
+                formControlName="vacanciesNameSearch">
+            </div>
+            <div class="col-12 form-group">
+              <select class="form-control" formControlName="stateId" (change)="changeDepartment($event)">
+                <option value="">Departamento</option>
+                <option *ngFor="let state of _states" [value]="state.id">
+                  {{ state.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-12 form-group">
+              <select class="form-control" formControlName="cityId" [ngClass]="{'select-loading': _loadingCities}">
+                <option value="">Ciudad</option>
+                <option *ngFor="let city of _cities" [value]="city.id">
+                  {{ city.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-12 form-group">
+              <input type="text" class="form-control" [textMask]="{mask: maskCurrency}" maxlength="23"
+                placeholder="Salario" formControlName="salary">
+            </div>
+            <div class="col-12 form-group">
+              <select class="form-control" formControlName="sectorsNameSearch">
+                <option value="">Sector</option>
+                <option *ngFor="let sector of _sectors" [value]="sector.name">{{ sector.name }}</option>
+              </select>
+            </div>
+            <div class="col-12 form-group">
+              <!-- <input type="text" class="form-control" placeholder="Fecha de creación" formControlName="date"> -->
+              <div class="input-group">
+                <input type="text" class="form-control input-2" formControlName="date" [maxDate]="_maxDate"
+                  ngbDatepicker #fdate="ngbDatepicker" placeholder="Fecha de creación" readonly>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="fdate.toggle();">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer bg-white">
+        <div class="row">
+          <div class="col-12 text-center">
+            <button [disabled]="_loadingFilter || !validFilterForm" class="btn btn-ok btn-ok--blue"
+              style="min-width: 110px;" (click)="filter()">
+              <i *ngIf="_loadingFilter" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+              Buscar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<h4 class="text-secondary">Empresas</h4>
+<br>
+
+<div class="row" *ngIf="_loadingInit">
+  <div class="col-md-12">
+    Cargando...
+  </div>
+</div>
+
+<ng-container *ngIf="!_loadingInit">
+
+  <div class="row" style="margin-top: 40px;" *ngIf="!_result?.data?.length">
+
+    <div class="col text-center text-secondary" *ngIf="!filterParams">
+      <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+      <ng-container *ngIf="_error != ''">
+        <h4 class="h4 ">
+          Error cargando información
+        </h4>
+        <p class="text-center">
+          {{ _error }}
+        </p>
+      </ng-container>
+      <ng-container *ngIf="_error == ''">
+        <h4 class="h4 text-secondary">
+          Aún no se han creado vacantes.
+        </h4>
+        <button class="btn btn-ok btn-ok--blue" *ngIf="!_error" routerLink="../../../form-vacancies">
+          Crear nueva vacante
+        </button>
+      </ng-container>
+    </div>
+
+    <div class="col text-center text-secondary" *ngIf="filterParams">
+      <i class="fa fa-filter fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 text-secondary">
+        No se encontrarón resultados con los párametros indicados.
+      </h4>
+      <button class="btn btn-outline-secondary" *ngIf="filterParams" (click)="clearFilter()" title="Deshacer filtros">
+        <i *ngIf="_loadingPage" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        Deshacer filtros
+      </button>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="_result?.data?.length">
+    <!-- 
+    <div class="col mb-3">
+      <button class="btn btn-outline-secondary mr-2" (click)="_filterForm = true">
+        <i class="fa fa-filter" aria-hidden="true"></i>
+        Filtrar
+      </button>
+      <button class="btn btn-outline-danger" *ngIf="filterParams" (click)="clearFilter()" title="Deshacer filtros">
+        <i *ngIf="!_loadingPage" class="fa fa-minus-circle"></i>
+        <i *ngIf="_loadingPage" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+      </button>
+    </div> -->
+
+    <div class="col-md-12">
+      <table class="table table-white table-hover">
+        <thead>
+          <tr>
+            <th>Nombre </th>
+            <th>Tipo</th>
+            <th>Sector</th>
+            <th>Vacantes creadas</th>
+            <th>fecha de registro</th>
+            <!-- 
+            <th class="head-action">
+              <div class="d-flex justify-content-center">
+                <button class="btn btn-rounded btn-rounded-add" routerLink="../../../form-company">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
+              </div>
+              <a class="table-link">
+                Crear nueva empresa
+              </a>
+            </th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of _result?.data" routerLink="../../../form-company/{{ item.id }}">
+            <td style="cursor: pointer;" >
+              {{ item.name | truncate : 30 }}
+            </td>
+            <td style="cursor: pointer;" >
+              {{ item.name   }}
+            </td>
+            <td style="cursor: pointer;" >
+              {{ item.sector   }}
+            </td>
+            <td style="cursor: pointer;" >
+              {{ item.sector }}
+            </td>
+
+            <td style="cursor: pointer;" >
+              {{ item.createdAt | date }}
+            </td>
+            <td>
+              <button [disabled]="_loadingPage" routerLink="../../../form-company/{{ item.id }}"
+                class="table-link btn btn-sm btn-link">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button>
+              <!-- <button [disabled]="_loadingPage" (click)="delete(item)" class="table-link btn btn-sm btn-link">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-12">
+      <app-pagination [pagination]="_pagination" [loader]="_loadingPage" (_changePage)="goToPage($event)">
+      </app-pagination>
+    </div>
+  </div>
+</ng-container>
+
+
+<ng-container *ngIf="_showConfirm">
+  <app-confirmation [_message]="_confirmMessage" [_loadingConfirm]="_loadingConfirm" (close)="closeConfirm($event)"
+    (confirm)="confirm($event)">
+  </app-confirmation>
+</ng-container>

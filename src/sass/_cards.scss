@@ -1,0 +1,103 @@
+
+.card{
+    margin-bottom: 7px;
+    border-radius: 10px;
+
+    &.headerCard{
+        margin-bottom: 7px;
+        box-shadow: 0px 2px 4px 0px #c4bebe;
+        position: sticky;
+        top: -16px;
+        z-index: 1;
+    }
+
+    &-main{
+        padding: 0.5rem 1.25rem;
+    }
+
+
+    &-body{
+        &--grey{
+            background-color: #efefef8c;
+        }
+
+        &--header{
+            padding: 0.5rem 1.25rem;
+            box-shadow: 1px 3px 5px #ccc;
+        }
+    }
+
+    &-title{
+        &--blue{
+            color: $text-primary;
+            font-weight: bold;
+        }
+    }
+    &-subtitle{
+        font-size: 0.9rem;
+        &--blue{
+            color: $text-primary;
+        }
+    }
+
+    &-text{
+        &--info{
+            font-size: 0.85rem;
+        }
+    }
+}
+
+
+.filterform-container{
+    width: 300px;
+    position: absolute;
+    z-index: 1;
+    & > .card > .card-body{
+        max-height: 410px;
+        overflow-y: auto;
+    }
+    & > .card > .card-header{
+        padding: 0.7rem 1.25rem;
+    }
+}
+
+
+.item-option{
+    text-decoration: none;
+    padding: 1.25rem 0rem;
+    /* This css is to center the content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &.active{
+        background-color: #f0f0f7;
+    }
+}
+
+.item-option + .item-option > span{
+    border-left: 1px #ccc solid;
+}
+
+.card-body.card-menu{
+    padding: 0px;
+}
+
+.success-stories{
+    .card{
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+        .card-title{
+            color: #777777
+        }
+        .card-text{
+            font-size: 12px;
+        }
+    }
+}
+
+.reference-card{
+  border: 1px solid #BCBCBC;
+  border-radius: 5px;
+  padding: 1.5rem;
+}

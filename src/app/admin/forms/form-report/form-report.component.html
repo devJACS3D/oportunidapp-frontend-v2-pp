@@ -1,0 +1,50 @@
+<div id="contenido" #cont class="paper" style="height: auto;">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h3>Reporte Pruebas</h3>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col-4">
+        <p><b>Edad: </b> {{testData.user.age}}</p>
+        <p><b>Vacante: </b> Desarrollador</p>
+      </div>
+      <div class="col-4">
+        <p><b>Cédula: </b>{{ testData.user.identification }}</p>
+        <p><b>Profesión: </b> </p>
+      </div>
+      <div class="col-4">
+        <p><b>Fecha:</b>{{testData.createdAt | date: 'medium'}} </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <p><b>Comentario psicologo: </b>{{testData.psychologistCommentInTest}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="row">
+      <div class="col-6"   *ngFor="let item of dataCharArray">
+        <canvas baseChart 
+        [plugins]="barChartPlugins"
+        [legend]="barChartLegend"
+
+        [datasets]="item.radarChartData" 
+        [options]="item.radarChartData"
+        [labels]="item.radarChartLabels" 
+        [chartType]="barChartType">
+        </canvas>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+
+
+  </div>
+  <button (click)="generarPDF()" class="btn btn-info">Crear PDF</button>
+
+</div>

@@ -1,0 +1,4 @@
+<div [ngClass]="{'br':position == 'br', 'cr': position == 'cr', 'cl': position == 'cl'}"
+  class="floating-button-fixed shadow" (click)="onClick.emit(true)">
+  <img [src]="icon" alt="add">
+</div>

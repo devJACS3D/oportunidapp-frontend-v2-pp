@@ -1,0 +1,80 @@
+<div #cont class="" style="height: auto;">
+  <div class="container paper" id="contenido">
+    <div class="row text-center">
+      <div class="col-12">
+        <h3>Reporte Referencias</h3>
+      </div>
+    </div>
+
+    <div class="row ">
+      <div class="col-12 text-center">
+        <p>{{user.firstName }} {{user.lastName }}</p>
+      </div>
+    </div>
+
+    <hr>
+    <div class="row ">
+      <div class="col-4">
+        <p><b>Edad: </b> {{ user.age }}</p>
+        <p><b>Vacante: </b> {{vacancy_data.name}}</p>
+      </div>
+      <div class="col-4">
+        <p><b>Cédula: </b> {{user.identification }}</p>
+        <p><b>Profesión: </b> {{title.title }}</p>
+      </div>
+      <div class="col-4">
+        <p><b>Fecha: </b> {{date | date: 'medium' }}</p>
+      </div>
+    </div>
+    <hr>
+
+    <h4>Referencias y estado de aprobación</h4>
+    <div class="row">
+      <table class="table table-white border">
+        <tr>
+          <thead>
+            <tr>
+              <th> Jefe Inmediato </th>
+              <th> Funciones </th>
+              <th> Fecha de inicio </th>
+              <th> Fecha de fin </th>
+              <th> Empresa </th>
+              <th> Comentario </th>
+              <th> Aprobada </th>
+            </tr>
+          </thead>
+          <tbody class="border">
+            <tr *ngFor="let item of testData?.validationReferences">
+              <td>
+                {{item.boss}}
+              </td>
+              <td style="width: 300px;">
+                {{item.functions}}
+              </td>
+              <td>
+                {{item.startDate}}
+              </td>
+              <td>
+                {{item.finishDate}}
+              </td>
+              <td style="width: 200px;">
+                {{item.company}}
+              </td>
+              <td>
+                {{item.validationReferencesLaboral.comment}}
+              </td>
+              <td class="invalid" [ngClass]="{'aproved': item.validationReferencesLaboral.approved === true}">
+                 <span *ngIf="item.validationReferencesLaboral.approved==true">Si</span>
+                <span *ngIf="item.validationReferencesLaboral.approved!=true">No</span>
+              </td>
+            </tr>
+          </tbody>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+  <br>
+  <button (click)="generarPDF()" class="btn btn-info">Descargar PDF</button>
+
+</div>

@@ -1,0 +1,185 @@
+<!-- go back -->
+<page-header [header]="title$ | async" backTo="../../../../../../vacancies" class="my-4"></page-header>
+
+<filtered-search searchQueryPlaceholder="Nombre o identificación" [showOpts]="filterOpts"
+  [filterValues]="localStorage.getFilterItem(filterType)" (onApplyFilter)="applyFilter($event)">
+</filtered-search>
+
+<ng-container *ngIf="candidates$ | async; let candidates; else: loading">
+  <button type="button" (click)="mostrarInformeComparativo(candidates)" *ngIf="(title$ | async) != 'Postulados'"
+    class="btn btn-ok--blue text-center">
+    Reporte Comparativo
+  </button>
+  <ng-container *ngIf="candidates?.length > 0; else noData">
+    <!-- Table -->
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive-sm">
+          <table class="table card-table">
+            <thead>
+              <tr>
+                <th *ngFor="let head of tableHeaders" scope="col">
+                  {{ head }}
+                </th>
+                <th *ngIf="(title$ | async) != 'Postulados'" scope="col">
+                  Indice de afinidad
+                </th>
+                <!-- actions -->
+                <th scope="col" style="width: 150px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Separator for showing a space between thead an tbody -->
+              <tr class="table-separator">
+                <td [colSpan]="this.tableHeaders.length + 1"></td>
+              </tr>
+
+              <tr *ngFor="let candidate of candidates" class="pointer">
+                <td class="font-weight-light" (click)="gotoUserView(candidate)">
+                  <img class="table-img" [src]="utils.getImgSrc(candidate.user.image)" alt="User profile picture" />
+                </td>
+                <td class="font-weight-light" (click)="gotoUserView(candidate)">
+                  {{ candidate.user.firstName + " " + candidate.user.lastName }}
+                </td>
+                <td class="font-weight-light" (click)="gotoUserView(candidate)">
+                  {{ calculateAge(candidate.user.birthday) }}
+                </td>
+                <td class="font-weight-light" (click)="gotoUserView(candidate)">
+                  {{ getStudieLevel(candidate.user) }}
+                </td>
+                <!-- Lista Reportes Descargar -->
+                <td>
+                  <div class="nav-item" class="profile-dropdown" ngbDropdown placement="bottom-right">
+                    <button type="button" class="btn text-primary dropdown-toggle pointer" id="dropdownInformeLink"
+                      ngbDropdownToggle>
+                      Reportes
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownInformeLink">
+                      <div *ngIf="loadingDesRep">
+                        <div class="row">
+                          <div class="col text-center">
+                            <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <a class="dropdown-item" style="cursor: pointer;" *ngIf="candidate.user.indAfin" (click)="
+                          downloadRepAfinidad(
+                            idVacante,
+                            candidate.user.idCandEval
+                          )
+                        ">
+                        Índice de afinidad
+                      </a>
+                      <a class="dropdown-item" style="cursor: pointer;" *ngIf="candidate.user.diagPotCla" (click)="
+                          downloadRepDiagPotencialClas(
+                            idVacante,
+                            candidate.user.idCandEval
+                          )
+                        ">
+                        Diagnostico de potencial clásico
+                      </a>
+                      <a class="dropdown-item" style="cursor: pointer;" *ngIf="candidate.user.autBio" (click)="
+                          downloadAutBiomFacial(
+                            idVacante,
+                            candidate.user.idCandEval
+                          )
+                        ">
+                        Autenticación biométrica facial
+                      </a>
+                      <button type="button" class="dropdown-item" *ngIf="candidate.user.diagPotCla"
+                        (click)="infoMetodoDescPot()">
+                        Diagnostico de potencial
+                      </button>
+                      <div *ngIf="showInfoPotencial" id="incluirPDF">
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="graficas" checked />
+                          <label class="custom-control-label" for="graficas">
+                            Graficas
+                          </label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="tblResultados" checked />
+                          <label class="custom-control-label" for="tblResultados">
+                            Tabla de resultados
+                          </label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" id="interpretacion" checked />
+                          <label class="custom-control-label" for="interpretacion">
+                            Interpretación
+                          </label>
+                        </div>
+                        <a class="dropdown-item" style="cursor: pointer;" (click)="
+                            downloadDiagPotencial(
+                              idVacante,
+                              candidate.user.idCandEval
+                            )
+                          ">
+                          Descargar
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <!-- <td>{{ candidate.user.afinidad }}</td> -->
+                <td *ngIf="(title$ | async) != 'Postulados'" (click)="gotoUserView(candidate)">
+                  <div
+                    style="width: 80%; margin-left: 10%; background-color: #00e600; border-radius: 10px; color: #FFF; padding: 3px 0px"
+                    *ngIf="candidate.user.afinidad != 'En proceso'">
+                    {{ candidate.user.afinidad }}
+                  </div>
+                  <div *ngIf="candidate.user.afinidad == 'En proceso'">
+                    {{ candidate.user.afinidad }}
+                  </div>
+                </td>
+                <!-- Eyes -->
+                <td (click)="gotoUserView(candidate)">
+                  <img class="img-fluid cursor" [src]="
+                      candidate.curriculumSeen
+                        ? utils.assets('/actions/eye.png')
+                        : utils.assets('/actions/eye-blind.png')
+                    " alt="eye" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <app-pagination [pagination]="pagination" [loader]="loadingPage" (_changePage)="goToPage($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<!-- ................................................................................................. -->
+<!-- LOADING TEMPLATE -->
+<!-- ................................................................................................. -->
+<ng-template #loading>
+  <div class="row">
+    <div class="col text-center">
+      <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ................................................................................................. -->
+<!-- NO DATA -->
+<!-- ................................................................................................. -->
+<ng-template #noData>
+  <div class="row mt-4">
+    <div class="col-12 text-center">
+      <h4 class="h4 text-secondary">
+        No se han encontrado resultados.
+      </h4>
+    </div>
+  </div>
+</ng-template>
+
+<app-inf-comparativo *ngIf="showInfComparativo" (onClose)="closeModalComparativo($event)"
+  [candidatos]="candidatesSendComp" [idVac]="idVacante"></app-inf-comparativo>

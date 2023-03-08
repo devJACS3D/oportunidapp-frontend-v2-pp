@@ -1,0 +1,91 @@
+<!-- Title page -->
+<div class="row mt-4">
+  <p class="ml-3 title-page">{{titlePage}}</p>
+</div>
+<!-- Search data form input -->
+<div class="row mt-3 mb-3">
+  <div class="col-md-4 col-xs-6 col-sm-12">
+    <input type="search" class="form-control input-2 input-search" maxlength="100" placeholder="Nombre" #search>
+  </div>
+  <div class="col-md-8 col-xs-6 col-sm-12">
+    <button class="btn btn-ok btn-ok--blue pt-2 pb-2 button-search" (click)="searchPreInterview(search.value)"
+      [disabled]="_loadingSearch">
+      <i *ngIf="_loadingSearch" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+      {{textSearch}}
+    </button>
+  </div>
+</div>
+<!-- Table data  -->
+<div class="row" *ngIf="(_preinterviews.length && _preinterviews.length > 0 );else noDataTemplate">
+  <div class="col-12">
+    <div class="table-responsive-sm">
+      <table class="table card-table">
+        <thead>
+          <tr>
+            <th *ngFor="let head of tableHeaders" scope="col">{{head}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Separator for showing a space between thead an tbody -->
+          <tr class="table-separator">
+            <td [colSpan]="this.tableHeaders.length + 1"></td>
+          </tr>
+          <!-- rows for data -->
+          <tr class="show-questions" *ngFor="let preinterview of this._preinterviews">
+            <td class="font-weight-light" (click)="showQuestions(preinterview)">{{preinterview.name}}</td>
+            <td class="font-weight-light" (click)="showQuestions(preinterview)">{{preinterview.updatedAt | date:
+              'dd/MM/yyyy'}}</td>
+            <!-- Actions -->
+            <td class="">
+              <img class="action-icon ml-2" src="../../../../assets/actions/edit.png"
+                routerLink="form-preinterviews/{{preinterview.id}}">
+              <img class="action-icon"
+                src="../../../../assets/actions/{{!preinterview.default ? 'delete' : 'no_delete'}}.png"
+                (click)="!preinterview.default && delete(preinterview)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- No data template -->
+<ng-template #noDataTemplate>
+  <div class="row mt-5 p-2" *ngIf="!_error">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 text-secondary">
+        {{_textNotFound}}
+      </h4>
+    </div>
+  </div>
+  <!-- Error  -->
+  <div class="row" *ngIf="_error">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 ">
+        {{errorLoadingData}}
+      </h4>
+      <p class="text-center">
+        {{ _error }}
+      </p>
+    </div>
+  </div>
+</ng-template>
+<!-- Pagination -->
+<div class="row mt-4" *ngIf="_pagination">
+  <div class="col-md-12 ml-2">
+    <app-pagination [pagination]="_pagination" [loader]="_loadingPage" (_changePage)="goToPage($event)">
+    </app-pagination>
+  </div>
+</div>
+<!-- Floating button create -->
+<floating-button [icon]="utils.assets('actions/addplus.png')" (onClick)="createPreInterviews()"></floating-button>
+<!-- Confirm button delete items -->
+<ng-container *ngIf="_showConfirm">
+  <app-confirmation [_message]="_confirmMessage" [_loadingConfirm]="_loadingConfirm" (close)="closeConfirm($event)"
+    (confirm)="confirm($event)">
+  </app-confirmation>
+</ng-container>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,173 @@
+<div class="modal-backdrop" style="background-color: #0000007a;"></div>
+<div class="modal modal-2 animated fadeInDown" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+	<div class="modal-dialog modal-dialog-centered modal-md" role="document">
+		<div class="modal-content">
+			<div class="d-flex justify-content-center">
+				<button class="btn btn-rounded btn-rounded-close" (click)="close()">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</button>
+			</div>
+			<div class="modal-body modal-body--logis">
+				<h5>{{ _title }}</h5>
+				<div class="row" *ngIf="_loadingForm">
+					<div class="col-md-12">
+						Cargando...
+					</div>
+				</div>
+				<div class="row" *ngIf="!_loadingForm && !_Entity">
+					<div class="col-md-12">
+						Error cargando formulario
+					</div>
+				</div>
+
+				<form [formGroup]="FormEntity" *ngIf="!_loadingForm && _Entity">
+					<div class="row">
+						<div class="col-6 form-group">
+							<label for="">Nombre</label>
+							<input type="text" class="form-control input-2" formControlName="name" maxlength="100">
+							<span class="text-danger invalid-control"
+								*ngIf="FormEntity.controls.name.invalid && FormEntity.controls.name.dirty">
+								Campo requerido.
+							</span>
+						</div>
+
+						<div class="col-6 form-group">
+							<label for="">Correo electrónico</label>
+							<input type="text" class="form-control input-2" formControlName="email" maxlength="60">
+							<span class="text-danger invalid-control"
+								*ngIf="FormEntity.controls.email.invalid && FormEntity.controls.email.dirty">
+								Campo requerido.
+							</span>
+						</div>
+
+
+						<div class="col-6 form-group">
+							<label for="">Número de identificación</label>
+							<input type="text" class="form-control input-2" formControlName="identification"
+								maxlength="15">
+							<span class="text-danger invalid-control"
+								*ngIf="FormEntity.controls.identification.invalid && FormEntity.controls.identification.dirty">
+								Campo requerido.
+							</span>
+						</div>
+
+						<div class="col-6 form-group">
+							<label for="">Tipo de usuario</label>
+							<select class="form-control input-2" formControlName="userTypeId">
+								<option value="">Seleccionar</option>
+								<option *ngFor="let typeU of _userTypes" [value]="typeU.id">{{ typeU.name }}</option>
+							</select>
+							<span class="text-danger invalid-control"
+								*ngIf="FormEntity.controls.userTypeId.invalid && FormEntity.controls.userTypeId.dirty">
+								Campo requerido.
+							</span>
+						</div>
+
+						<div class="col-6 form-group">
+							<label for="">Tipo de identificación</label>
+							<select class="form-control input-2" formControlName="identificationTypeId">
+								<option value="">Seleccionar</option>
+								<option *ngFor="let docType of _identificationTypes" [value]="docType.id">
+									{{ docType.name }}</option>
+							</select>
+							<span class="text-danger invalid-control"
+								*ngIf="FormEntity.controls.identificationTypeId.invalid && FormEntity.controls.identificationTypeId.dirty">
+								Campo requerido.
+							</span>
+						</div>
+
+						<div class="col-6 form-group" [ngbPopover]="popUsernameRequirements" #pUsername="ngbPopover"
+							[autoClose]="false" triggers="manual">
+							<label for="">Usuario</label>
+							<input type="text" class="form-control input-2" formControlName="username" maxlength="60"
+								(focus)="pUsername.open()" (focusout)="pUsername.close()"
+								[ngClass]="{'input-verified': FormEntity.controls.username.valid, 'input-unavailable': FormEntity.controls.username.errors && FormEntity.controls.username.errors.usernameTaken && _idEntity===''}">
+							<span class="text-success invalid-control"
+								*ngIf="FormEntity.controls.username.valid; else invalidUsername">
+								Usuario disponible.
+							</span>
+							<ng-template #invalidUsername>
+								<ng-container *ngIf="FormEntity.controls.username.dirty">
+									<span class="text-danger invalid-control"
+										*ngIf="FormEntity.controls.username.value == ''">
+										Campo requerido.
+									</span>
+									<span class="text-danger invalid-control"
+										*ngIf="FormEntity.controls.username.errors && FormEntity.controls.username.errors.pattern">
+										Formato de usuario incorrecto.
+									</span>
+									<span class="text-danger invalid-control"
+										*ngIf="FormEntity.controls.username.errors && FormEntity.controls.username.errors.usernameTaken && _idEntity===''">
+										Usuario no disponible.
+									</span>
+								</ng-container>
+							</ng-template>
+							<span class="text-secondary invalid-control"
+								*ngIf="FormEntity.controls.username.status === 'PENDING'">
+								Verificando usuario ...
+							</span>
+						</div>
+
+
+						<div class="col-4 form-group">
+							<label for="">Sector</label>
+							<select class="form-control input-2" formControlName="sectorId">
+								<option value="">Seleccionar</option>
+								<option *ngFor="let sector of _sectors" [value]="sector.id">{{ sector.name }}</option>
+							</select>
+							<span class="text-danger invalid-control"
+								*ngIf="FormEntity.controls.sectorId.invalid && FormEntity.controls.sectorId.dirty">
+								Campo requerido.
+							</span>
+						</div>
+
+						<div class="col-4 form-group">
+							<label for="">Departamento</label>
+							<select class="form-control input-2" formControlName="stateId"
+								(change)="changeDepartment($event)">
+								<option value="">Seleccionar</option>
+								<option *ngFor="let state of _states" [value]="state.id">
+									{{ state.name }}
+								</option>
+							</select>
+							<span class="text-danger invalid-control"
+								*ngIf="FormEntity.controls.stateId.invalid && FormEntity.controls.stateId.dirty">
+								Campo requerido.
+							</span>
+						</div>
+
+						<div class="col-4 form-group">
+							<label for="">Ciudad</label>
+							<select class="form-control input-2" [ngClass]="{'select-loading': _loadingCities}"
+								formControlName="cityId">
+								<option value="">Seleccionar</option>
+								<option *ngFor="let city of _cities" [value]="city.id">
+									{{ city.name }}
+								</option>
+							</select>
+							<span class="text-danger invalid-control"
+								*ngIf="FormEntity.controls.cityId.invalid && FormEntity.controls.cityId.dirty">
+								Campo requerido.
+							</span>
+						</div>
+					</div>
+
+					<div class="row justify-content-center">
+						<div class="col-4 text-center">
+							<button type="submit" [disabled]="_loading" class="btn btn-block btn-ok btn-ok--blue"
+								(click)="save()">
+								<i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+								{{ _btnText }}
+							</button>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<ng-template #popUsernameRequirements>
+	<app-username-requirements [username]="FormEntity.controls.username.value"></app-username-requirements>
+</ng-template>

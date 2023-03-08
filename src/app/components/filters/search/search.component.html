@@ -1,0 +1,18 @@
+<div class="row" [formGroup]="searchForm">
+  <div class="col-12 col-md-4 form-group">
+    <input [placeholder]="placeholder" type="text" class="form-control font-size-12 pr-5 borderless"
+      [formControlName]="searchKey" maxlength="50">
+    <ng-container *ngIf="searchForm.get(searchKey).value?.length > 0">
+      <i (click)="clearSearch()" class="fa fa-times pointer clear-icon ml-2"></i>
+    </ng-container>
+  </div>
+  <div class="col-12 col-md-auto" *ngIf="status?.length">
+    <select class="form-control font-size-12 pr-5 borderless" [formControlName]="statusKey" >
+      <option disabled value="null">Seleccionar</option>
+      <option [value]="s.value" *ngFor="let s of status">{{s.name}}</option>
+    </select>
+  </div>
+  <div class="col-12 col-md-2">
+    <button class="btn btn-block btn-ok btn-ok--blue" (click)="search()">Buscar</button>
+  </div>
+</div>

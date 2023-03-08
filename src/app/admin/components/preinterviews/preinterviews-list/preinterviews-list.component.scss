@@ -1,0 +1,17 @@
+.button-search{
+    width: 150px; 
+    height: 50px;
+}
+
+.input-search{
+    border-radius: 5px;
+    border-color: #f0f0f7;
+}
+
+.input-search:focus::placeholder {
+    font-weight: normal !important;
+}
+
+.show-questions{
+    cursor: pointer;
+}

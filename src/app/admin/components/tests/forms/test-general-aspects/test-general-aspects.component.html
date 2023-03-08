@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col" [formGroup]="testForm">
+    <div class="row">
+      <div class="col-12 form-group">
+        <label for="">Nombre de la prueba</label>
+        <input type="text" class="form-control input-3" formControlName="name" maxlength="100">
+        <!--   <span class="text-danger invalid-control"
+          *ngIf="formGroup.controls.name.invalid && formGroup.controls.name.dirty">
+          Campo requerido.
+        </span> -->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 form-group">
+        <label for="">Descripción</label>
+        <textarea rows="4" class="form-control input-3" formControlName="description" maxlength="500"></textarea>
+        <!-- <span class="text-danger invalid-control"
+          *ngIf="formGroup.controls.description.invalid && formGroup.controls.description.dirty">
+          Campo requerido.
+        </span> -->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 form-group">
+        <label for="">Sector</label>
+        <select class="form-control input-3" formControlName="sectorId">
+          <option selected disabled value="null">Seleccionar</option>
+          <option *ngFor="let sector of sectors$ | async" [value]="sector.id">
+            {{ sector.name }}
+          </option>
+        </select>
+        <!-- <span class="text-danger invalid-control"
+          *ngIf="formGroup.controls.country_id.invalid && formGroup.controls.country_id.dirty">
+          Campo requerido.
+        </span> -->
+      </div>
+
+      <div class="col-12 col-md-6 form-group">
+        <label for="">Competencia</label>
+        <select class="form-control input-3" formControlName="lastSkillAdded">
+          <option selected disabled value="null">Seleccionar</option>
+          <option *ngFor="let skill of skills$ | async" [ngValue]="skill">
+            {{ skill.name }}
+          </option>
+        </select>
+        <!-- <span class="text-danger invalid-control"
+          *ngIf="formGroup.controls.stateId.invalid && formGroup.controls.stateId.dirty">
+          Campo requerido.
+        </span> -->
+      </div>
+    </div>
+
+  </div>
+</div>

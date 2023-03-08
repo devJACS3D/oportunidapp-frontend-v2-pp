@@ -1,0 +1,79 @@
+<page-header class="my-3" [header]="header" [backButton]="false"></page-header>
+<ng-container *ngIf="(trainingPlans$ | async); let trainingPlans;else loading">
+  <!-- Table -->
+  <ng-container *ngIf="trainingPlans?.length > 0;else noData">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive-sm">
+          <table class="table card-table">
+            <thead>
+              <tr>
+                <th class="text-left" *ngFor="let head of tableHeaders" scope="col">{{head}}</th>
+                <!-- actions -->
+                <th scope="col" style="width: 150px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Separator for showing a space between thead an tbody -->
+              <tr class="table-separator">
+                <td [colSpan]="this.tableHeaders.length+1"></td>
+              </tr>
+              <tr *ngFor="let trainingPlan of trainingPlans">
+                <td class="font-weight-light text-left">{{trainingPlan.name}}</td>
+                <td class="font-weight-light text-left">{{trainingPlan.description}}</td>
+                <td class="font-weight-light text-left">{{trainingPlan.updatedAt | date: 'dd/MM/yy'}}</td>
+                <td>
+                  <img class="action-icon" (click)="goToUpdate(trainingPlan.id)"
+                    [src]="utils.assets('actions/edit.png')">
+                  <img class="action-icon" (click)="activateDeleteModal(trainingPlan)"
+                    [src]="trainingPlan.id !== 1? utils.assets('actions/delete.png'): utils.assets('actions/no_delete.png')">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <app-pagination [pagination]="pagination" [loader]="loadingPage" (_changePage)="goToPage($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </ng-container>
+
+</ng-container>
+
+
+
+<!-- ................................................................................................. -->
+<!-- LOADING TEMPLATE -->
+<!-- ................................................................................................. -->
+<ng-template #loading>
+  <div class="row">
+    <div class="col text-center">
+      <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ................................................................................................. -->
+<!-- NO DATA -->
+<!-- ................................................................................................. -->
+<ng-template #noData>
+  <div class="row mt-4">
+    <div class="col-12 text-center">
+      <h4 class="h4 text-secondary">
+        No se han encontrado resultados.
+      </h4>
+    </div>
+  </div>
+</ng-template>
+
+
+<!-- ................................................................................................. -->
+<!-- Create button -->
+<!-- ................................................................................................. -->
+<floating-button [icon]="utils.assets('actions/addplus.png')" (click)="createTrainingPlan()"></floating-button>

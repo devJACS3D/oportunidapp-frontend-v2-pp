@@ -1,0 +1,107 @@
+@import "../../../sass/vars";
+#progressDiv {
+  height: 25px !important;
+  background: #e4eaf1;
+}
+
+.custom-switch .custom-control-label::before {
+  left: -2.25rem;
+  width: 4.0rem;
+  pointer-events: all;
+  border-radius: 0.5rem;
+  height: 0.65rem;
+}
+
+.custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+  background: #28b73b;
+  -webkit-transform: translateX(0.75rem);
+  transform: translateX(2.3rem);
+}
+
+.custom-switch .custom-control-label::after {
+  top: -5px;
+  left: calc(-2.34rem + 2px);
+  height: 30px !important;
+  border-radius: 1rem;
+  width: 1.8rem;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  background: #e5e5e5;
+  border-color: #e5e5e5;
+}
+
+#changePassword {
+  background: $primary;
+}
+
+#changePassword.btn-outline-primary, #lifeButton.btn-outline-primary, #downloadCertified.btn-outline-primary {
+  color: #ffff;
+}
+
+#lifeButton {
+  background: $secondary;
+}
+
+#downloadCertified { 
+  background: $secondary;
+}
+
+.imageButton {
+  height: 19.16666603088379px;
+  width: 16.770803451538086px;
+  left: 3.115234375px;
+  top: 1.9169921875px;
+  border-radius: 0px;
+}
+
+.btnProfile {
+  width: 100%;
+  height: 43px;
+  border-radius: 8px;
+  border-color: #ffff;
+}
+
+.text-button {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.text-small {
+  color: #A5A4BF;
+}
+
+#header.card{
+  border-top-left-radius: 10px;
+  border-top-right-radius:10px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+#body-header.card{
+  border-top-left-radius: 0px;
+  border-top-right-radius:0px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+#linkProfile.card{
+  border-top-left-radius: 0px;
+  border-top-right-radius:0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.item-option.active{
+  background: $secondary;
+}
+.item-option.active span.text-secondary{
+  color: white !important;
+}
+.item-option span.text-secondary{
+  color: #414141 !important;
+
+}
+
+.fa-lg{
+  font-size: 30px;
+}

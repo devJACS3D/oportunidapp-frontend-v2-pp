@@ -1,0 +1,847 @@
+<div id="informationPersonal" class="card shadow">
+	<div class="card-body">
+
+		<ng-container *ngIf="_loadingInit">
+			<div class="row">
+				<div class="col-12">
+					Cargando...
+				</div>
+			</div>
+		</ng-container>
+
+		<ng-container *ngIf="!_loadingInit && _error != ''">
+			<div class="row">
+				<div class="col text-center noResults">
+					<i class="fa fa-inbox" aria-hidden="true"></i>
+					<h4 class="h4 text-secondary">
+						Error cargando información de usuario
+					</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<p class="text-center text-secondary">
+						{{ _error }}
+					</p>
+				</div>
+			</div>
+		</ng-container>
+
+		<div class="col" *ngIf="!_loadingInit && _error == ''">
+
+			<form [formGroup]="FormEntity">
+				<div class="row mb-4">
+					<div class="col text-center">
+						<h3 class="text-secondary">Completa tus datos personales</h3>
+					</div>
+				</div>
+				<!-- Nombres -->
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Primer nombre</label>
+						<input type="text" class="form-control input-2" formControlName="firstName" maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.firstName.invalid && FormEntity.controls.firstName.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Segundo nombre</label>
+						<input type="text" class="form-control input-2" formControlName="secondName" maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.secondName.invalid && FormEntity.controls.secondName.dirty">
+							Campo requerido.
+						</span>
+					</div>
+				</div>
+				<!-- Apellidos -->
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Primer apellido</label>
+						<input type="text" class="form-control input-2" formControlName="lastName" maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.lastName.invalid && FormEntity.controls.lastName.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Segundo apellido</label>
+						<input type="text" class="form-control input-2" formControlName="secondLastName"
+							maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.secondLastName.invalid && FormEntity.controls.secondLastName.dirty">
+							Campo requerido.
+						</span>
+					</div>
+				</div>
+				<!-- Documentos -->
+				<div class="row">
+					<div class="col-2 form-group">
+						<label for="">Documento</label>
+						<select id="inputState" class="form-control" formControlName="identificationTypeId">
+							<option value="" disabled>Seleccionar</option>
+							<option [selected]="docType.id == _user.credentialUser.identificationTypeId"
+								[value]="docType.id" *ngFor="let docType of _identificationTypes">
+								{{ docType.name }}
+							</option>
+						</select>
+						<i class="fa fa-chevron-down"></i>
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.identificationTypeId.invalid && FormEntity.controls.identificationTypeId.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-4 form-group">
+						<label for="">Número de documento</label>
+						<input type="text" class="form-control input-2" formControlName="identification"
+							maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.identification.invalid && FormEntity.controls.identification.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Lugar de expedición del documento</label>
+						<div class="row">
+							<div class="col-md-6 col-xs-12 col-sm-12">
+								<select class="form-control input-2" formControlName="placeIdentificationState"
+									(change)="changeDepartment($event, true)">
+									<option value="">Seleccionar Departamento</option>
+									<option [selected]="state.id == _user.credentialUser.placeIdentificationState"
+										*ngFor="let state of _states" [value]="state.id">
+										{{ state.name }}
+									</option>
+								</select>
+								<i class="fa fa-chevron-down"></i>
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.placeIdentificationState.invalid && FormEntity.controls.placeIdentificationState.dirty">
+									Campo requerido.
+								</span>
+							</div>
+							<div class="col-md-6 col-xs-12 col-sm-12">
+								<select class="form-control input-2" [ngClass]="{'select-loading': _loadingCities}"
+									formControlName="placeIdentificationCityId">
+									<option value="">Seleccionar Ciudad</option>
+									<option [selected]="city.id == _user.credentialUser.placeIdentificationCityId"
+										*ngFor="let city of _cities" [value]="city.id">
+										{{ city.name }}
+									</option>
+								</select>
+								<i class="fa fa-chevron-down"></i>
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.placeIdentificationCityId.invalid && FormEntity.controls.placeIdentificationCityId.dirty">
+									Campo requerido.
+								</span>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+				<!-- Fecha Expedición y Datos Militares -->
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Fecha de expedición del documento</label>
+						<div class="row mt-0">
+							<div class="col-3 form-group">
+								<select class="form-control" formControlName="identiDayExpedition">
+									<option disabled>DD</option>
+									<option [selected]="item == this._identiDayExpedition" *ngFor="let item of _days">
+										{{item}}
+									</option>
+								</select>
+								<i class="fa fa-chevron-down"></i>
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.identiDayExpedition.invalid && FormEntity.controls.identiDayExpedition.dirty">
+									Campo requerido.
+								</span>
+							</div>
+							<div class="col-3 form-group">
+								<select class="form-control" formControlName="identiMonthExpedition">
+									<option disabled>MM</option>
+									<option [selected]="item == this._identiMonthExpedition"
+										*ngFor="let item of _months">
+										{{item}}
+									</option>
+								</select>
+								<i class="fa fa-chevron-down"></i>
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.identiMonthExpedition.invalid && FormEntity.controls.identiMonthExpedition.dirty">
+									Campo requerido.
+								</span>
+							</div>
+							<div class="col-6 form-group">
+								<select class="form-control" formControlName="identiYearExpedition">
+									<option disabled>AAAA</option>
+									<option [selected]="item == this._identiYearExpedition" *ngFor="let item of _years">
+										{{item}}
+									</option>
+								</select>
+								<i class="fa fa-chevron-down"></i>
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.identiYearExpedition.invalid && FormEntity.controls.identiYearExpedition.dirty">
+									Campo requerido.
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Libreta militar</label>
+						<div class="row">
+							<div class="col-4 form-group mt-3">
+								<div class="custom-control custom-radio custom-control-inline">
+									<input type="radio" id="customRadioInline3" name="militaryCard"
+										(change)="changeMilitaryCard(true)"
+										[checked]="this._user.credentialUser.militaryCard" class="custom-control-input">
+									<label class="custom-control-label" for="customRadioInline3">Si</label>
+								</div>
+								<div class="custom-control custom-radio custom-control-inline">
+									<input type="radio" id="customRadioInline4" name="militaryCard"
+										(change)="changeMilitaryCard(false)"
+										[checked]="!this._user.credentialUser.militaryCard"
+										class="custom-control-input">
+									<label class="custom-control-label" for="customRadioInline4">No</label>
+								</div>
+							</div>
+							<!-- <div class="col-4 form-group mt-3">
+								<div class="custom-control custom-radio custom-control-inline">
+									<input type="radio" id="customRadioInline3"
+									formControlName="militaryCard"
+										class="custom-control-input">
+									<label class="custom-control-label" for="customRadioInline3">Si</label>
+								</div>
+								<div class="custom-control custom-radio custom-control-inline">
+									<input  type="radio"  id="customRadioInline4"
+									formControlName="militaryCard"
+									 class="custom-control-input">
+									<label class="custom-control-label" for="customRadioInline4">No</label>
+								</div>
+							</div> -->
+							<div class="col-8 form-group">
+								<input type="text" class="form-control input-2" placeholder="# de tarjeta militar"
+									formControlName="militaryCardNumber" maxlength="100">
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.militaryCardNumber.invalid && FormEntity.controls.militaryCardNumber.dirty">
+									Campo requerido.
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Grupo Sanguíneo y Datos Fisicos -->
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Grupo sanguíneo</label>
+						<select id="inputState" class="form-control" formControlName="bloodTypesId">
+							<option value="" disabled>Seleccionar</option>
+							<option [selected]="bloodTypes.id == _user.credentialUser.bloodTypesId"
+								[value]="bloodTypes.id" *ngFor="let bloodTypes of _bloodTypes">
+								{{ bloodTypes.description }}
+							</option>
+						</select>
+						<i class="fa fa-chevron-down"></i>
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.bloodTypesId.invalid && FormEntity.controls.bloodTypesId.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-6 form-group">
+						<div class="row">
+							<div class="col-6 form-group">
+								<label for="">Estatura</label>
+								<input type="text" class="form-control input-2" maxlength="100"
+									formControlName="height">
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.height.invalid && FormEntity.controls.height.dirty">
+									Campo requerido.
+								</span>
+							</div>
+							<div class="col-6 form-group">
+								<label for="">Peso</label>
+								<input type="text" class="form-control input-2" maxlength="100"
+									formControlName="weight">
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.weight.invalid && FormEntity.controls.weight.dirty">
+									Campo requerido.
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Fecha de Nacimiento y Lugar de Residencia -->
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Fecha de nacimiento</label>
+						<div class="row mt-0">
+							<div class="col-3 form-group">
+								<select class="form-control" formControlName="dayBirth">
+									<option disabled>DD</option>
+									<option [selected]="item == this._dayBirth" *ngFor="let item of _days">
+										{{item}}
+									</option>
+								</select>
+								<i class="fa fa-chevron-down"></i>
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.dayBirth.invalid && FormEntity.controls.dayBirth.dirty">
+									Campo requerido.
+								</span>
+							</div>
+							<div class="col-3 form-group">
+								<select class="form-control" formControlName="monthBirth">
+									<option disabled>MM</option>
+									<option [selected]="item == this._monthBirth" *ngFor="let item of _months">
+										{{item}}
+									</option>
+								</select>
+								<i class="fa fa-chevron-down"></i>
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.monthBirth.invalid && FormEntity.controls.monthBirth.dirty">
+									Campo requerido.
+								</span>
+							</div>
+							<div class="col-6 form-group">
+								<select class="form-control" formControlName="yearBirth">
+									<option disabled>AAAA</option>
+									<option [selected]="item == this._yearBirth" *ngFor="let item of _years">
+										{{item}}
+									</option>
+								</select>
+								<i class="fa fa-chevron-down"></i>
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.yearBirth.invalid && FormEntity.controls.yearBirth.dirty">
+									Campo requerido.
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Lugar de residencia</label>
+						<div class="row">
+							<div class="col-md-6 col-xs-12 col-sm-12">
+								<select class="form-control input-2" formControlName="placeResidenceState"
+									(change)="changeDepartment($event, false)">
+									<option value="">Seleccionar Departamento</option>
+									<option [selected]="state.id == _user.credentialUser.placeResidenceState"
+										*ngFor="let state of _states" [value]="state.id">
+										{{ state.name }}
+									</option>
+								</select>
+								<i class="fa fa-chevron-down"></i>
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.placeResidenceState.invalid && FormEntity.controls.placeResidenceState.dirty">
+									Campo requerido.
+								</span>
+							</div>
+							<div class="col-md-6 col-xs-12 col-sm-12">
+								<select class="form-control input-2"
+									[ngClass]="{'select-loading': _loadingCitiesResidence}"
+									formControlName="placeResidenceCityId">
+									<option value="">Seleccionar Ciudad</option>
+									<option [selected]="city.id == _user.credentialUser.placeResidenceCityId"
+										*ngFor="let city of _citiesResidence" [value]="city.id">
+										{{ city.name }}
+									</option>
+								</select>
+								<i class="fa fa-chevron-down"></i>
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.placeResidenceCityId.invalid && FormEntity.controls.placeResidenceCityId.dirty">
+									Campo requerido.
+								</span>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<!-- Barrio, Estrato y tipo de sangre -->
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Barrio</label>
+						<input type="text" class="form-control input-2" formControlName="district" maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.district.invalid && FormEntity.controls.district.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-2 form-group">
+						<label for="">Estrato</label>
+						<select id="inputState" class="form-control" formControlName="stratum">
+							<option value="">Seleccionar</option>
+							<option [selected]="stratumL == _user.credentialUser.stratum"
+								*ngFor="let stratumL of _stratum">{{ stratumL }}
+							</option>
+						</select>
+						<i class="fa fa-chevron-down"></i>
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.stratum.invalid && FormEntity.controls.stratum.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-4 form-group">
+						<label for="">Tipo de vivienda</label>
+						<select id="inputState" class="form-control" formControlName="housingType">
+							<option value="">Seleccionar</option>
+							<option [selected]="housingTp.name == _user.credentialUser.housingType"
+								*ngFor="let housingTp of _housingTypes">
+								{{ housingTp.name }}
+							</option>
+						</select>
+						<i class="fa fa-chevron-down"></i>
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.housingType.invalid && FormEntity.controls.housingType.dirty">
+							Campo requerido.
+						</span>
+					</div>
+				</div>
+				<!-- Estado civil, Correo electronico -->
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Estado civil</label>
+						<select class="form-control input-2" formControlName="maritalStatusId">
+							<option value="">Seleccionar</option>
+							<option [selected]="civilState.id == _user.credentialUser.maritalStatusId"
+								*ngFor="let civilState of _civilStatuses" [value]="civilState.id">
+								{{ civilState.name }}
+							</option>
+						</select>
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.maritalStatusId.invalid && FormEntity.controls.maritalStatusId.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Correo electrónico</label>
+						<input disabled type="text" class="form-control input-2" formControlName="email" maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.email.invalid && FormEntity.controls.email.dirty">
+							Campo requerido.
+						</span>
+					</div>
+				</div>
+				<!-- Celular Teléfono fijo -->
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Celular</label>
+						<input type="text" class="form-control input-2" formControlName="cellphone" maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.cellphone.invalid && FormEntity.controls.cellphone.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Telefono fijo</label>
+						<input type="text" class="form-control input-2" formControlName="telephone" maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.telephone.invalid && FormEntity.controls.telephone.dirty">
+							Campo requerido.
+						</span>
+					</div>
+				</div>
+
+				<!-- Sección de Referencia Personal/Familiar -->
+
+				<div class="row mb-4">
+					<div class="col text-center">
+						<h3 class="text-secondary">Referencia Personal/Familiar</h3>
+					</div>
+				</div>
+				<hr>
+				<div class="row referenceColor align-items-center mt-8" routerLink="./form-references">
+					<div class="col-12 text-center">
+						<div>Añadir información de referencia</div>
+						<div><img class="imageButton" src="assets/userprofile/Add.png" style="width: 64px;"></div>
+					</div>
+				</div>
+
+				<!-- REFERENCIAS PERSONALES Y FAMILIARES -->
+				<div class="row">
+					<div class="col-12 px-0">
+						<div class="card shadow rounded" *ngIf="!_personalReferences.length">
+							<div class="card-body">
+								<div class="row">
+									<div class="col text-center">
+										<i class="fa fa-inbox noResults" aria-hidden="true"></i>
+										<h4 class="h4 text-secondary">
+											Aún no se han creado registros.
+										</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+						<ng-container *ngIf="_personalReferences.length">
+							<div class="card shadow rounded" *ngFor="let references of _personalReferences">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-10">
+											<div class="row">
+												<div class="col-6">
+													<!-- <span class="h5 text-secondary"> -->
+													<h3>
+														<strong>
+															{{references.name}}
+														</strong>
+													</h3>
+													<!-- </span> -->
+												</div>
+												<div class="col-6 text-right">
+													<span class="h5 text-secondary ">{{references.relationship}}</span>
+												</div>
+											</div>
+											<hr>
+											<div class="row">
+												<div class="col-6">
+													<div class="h5 text-secondary ">
+														{{references.occupation}}</div>
+													<div class="h5 texts-gray">
+														{{references.address}}
+													</div>
+												</div>
+												<div class="col-6 text-right">
+													<div class="h5 text-secondary ">Teléfono</div>
+													<div class="h5 texts-gray ">
+														{{references.cellphone}}
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-2 d-flex justify-content-center align-items-center">
+											<div class="row ">
+												<div class="col-12 text-center">
+													<div>
+														<button [disabled]="_loadingPage"
+															routerLink="./form-references/{{ references.id }}"
+															class="table-link btn btn-sm btn-link">
+															<img class="imageButton" src="assets/userprofile/pencil.png"
+																style="width: 42px;">
+														</button>
+													</div>
+													<div class="mt-2">
+														<button [disabled]="_loadingPage" (click)="delete(references,0)"
+															class="table-link btn btn-sm btn-link">
+															<img class="imageButton" src="assets/userprofile/trash.png"
+																style="width: 42px;">
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</ng-container>
+					</div>
+				</div>
+
+				<!-- Datos Adicionales -->
+				<div class="row mt-4 mb-4">
+					<div class="col text-center">
+						<h3 class="text-secondary">Datos adicionales</h3>
+					</div>
+				</div>
+				<hr>
+				<div class="row mt-4">
+					<div class="col-12"><span>Sector</span></div>
+				</div>
+				<div class="row">
+					<div class="col-3">
+						<div>
+							<button type="button" [disabled]="_loadingAdditional" (click)="addAdditionalData()"
+								class="btn btn-outline-primary">
+								<div class="row">
+									<div class="col-6 text-right">
+										<i *ngIf="_loadingAdditional" class="fa fa-circle-o-notch fa-spin"
+											aria-hidden="true"></i>
+										<img *ngIf="!_loadingAdditional" class="imageButton"
+											src="assets/userprofile/mas.png" style="width: 1.2rem;">
+									</div>
+									<div id="labelExtern" class="col-6 text-left px-0">Agregar</div>
+								</div>
+							</button>
+						</div>
+						<ng-container *ngIf="_showSelectAdditional">
+							<!-- <ng-select  [multiple]="true" formControlName="selectedCars">
+								<ng-option *ngFor="let car of cars" [value]="car.id" [disabled]="car.disabled">{{car.name}}
+								</ng-option>
+								<ng-option [value]="'custom'">Custom</ng-option>
+							</ng-select> -->
+							<ng-select [items]="_sectors" [multiple]="true" bindLabel="name" groupBy="all"
+								[selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+								bindValue="" [(ngModel)]="_selectedSectors" [ngModelOptions]="{standalone: true}">
+								<ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+									<input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"
+										[ngModelOptions]="{standalone: true}" /> {{item.all}}
+								</ng-template>
+								<ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+									<input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"
+										[ngModelOptions]="{standalone: true}" /> {{item.name}}
+								</ng-template>
+							</ng-select>
+
+						</ng-container>
+					</div>
+					<div class="col-9">
+
+						<div class="row" *ngIf="!_usersSectors.length">
+							<h4 class="mt-1 ml-5 text-secondary text-center">
+								<i class="fa fa-inbox noResults" aria-hidden="true"></i> <br>
+								Aún no se han creado registros.
+							</h4>
+
+						</div>
+
+						<div class="row" *ngIf="_usersSectors.length">
+							<div class="col-md-4 mb-2" *ngFor="let userSector of _usersSectors">
+								<button id="buttonSec" type="button" class="btn btn-outline-primary">
+									<div class="row text-center d-flex justify-content-center">
+										<div id="labelInterno">{{userSector.name}}</div>
+									</div>
+								</button>
+								<img (click)="delete(userSector,1)"
+									class="imageButton position-absolute top-50 start-50"
+									src="assets/userprofile/CLOSE.png"
+									style="width: 1.1rem; margin-left: -10px; margin-top: -10px; ">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4">
+					<div class="col-6 form-group">
+						<label for="">Jornada de interés</label>
+						<select id="inputState" class="form-control" formControlName="workdayId">
+							<option value="" disabled>Seleccionar</option>
+							<option [selected]="workday.id == this._user.credentialUser.workdayId"
+								*ngFor="let workday of _workdays" [value]="workday.id">{{workday.name }}
+							</option>
+						</select>
+						<i class="fa fa-chevron-down"></i>
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.workdayId.invalid && FormEntity.controls.workdayId.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Aspiración salarial</label>
+						<div class="row">
+							<div class="col-md-6 col-xs-6 col-sm-6 minmax-slider">
+								<small>Min</small>
+							</div>
+							<div class="col-md-6 col-xs-6 col-sm-6 text-right minmax-slider">
+								<small>Max</small>
+							</div>
+						</div>
+						<div id="double-slider" style="color:#ff6600;"></div>
+						<div class="row">
+							<div class="col-md-6 col-xs-6 col-sm-6 text-center">
+								<small class="value-slider">${{minRange | currency:'COP':'' }}</small>
+							</div>
+							<div class="col-md-6 col-xs-6 col-sm-6 text-center">
+								<small class="value-slider">${{maxRange | currency:'COP':''}}</small>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Facebook</label>
+						<input type="text" class="form-control input-2" formControlName="facebook" maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.facebook.invalid && FormEntity.controls.facebook.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Twitter</label>
+						<input type="text" class="form-control input-2" formControlName="twitter" maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.twitter.invalid && FormEntity.controls.twitter.dirty">
+							Campo requerido.
+						</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Instagram</label>
+						<input type="text" class="form-control input-2" formControlName="instagram" maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.instagram.invalid && FormEntity.controls.instagram.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Linkedin</label>
+						<input type="text" class="form-control input-2" formControlName="linkedin" maxlength="100">
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.linkedin.invalid && FormEntity.controls.linkedin.dirty">
+							Campo requerido.
+						</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Genero</label>
+						<select formControlName="maritalGenderId" class="form-control input-2">
+							<option [selected]="1 == _user.credentialUser.maritalGenderId" value="1">Femenino</option>
+							<option [selected]="2 == _user.credentialUser.maritalGenderId" value="2">Masculino</option>
+						</select>
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.maritalGenderId.invalid && FormEntity.controls.maritalGenderId.dirty">
+							Campo requerido.
+						</span>
+					</div>
+					<div class="col-6 form-group">
+						<label for="">Licencia de conducir</label>
+						<select id="inputState" class="form-control" formControlName="drivingLicenseId">
+							<option value="" disabled>Seleccionar</option>
+							<option [selected]="drivingLicense.id == this._user.credentialUser.drivingLicenseId"
+								*ngFor="let drivingLicense of _drivingLicenses" [value]="drivingLicense.id">
+								{{drivingLicense.name }}
+							</option>
+						</select>
+						<i class="fa fa-chevron-down"></i>
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.drivingLicenseId.invalid && FormEntity.controls.drivingLicenseId.dirty">
+							Campo requerido.
+						</span>
+					</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col-6 form-group">
+						<div class="row">
+							<div class="col-6 align-self-center">
+								Número de personas a cargo
+							</div>
+							<div class="col-6">
+								<input type="text" class="form-control input-2" formControlName="dependents"
+									maxlength="100">
+								<span class="text-danger invalid-control"
+									*ngIf="FormEntity.controls.dependents.invalid && FormEntity.controls.dependents.dirty">
+									Campo requerido.
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-6 form-group">
+						<div class="row">
+							<div class="col-8 align-self-center">
+								Disponibilidad para viajar
+							</div>
+							<div class="col-4 form-group mt-3">
+								<div class="custom-control custom-radio custom-control-inline">
+									<input type="radio" id="customRadioInline1" name="availabilityTravel"
+										class="custom-control-input" (change)="changeAvailabilityTravel(true)"
+										[checked]="this._user.credentialUser.availabilityTravel">
+									<label class="custom-control-label" for="customRadioInline1">Si</label>
+								</div>
+								<div class="custom-control custom-radio custom-control-inline">
+									<input type="radio" id="customRadioInline2" name="availabilityTravel"
+										class="custom-control-input" (change)="changeAvailabilityTravel(false)"
+										[checked]="!this._user.credentialUser.availabilityTravel">
+									<label class="custom-control-label" for="customRadioInline2">No</label>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="">Idiomas</label>
+						<select class="form-control input-2" formControlName="languages" style="height: 132px;"
+							multiple>
+							<option *ngFor="let language of _languages" [value]="language.name">
+								{{ language.name }}
+							</option>
+						</select>
+						<span class="text-danger invalid-control"
+							*ngIf="FormEntity.controls.languages.invalid && FormEntity.controls.languages.dirty">
+							Campo requerido.
+						</span>
+					</div>
+
+					<div class="col-6 form-group">
+						<div class="row">
+							<div class="col-md-8 col-xs-12 col-sm-12 mt-2">
+								Disponibilidad de reubicación
+								<div class="row">
+									<div class="col-12 form-group mt-2">
+										<div class="custom-control custom-radio custom-control-inline">
+											<input type="radio" id="availabilityToRelocationYes"
+												(change)="changeAvailabilityToRelocation(true)"
+												class="custom-control-input" name="availabilityToRelocation"
+												[checked]="this._user.credentialUser.availabilityToRelocation">
+											<label class="custom-control-label"
+												for="availabilityToRelocationYes">Si</label>
+										</div>
+										<div class="custom-control custom-radio custom-control-inline">
+											<input type="radio" id="availabilityToRelocationNo"
+												(change)="changeAvailabilityToRelocation(false)"
+												class="custom-control-input" name="availabilityToRelocation"
+												[checked]="!this._user.credentialUser.availabilityToRelocation">
+											<label class="custom-control-label"
+												for="availabilityToRelocationNo">No</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-xs-12 col-sm-12 align-self-center mt-2">
+								Discapacidad
+								<div class="row">
+									<div class="col-12 form-group mt-2">
+										<div class="custom-control custom-radio custom-control-inline">
+											<input type="radio" id="peopleDiscapacityYes"
+												(change)="changePeopleDiscapacity(true)" class="custom-control-input"
+												name="peopleDiscapacity"
+												[checked]="this._user.credentialUser.peopleDiscapacity">
+											<label class="custom-control-label" for="peopleDiscapacityYes">Si</label>
+										</div>
+										<div class="custom-control custom-radio custom-control-inline">
+											<input type="radio" id="peopleDiscapacityNo"
+												(change)="changePeopleDiscapacity(true)" class="custom-control-input"
+												name="peopleDiscapacity"
+												[checked]="!this._user.credentialUser.peopleDiscapacity">
+											<label class="custom-control-label" for="peopleDiscapacityNo">No</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row justify-content-center">
+					<div class="col-12 text-center">
+						<div class="custom-control custom-checkbox" id="checkInput">
+							<input type="checkbox" class="custom-control-input" id="customCheck2"
+								formControlName="authorizeCompanyData"
+								[checked]="this._user.credentialUser.authorizeCompanyData">
+							<label id="labelCheck" class="custom-control-label" for="customCheck2">
+								Autorizo el manejo de datos a la compañia -
+								<a href="{{docsApp.terms}}" target="_BLANCK">Términos y condiciones</a>
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="row  justify-content-center">
+					<div class="col-4">
+						<button id="save" [disabled]="_loading" class="btn btn-ok--blue btn-block" (click)="save()">
+							<i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+							Guardar cambios
+						</button>
+					</div>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+<router-outlet></router-outlet>
+
+<ng-container *ngIf="_showConfirm">
+	<app-confirmation [_message]="_confirmMessage" [_loadingConfirm]="_loadingConfirm" (close)="closeConfirm($event)"
+		(confirm)="confirm($event)">
+	</app-confirmation>
+</ng-container>

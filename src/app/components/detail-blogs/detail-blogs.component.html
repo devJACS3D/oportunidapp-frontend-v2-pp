@@ -1,0 +1,109 @@
+<ng-container *ngIf="!_loadingInit && _loadError == ''">
+	<div class="blog-image" [style.background]="'url(' + _Entity.images.Location + ')'">
+	</div>
+	<br><br>
+	<div class="container">
+		<div class="col-12 mb-4" style="padding-top: 25px;">
+			<button class="btn btn-ok--blue" (click)="goBack()" style="color: white;">
+				<i class="fa fa-arrow-left" aria-hidden="true"></i>
+			</button>
+			&nbsp;
+			<span class="h4">Atrás</span>
+		</div>
+		<hr>
+		<div class="col-12">
+			<h3>{{ _Entity.name }}</h3>
+		</div>
+
+		<div class="col-12">
+			<!-- <pre class="card-text card-text--info text-secondary custom-font">{{ _Entity.description }}</pre> -->
+			<p class="text-justify post-description">
+				{{ _Entity.description }}
+			</p>
+		</div>
+
+		<div class="col-12 mt-2">
+			<span class="small font-weight-bold">
+				Por {{ _Entity.author }} | {{ _Entity.createdAt | date }}
+			</span>
+		</div>
+
+		<div class="col-12 mt-3">
+			Compartir
+
+			<small>
+				<a (click)="share('facebook', $event)">
+					<span class="fa-stack fa-lg">
+						<i class="fa fa-circle-thin fa-stack-2x"></i>
+						<i class="fa fa-facebook fa-stack-1x"></i>
+					</span>
+				</a>
+
+				<span (click)="share('twitter', $event)" class="fa-stack fa-lg">
+					<i class="fa fa-circle-thin fa-stack-2x"></i>
+					<i class="fa fa-twitter fa-stack-1x"></i>
+				</span>
+				<!-- 
+				<span class="fa-stack fa-lg">
+					<i class="fa fa-circle-thin fa-stack-2x"></i>
+					<i class="fa fa-thumbs-o-up fa-stack-1x"></i>
+				</span> -->
+			</small>
+
+		</div>
+
+		<div class="col-12 mt-4">
+			<form [formGroup]='_formEntity' (submit)="createComent()">
+				<div class="jumbotron pb-4">
+					<!-- <div *ngFor="let item of comments">
+						<p><strong>{{item.user.firstName}}: </strong>{{item.description}}</p>
+					</div> -->
+					<strong>Deja tus comentarios</strong>
+					<textarea cols="30" rows="3" class="form-control mt-3" formControlName="description"></textarea>
+					<div class="row">
+						<div class="col-12">
+							<button class="btn btn-ok btn-ok--blue float-right mt-3" type="submit">
+								Publicar
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-12 mt-4">
+			<!-- *ngFor="let item of comments" {{item.user.firstName}}: -->
+			<div class="jumbotron pb-4" *ngFor="let item of comments">
+				<div class="row">
+					<div class="col-xs-2 col-sm-1">
+						<img src="https://oportunidapp-data.s3.amazonaws.com/profilePicture/profilePicture-2019-12-13T21%3A22%3A23%2B00%3A00-a74ff932f8c0333fcb3f2a1794e2663c.jpg"
+							class="img-profile">
+					</div>
+					<div class="col-xs-10 col-sm-10">
+						<p><strong>{{item.user.firstName}}</strong></p>
+						<p class="comment">{{item.description}}</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</ng-container>
+
+<div class="container" *ngIf="_loadingInit">
+	<div class="col-12">
+		Cargando...
+	</div>
+</div>
+<div class="container" *ngIf="!_loadingInit && _loadError != ''">
+	<div class="col-12 noResults">
+		<i class="fa fa-inbox" aria-hidden="true"></i>
+
+		<h4 class="h4 text-secondary">
+			Error cargando artículo
+		</h4>
+		<h6>
+			{{ _loadError }}
+		</h6>
+	</div>
+</div>

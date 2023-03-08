@@ -1,0 +1,50 @@
+@import "../../../../sass/_vars.scss";
+.user-view-p{
+    position: fixed;
+}
+
+.item-op-user{
+    font-size: 1.25rem;
+    color:#003068;
+}
+
+.item-op-user>span{
+    border-right: 0px solid #dfdfdf;
+}
+
+.item-op-user:hover, .active-item-op-user{
+    cursor: pointer;
+    background-color:#003068;
+    color: white !important;
+}
+
+.rating-container .star {
+    font-size: 1.3rem;
+}
+
+
+@media (max-width: 899px) {
+    .user-view-p{
+        position: initial;
+    }
+}
+
+.informe{
+    border-color: #003068 !important;
+    background-color: #003068 !important;
+}
+
+.informe-pre-entrevista{
+    border-color: $text-primary !important;
+    background-color: $text-primary !important;
+}
+.informe-judicial{
+    border-color: #00528c !important;
+    background-color: #00528c !important;
+}
+
+.view-process{
+    color: black;
+    text-decoration: underline;
+    font-size: 14px;
+}

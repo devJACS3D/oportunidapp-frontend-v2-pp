@@ -1,0 +1,13 @@
+<!-- tabs wrapper -->
+<div class="row">
+  <div class="col-12">
+    <tabs-wrapper (tabChange)="handleTabChange($event)" #tabsWrapper>
+      <tab #tabChild activeClass="active-blue" (click)="tabsWrapper.selectTab(tabChild)" *ngFor="let btype of tabs; index as i"
+        [tabTitle]="btype.name" [tabValue]="i"></tab>
+    </tabs-wrapper>
+  </div>
+</div>
+
+<card-wrapper>
+  <router-outlet></router-outlet>
+</card-wrapper>

@@ -1,0 +1,62 @@
+{
+  "/evaluationorder/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/catalog/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/unity/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/report/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/evaluation/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/candidates/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/description/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/location/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/evaluationcode/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/jobprofile/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/competences/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/process/*": {
+    "target": "https://apim-evaluatestia-prod-001.azure-api.net/",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

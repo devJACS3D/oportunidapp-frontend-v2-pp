@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+<div style="padding-top: 60px;">
+</div>
+
+<ng-container *ngIf="user | async let user">
+    <ng-container *ngIf="user?.isAgentProfile">
+        <chat-bot></chat-bot>
+    </ng-container>
+</ng-container>
+
+<router-outlet></router-outlet>
+
+<router-outlet name="modal"></router-outlet>
+<!-- Footer component -->
+<app-footer></app-footer>

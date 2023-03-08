@@ -1,0 +1,156 @@
+export enum Entities {
+  userRegister = "user",
+  userStudies = "user/CRUD/academicTitlesUsers",
+  userExperiences = "user/CRUD/laboralExperiences",
+  userPersonalReference = "user/CRUD/personalReference",
+  userSectors = "user/CRUD/usersSectors",
+  userVacancies = "user/vacancyApplications",
+  userTests = "user/tests",
+  userTestsDetail = "user/test",
+  userImage = "user/image/profilePicture",
+  userCurriculum = "user/image/curriculumVitae",
+  userPreinterviews = "user/preinterviews",
+  userVideopreinterviews = "user/video/videopreinterviews",
+
+  signin = "credentials/signin",
+  signout = "credentials/signout",
+  emailValidator = "credentials/email-duplicate",
+  usernameValidator = "credentials/username-duplicate",
+  resetPassword = "credentials/reset-password",
+  validateToken = "credentials/validate-token-expiration",
+  changePassword = "credentials/change-password",
+  userAdministrator = "administrator/users/super-profile",
+  userAdministratorImage = "administrator/users/super-profile/image-profile",
+
+  skills = "administrator/CRUD/skills",
+  sectors = "administrator/CRUD/sectors",
+  companieslogis = "administrator/CRUD/branchOffice",
+  companieslogisUser = "administrator/CRUD/branchOfficeUser",
+
+  alliances = "administrator/CRUD/businessAlliances",
+  additionalsServices = "administrator/CRUD/additionalsServices",
+  tests = "administrator/tests",
+  testsFinished = "administrator/testsDone",
+  vacancies = "administrator/vacancy",
+  countries = "administrator/CRUD/country",
+  states = "administrator/CRUD/states",
+  cities = "administrator/CRUD/cities",
+  educationalLevels = "administrator/CRUD/studies",
+  workdays = "administrator/CRUD/workdays",
+  contractTypes = "administrator/CRUD/contractTypes",
+  companies = "administrator/users/companies",
+  languages = "administrator/CRUD/languages",
+  drivingLicenses = "administrator/CRUD/drivingLicenses",
+  civilStatus = "administrator/CRUD/maritalStatus",
+  administrators = "administrator/users/super",
+  posts = "administrator/CRUD/posts",
+  companiesCrud = "administrator/CRUD/companies",
+  userTypes = "administrator/CRUD/userTypes",
+  serviceTypes = "administrator/CRUD/serviceType",
+  identificationTypes = "administrator/CRUD/identityDocumentsTypes",
+  successStories = "administrator/CRUD/successCases",
+  interviews = "administrator/interviews",
+  psychologistsInterviews = "administrator/psychologists/interviews",
+  getUser = "administrator/users/general/details",
+  markAsViewed = "administrator/psychologists/curriculum/seen",
+  cost = "administrator/CRUD/infoCostos",
+  paymentsList = "administrator/vacancy/list/payment",
+  saveInvoice = "administrator/vacancy/attached/payment",
+  bloodTypes = "administrator/CRUD/bloodTypes",
+
+  vacancyApplications = "administrator/vacancyApplications",
+  candidates = "administrator/vacancyApplications/vacancy",
+  candidatesFits = "administrator/vacancy/vacancyApplications/personsMatching",
+  referencesValidation = "administrator/vacancy/vacancyApplications/referencesValidation",
+  downloadReport = "administrator/report/test",
+
+  interviewersSearch = "administrator/interviewers/search",
+  addCalendar = 'administrator/interviews/addCalendar',
+  sendNotification = 'administrator/interviews/sendNotification',
+  candidatesSearch = "administrator/users/general/search",
+  statistics = "administrator/KPIs",
+  userTestsComplete = "administrator/userTests",
+  companyUserTestsComplete = "companies/userTests",
+
+  factors = "administrator/factors",
+  facets = "administrator/facets",
+  fpoItems = "administrator/fpoItems",
+
+  /** COMPANIES  */
+  userCompany = "companies",
+  company_vacancies = "companies/vacancies",
+  company_vacany = "companies/vacancy",
+  company_payment = "companies/vacancies/payment",
+  company_vacancy_fits = "companies/vacancy/personsMatching",
+  company_incomeOrder = "companies/entryOrder",
+  companyPayUVacancyInvoice = "companies/vacancies/payU/invoice",
+  companyPayUPackageInvoice = "companies/packages/payU/invoice",
+  companyImage = "companies/upload/profilePicture",
+
+  /** PLANS */
+  packages = "companies/packages",
+  packageslist = "companies/list_packages",
+  packagesPay = "companies/vacancies/buy/package",
+  companies_pack = "companies/vacancies/packages",
+  companies_purchase = "companies/vacancies/purchase",
+
+  /* VacancyApplicationStatus */
+  vacancyApplymentStatus = "administrator/vacancyApplymentStatus",
+  companyVacancyApplymentStatus = "companies/vacancyApplymentStatus",
+  vacancyApplyments = "administrator/vacancyApplyments",
+  companyVacancyApplyments = "companies/vacancyApplyments",
+  vacancyApplymentUser = "administrator/vacancyApplyments/user",
+  companyVacancyApplymentUser = "companies/vacancyApplyments/user",
+
+  businessTypes = "administrator/businessTypes",
+  serviceTypeConfigs = "administrator/serviceTypeConfigs",
+
+  /* Pre interviews */
+  preinterviews = "administrator/preinterviews",
+  preinterviewsUsers = "administrator/preinterviewsUsers",
+  trainingPlans = "administrator/trainingPlans",
+
+  /* S3 files  */
+  getUrl = "administrator/getUrl",
+  downloadFile = "administrator/downloadFile",
+  judicialLaunch = "administrator/judicial",
+  judicialReject = "administrator/judicialReject",
+
+  /* Social networks */
+  socialNetworks = "administrator/CRUD/socialNetworks",
+  authSocialNetworks = "administrator/auth/Linkedin",
+
+  //personality test
+  userPersonalityTests = "user/personalityTests",
+  adminPersonalityTests = "administrator/personalityTests",
+
+  //chats
+  userChats = "user/chats",
+  adminChats = "administrator/chats",
+  userChatMessages = "user/chatsMessages",
+  userUpdateChatMessages = "user/updateChatMessages",
+  adminChatMessages = "administrator/chatsMessages",
+  //chatBot
+  userFaqs = "user/faqs",
+  //notifications
+  notifications = "administrator/notifications",
+  rejectedInterviews = "administrator/rejections/rejectedInterviews",
+  rejectedPreInterviews = "administrator/rejections/rejectedPreInterviews",
+  rejectedTestsToVacancyApplications = "administrator/rejections/rejectedTestsToVacancyApplications",
+  entryOrders = "entryOrders",
+  groupBusinesses = "groupBusinesses",
+  groupBusinessesWorkers = "groupBusinesses/workers",
+  /* qualifications */
+  qualifications = "qualifications",
+  /* statistics */
+  newStatistics = "statistics",
+  users = "users",
+  authorization = "authorization",
+  v2Interviews = "interviews",
+  v2WorkReference = "workReferences",
+  v2Blog = "blogs/posts",
+  v2PostComment = "blogs/posts/comments",
+  v2SuccessCases = "successCases",
+  judicialBackground = "judicialBackground",
+  pagesVisited = "pagesVisited"
+}

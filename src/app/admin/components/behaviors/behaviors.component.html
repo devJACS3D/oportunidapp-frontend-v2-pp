@@ -1,0 +1,157 @@
+<h4 class="text-secondary">Conductas</h4>
+<br>
+
+<ng-container *ngIf="!_loadingInit; else LoadingTemplate">
+  <ng-container *ngIf="_error == ''; else errorTemplate">
+    <ng-container *ngIf="_result?.data?.length; else noDataTemplate">
+
+      <div class="row">
+        <div class="col-md-12">
+          <form [formGroup]="FormFilter">
+
+            <div class="row" style="margin-bottom: 15px;">
+              <div class="col-md-3">
+                <input type="text" class="form-control" placeholder="Nombre" formControlName="search">
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-ok btn-ok--blue" [disabled]="_loadingFilter || !validFilterForm"
+                  (click)="filter()">
+                  <i *ngIf="_loadingFilter" class="fa fa-circle-o-notch fa-spin"></i>
+                  Buscar
+                </button>
+
+                <button class="btn btn-outline-danger ml-2" *ngIf="filterParams" (click)="clearFilter()"
+                  title="Deshacer filtros">
+                  <i *ngIf="!_loadingPage" class="fa fa-minus-circle"></i>
+                  <i *ngIf="_loadingPage" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-md-12">
+          <table class="table table-white table-hover">
+            <thead>
+              <tr>
+                <th>
+                  Conductas
+                </th>
+                <th class="head-action">
+
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let item of _result?.data;let idx = index">
+                <tr>
+                  <td (click)="showBeh(item.id)">
+                    <i _ngcontent-c14="" class="fa fa-arrow"></i> {{item.name}}
+                  </td>
+                  <td class="text-center" style="min-width: 150px">
+                    <button [disabled]="_loadingPage" *ngIf="item.behaviors.length < 4"
+                      routerLink="../../../form-behaviors/{{ item.id }}/{{ item.name }}"
+                      class="table-link btn btn-sm btn-link">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                    <button [disabled]="_loadingPage" routerLink="../../../skills/1/9/form-skills/{{ item.id }}"
+                      class="table-link btn btn-sm btn-link">
+                      <i class="fa fa-pencil"></i>
+                    </button>
+
+                    <!--<button [disabled]="_loadingPage" (click)="delete(item)" class="table-link btn btn-sm btn-link">
+                      <i class="fa fa-trash"></i>
+                    </button>-->
+                  </td>
+                </tr>
+                <ng-container *ngFor="let behaviors of item.behaviors">
+                  <tr class="border-left-beh" id="idx" *ngIf="behaviors.skillId===index">
+                    <!-- {id: 24, name: "Conducta #1", skillId: 8} -->
+                    <td class="paddign-left-beh">
+                      {{behaviors.name}}
+                    </td>
+                    <td class="text-center">
+                      <button [disabled]="_loadingPage" (click)="saveLocabeh(item.behaviors)" routerLink="../../../form-behaviors/{{ item.id  }}/{{item.name}}/edit"
+                        class="table-link btn btn-sm btn-link">
+                        <i class="fa fa-pencil" style="color: gray"></i>
+                      </button>
+                      <!-- <button [disabled]="_loadingPage" (click)="delete(behaviors)"
+                        class="table-link btn btn-sm btn-link">
+                        <i class="fa fa-trash"></i>
+                      </button> -->
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-md-12">
+          <app-pagination [pagination]="_pagination" [loader]="_loadingPage" (_changePage)="goToPage($event)">
+          </app-pagination>
+        </div>
+      </div>
+
+    </ng-container>
+
+  </ng-container>
+</ng-container>
+
+
+<router-outlet></router-outlet>
+
+<ng-container *ngIf="_showConfirm">
+  <app-confirmation [_message]="_confirmMessage" [_loadingConfirm]="_loadingConfirm" (close)="closeConfirm($event)"
+    (confirm)="confirm($event)">
+  </app-confirmation>
+</ng-container>
+
+
+<ng-template #LoadingTemplate>
+  <div class="row">
+    <div class="col">
+      Cargando...
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #noDataTemplate>
+  <div class="row">
+    <div class="col text-center text-secondary" *ngIf="!filterParams">
+      <i class="fa fa-inbox fa-4x"></i>
+      <h4 class="h4">
+        Aún no se han creado registros.
+      </h4>
+
+      <button class="btn btn-ok btn-ok--blue" *ngIf="!_error" routerLink="./form-skills">
+        Crear nueva Competencia
+      </button>
+    </div>
+    <div class="col text-center text-secondary" *ngIf="filterParams">
+      <i class="fa fa-inbox fa-4x"></i>
+      <h4 class="h4 text-secondary">
+        No se encontrarón resultados con los párametros indicados.
+      </h4>
+      <button class="btn btn-outline-secondary" *ngIf="filterParams" (click)="clearFilter()" title="Deshacer filtros">
+        <i *ngIf="_loadingPage" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        Deshacer filtros
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <div class="row">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-inbox fa-4x"></i>
+      <h4 class="h4">
+        Error cargando registros
+      </h4>
+      <p class="text-center">
+        {{ _error }}
+      </p>
+    </div>
+  </div>
+</ng-template>

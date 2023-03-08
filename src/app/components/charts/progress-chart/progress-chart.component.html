@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-12" *ngFor="let data of datasets; let i = index">
+    <div class="row align-items-center my-2 p-2">
+      <div class="col-12 col-sm-5 col-md-3">{{ data.label }}</div>
+      <div class="col-12 col-sm-5" [ngClass]="{'col-md-9': !showCount,'col-md-7':showCount}">
+        <div
+          class="progress"
+          [ngStyle]="{
+            'border-radious': radious,
+            height: height,
+            backgroundColor: '#d8d8d8'
+          }"
+        >
+          <div
+            class="progress-bar"
+            role="progressbar"
+            tooltipClass="ngTooltipTopBlack"
+            [ngbTooltip]="data.tooltip"
+            placement="top"
+            [ngStyle]="{
+              width: data.progress + percentage,
+              'background-color': setBackgroundColor(i, datasets?.length)
+            }"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="showCount">
+        <div class="col-12 col-sm-2">
+          <span class="font-weight-bold" [ngStyle]="{ color: textColor }">
+            {{ data.progress }}
+          </span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

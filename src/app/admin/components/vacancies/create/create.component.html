@@ -1,0 +1,98 @@
+<div class="container">
+  <page-header [header]="title" [backTo]="backTo()" class="my-4"></page-header>
+
+  <ng-container *ngIf="!errors; else errorTemplate">
+    <div *ngIf="vacancyForm" class="row flex-md-row flex-column-reverse">
+      <form [formGroup]="vacancyForm" class="col-12 col-md-8">
+        <!-- Card Header for  "aspectos generales" -->
+        <card-header header="Aspectos generales"></card-header>
+        <!-- General form Form -->
+        <app-general-form (onError)="handleError($event)" [formGroup]="vacancyForm"></app-general-form>
+
+        <card-header header="Detalles de oferta"></card-header>
+        <!-- OfferDetails -->
+        <offer-details (onError)="handleError($event)" [formGroup]="vacancyForm"></offer-details>
+
+        <card-header header="Requerimientos de la oferta"></card-header>
+        <!-- OfferRequirements -->
+        <offer-requeriments (onError)="handleError($event)" [formGroup]="vacancyForm"></offer-requeriments>
+
+        <!-- ................................................................................................. -->
+        <!-- BUSINESS SUBMIT BUTTONS -->
+        <!-- ................................................................................................. -->
+        <ng-container *ShowAuthorized="AUTHORIZED.BUSINESS">
+          <ng-container *BusinessType="businessTypes.OUTSOURCING">
+            <button [disabled]="vacancyForm.invalid || isSubmitting" (click)="businessHandleSaveVacancy()"
+              *ngIf="(businessHasPackages$ | async) > 0; else payForVacancy" class="btn btn-block btn-ok--blue">
+              <ng-container *ngIf="!isSubmitting; else savingData">
+                Continuar
+              </ng-container>
+            </button>
+
+            <ng-template #payForVacancy>
+              <button *ngIf="!isSubmitting; else savingData" [disabled]="vacancyForm.invalid || isSubmitting"
+                (click)="businessPayFullVacancy()" class="btn btn-block btn-ok--blue">
+                Continuar
+              </button>
+            </ng-template>
+          </ng-container>
+
+          <ng-container *BusinessType="businessTypes.TEMPORALIDAD">
+            <button [disabled]="vacancyForm.invalid || isSubmitting" (click)="businessSaveVacancy()"
+              class="btn btn-block btn-ok--blue">
+              <ng-container *ngIf="!isSubmitting; else savingData">
+                Continuar
+              </ng-container>
+            </button>
+          </ng-container>
+
+          <ng-template #savingData>
+            <button [disabled]="true" class="btn btn-block btn-ok--blue">
+              Guardando
+              <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+            </button>
+          </ng-template>
+        </ng-container>
+
+        <!-- ................................................................................................. -->
+        <!-- ADMIN PSYCHOLOGIST SUBMIT BUTTONS -->
+        <!-- ................................................................................................. -->
+        <ng-container *ShowAuthorized="[AUTHORIZED.ADMIN, AUTHORIZED.PSYCHOLOGIST]">
+          <button (click)="continueToTestForm()" class="btn btn-block btn-ok--blue" [disabled]="vacancyForm.invalid">
+            Continuar
+          </button>
+        </ng-container>
+      </form>
+
+      <div class="col-12 d-md-block col-md-4">
+        <vacancie-card-detail #VacancieCard [vacancy]="vacancyForm.value" (onFiles)="file = $event"
+          [formGroup]="vacancyForm">
+        </vacancie-card-detail>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Error message -->
+  <ng-template #errorTemplate>
+    <div class="row">
+      <div class="col text-center text-secondary">
+        <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+        <h4 class="h4">
+          Ha ocurrido un error
+        </h4>
+        <p class="text-center">
+          {{ errors }}
+        </p>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<!-- ................................................................................................. -->
+<!-- TESTS MODAL -->
+<!-- ................................................................................................. -->
+<ng-container *ShowAuthorized="[AUTHORIZED.ADMIN, AUTHORIZED.PSYCHOLOGIST]">
+  <tests-form (onError)="handleError($event)" [isSubmitting]="isSubmitting" [tests]="tests" *ngIf="showModalTest"
+    (onClose)="closeTestForm($event)" (handleSave)="adminSaveVacancy($event)" [infoReque]="infoInsert">
+  </tests-form>
+</ng-container>

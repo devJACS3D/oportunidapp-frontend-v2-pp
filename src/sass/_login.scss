@@ -1,0 +1,49 @@
+.login-container{
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+}
+
+.info-container{
+    background: url('../assets/background_logis.png');
+    background-repeat: no-repeat;
+	// background-size: 100%;
+	background-size: cover;
+	background-position: center;
+    background-color: #002c6a;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 2.5rem;
+}
+
+.main-container{
+	display: grid;
+	height: 100%;
+	grid-template-columns: 40% auto;
+	grid-template-rows: auto;
+}
+
+@include media-breakpoint-down(sm) {
+	.main-container {
+		grid-template-columns: 100%;
+	}
+
+	.info-container{
+		display: none;
+	}
+}
+
+
+@include media-breakpoint-only(md) {
+	.main-container {
+		grid-template-columns: 80% auto;
+	}
+}
+
+@include media-breakpoint-only(lg) {
+	.main-container {
+		grid-template-columns: 60% auto;
+	}
+}

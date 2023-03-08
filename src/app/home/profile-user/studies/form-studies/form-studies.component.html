@@ -1,0 +1,232 @@
+<h5 class="mt-2 mb-3">{{ _title }} información académica</h5>
+<p>Los campos marcados con un asterisco (*) son obligatorios</p>
+<hr class="mt-3 mb-4">
+<!------------------------------------------------------------------------------------------------------------------------>
+<!------------------------------------ FORM STUDIES ---------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------>
+<form [formGroup]="studiesForm" (ngSubmit)="save()">
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ STUDIES LEVELS ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<div class="form-group row">
+		<div class="col-12 col-md-12">
+			<label for="">Nivel de estudio*</label>
+			<select class="form-control input-2 study" formControlName="studiesLevelId">
+				<option value="">Seleccionar</option>
+				<option *ngFor="let level of _educationalLevels" [value]="level.id">
+					{{ level.name }}
+				</option>
+			</select>
+			<i class="fa fa-caret-down" aria-hidden="true"></i>
+			<span class="text-danger invalid-control"
+				*ngIf="studiesForm.controls.studiesLevelId.invalid && studiesForm.controls.studiesLevelId.dirty">
+				Campo requerido.
+			</span>
+		</div>
+	</div>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ INSTITUTION ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<div class="form-group row">
+		<div class="col-12 col-md-12">
+			<label for="">Institución*</label>
+			<input type="text" class="form-control input-2" formControlName="institution" maxlength="100">
+			<span class="text-danger invalid-control"
+				*ngIf="studiesForm.controls.institution.invalid && studiesForm.controls.institution.dirty">
+				Campo requerido
+			</span>
+		</div>
+	</div>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ TITLE ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<div class="form-group row">
+		<div class="col-12 col-md-12">
+			<label for="">Título*</label>
+			<input type="text" class="form-control input-2" formControlName="title" maxlength="100">
+			<span class="text-danger invalid-control"
+				*ngIf="studiesForm.controls.title.invalid && studiesForm.controls.title.dirty">
+				Campo requerido
+			</span>
+		</div>
+	</div>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ FINISHED DATE ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<label for="">Fecha de Finalización*</label><br>
+	<div class="form-group row">
+		<div class="col-md-9 col-xs-12 col-sm-12">
+			<div class="row">
+				<div class="col-md-4 col-xs-12 col-sm-12 mb-1">
+					<select class="form-control input-2" formControlName="daysFinish">
+						<option value="" disabled class="font-weight-normal">DD</option>
+						<option [selected]="item == studiesForm.controls.daysFinish.value"
+							*ngFor="let item of _daysFinish">
+							{{item}}
+						</option>
+					</select>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+					<span class="text-danger invalid-control"
+						*ngIf="studiesForm.controls.daysFinish.invalid && studiesForm.controls.daysFinish.dirty">
+						Campo requerido
+					</span>
+				</div>
+				<div class="col-md-4 col-xs-12 col-sm-12 mb-1">
+					<select class="form-control input-2" formControlName="monthsFinish">
+						<option value="" disabled class="font-weight-normal">MM</option>
+						<option [selected]="item == studiesForm.controls.monthsFinish.value"
+							*ngFor="let item of _monthsFinish">
+							{{item}}
+						</option>
+					</select>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+					<span class="text-danger invalid-control"
+						*ngIf="studiesForm.controls.monthsFinish.invalid && studiesForm.controls.monthsFinish.dirty">
+						Campo requerido
+					</span>
+				</div>
+				<div class="col-md-4 col-xs-12 col-sm-12 mb-1">
+					<select class="form-control input-2" formControlName="yearsFinish">
+						<option value="" disabled class="font-weight-normal">AAAA</option>
+						<option [selected]="item == studiesForm.controls.yearsFinish.value"
+							*ngFor="let item of _yearsFinish">
+							{{item}}
+						</option>
+					</select>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+					<span class="text-danger invalid-control"
+						*ngIf="studiesForm.controls.yearsFinish.invalid && studiesForm.controls.yearsFinish.dirty">
+						Campo requerido
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3 col-xs-12 col-sm-12">
+		</div>
+	</div>
+	<hr class="mt-4 mb-4">
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ CERTIFICATE ACADEMICY-------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<h5 class="mb-3">Certificado de estudios académico</h5>
+	<ng-container *ngIf="!payload.cea">
+		<div class="form-group row">
+			<div class="col-md-6 col-xs-12 col-sm-12">
+				<div class="pt-2 pb-2 pl-3 border-radius-5 input-2">
+					<div class="custom-control custom-checkbox mt-1">
+						<input (change)="checkCertificate($event.target.checked, 'isInTramite')"
+							formControlName="isSinCertificate" type="checkbox" class="custom-control-input"
+							id="isSinCertificate">
+						<label class="custom-control-label" for="isSinCertificate">
+							Sin certificación académica
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-xs-12 col-sm-12">
+				<div class="pt-2 pb-2 pl-3 border-radius-5 input-2">
+					<div class="custom-control custom-checkbox mt-1">
+						<input (change)="checkCertificate($event.target.checked, 'isSinCertificate')"
+							formControlName="isInTramite" type="checkbox" class="custom-control-input" id="isInTramite">
+						<label class="custom-control-label" for="isInTramite">
+							Documento en trámite
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ ADJUNT DOCUMENT FILE---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<ng-container *ngIf="!payload.cea">
+		<div class="form-group row">
+			<div class="col-12">
+				<button class="btn input-2" (click)="onUploadCertificate()" type="button" [disabled]="itemDisabled()">
+					<div class="row">
+						<div class="col-2">
+							<img class="imageButton" src="assets/userprofile/Add.png" style="width: 1.6rem;">
+						</div>
+						<div class="col-auto">{{academicFile.Name | truncate: 20}}</div>
+					</div>
+				</button>
+			</div>
+		</div>
+	</ng-container>
+	<!-- If exists document cea -->
+	<ng-container *ngIf="payload.cea">
+		<div class="form-group row">
+			<div class="col-12">
+				<preview-document [file]="payload.cea" [loadingColor]="'white'" [title]="'Certificado'"
+					(onPreviewDocument)="onPreviewDocument($event)">
+				</preview-document>
+			</div>
+		</div>
+	</ng-container>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ VIGENCE CERTIFICATE ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<div class="form-group row">
+		<div class="custom-control custom-radio custom-control-inline">
+			<div class="col-12">
+				<input (change)="checkDocument($event.target.checked)" formControlName="isInProcess" id="isInProcess"
+					type="checkbox" class="custom-control-input">
+				<label class="custom-control-label" for="isInProcess">¿Este documento tiene fecha de vigencia?</label>
+			</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<div class="col-md-6 col-xs-12 col-sm-12 mb-1">
+			<label for="">Fecha inicio de vigencia*</label>
+			<div class="input-group">
+				<input type="text" class="form-control input-2 calendar" formControlName="startDateCertificate"
+					ngbDatepicker #f_startDate="ngbDatepicker" placeholder="dd-mm-aaaa" readonly>
+				<div class="input-group-append">
+					<button [disabled]="f_startDate.disabled" class="btn  button-addon2" type="button"
+						(click)="f_startDate.toggle();">
+						<img class="imageButton" src="assets/userprofile/icon_calendar.png" style="width: 1.3rem;">
+					</button>
+				</div>
+			</div>
+			<span class="text-danger invalid-control"
+				*ngIf="studiesForm.controls.startDateCertificate.invalid && studiesForm.controls.startDateCertificate.dirty">
+				Campo requerido
+			</span>
+		</div>
+		<div class="col-md-6 col-xs-12 col-sm-12 mb-1">
+			<label for="">Fecha fin de vigencia*</label>
+			<div class="input-group">
+				<input type="text" class="form-control input-2 calendar" formControlName="finishDateCertificate"
+					ngbDatepicker #f_finishedDate="ngbDatepicker" placeholder="dd-mm-aaaa" readonly>
+				<div class="input-group-append">
+					<button [disabled]="f_finishedDate.disabled" class="btn  button-addon2" type="button"
+						(click)="f_finishedDate.toggle();">
+						<img class="imageButton" src="assets/userprofile/icon_calendar.png" style="width: 1.3rem;">
+					</button>
+				</div>
+			</div>
+			<span class="text-danger invalid-control"
+				*ngIf="studiesForm.controls.finishDateCertificate.invalid && studiesForm.controls.finishDateCertificate.dirty">
+				Campo requerido
+			</span>
+		</div>
+	</div>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ SAVE DATA ------------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<div class="form-group row justify-content-center">
+		<div>
+			<button type="submit" [disabled]="studiesForm.invalid || loadingData"
+				class="btn btn-ok--blue btn-block btn-lg">
+				<ng-container *ngIf="!(submitting$ | async); else loading">
+					{{_title}} Estudio
+				</ng-container>
+				<ng-template #loading>
+					<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+					Guardando
+				</ng-template>
+			</button>
+		</div>
+	</div>
+
+</form>

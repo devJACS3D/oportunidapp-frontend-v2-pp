@@ -1,0 +1,17 @@
+<div class="row flex-column m-0 justify-content-center align-items-center" [formGroup]="formGroup">
+  <div class="col-12">
+    <p class="small">{{title}}</p>
+  </div>
+  <div class="col-12 row">
+    <div class="col form-check form-check-inline">
+      <input [formControlName]="id" (change)="handleCheckBoxChange($event)" class="form-check-input" type="radio" [name]="id" [id]="id+'yes'" value="Si">
+      <label class="form-check-label" [for]="id">Si</label>
+    </div>
+
+    <div class="col form-check form-check-inline">
+      <input [formControlName]="id" (change)="handleCheckBoxChange($event)" class="form-check-input" type="radio" [name]="id" [id]="id+'no'" value="No">
+      <label class="form-check-label" [for]="id">No</label>
+    </div>
+  </div>
+
+</div>

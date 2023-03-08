@@ -1,0 +1,70 @@
+<div class="row" *ngIf="_loadingForm">
+	<div class="col-md-12">
+		Cargando...
+	</div>
+</div>
+
+<div class="row" *ngIf="!_loadingForm && !_Entity">
+	<div class="col-md-12">
+		Error cargando formulario
+	</div>
+</div>
+
+<ng-container *ngIf="!_loadingForm && _Entity">
+	<form [formGroup]="FormtTest">
+		<div class="card">
+			<div class="card-body">
+				<h4> {{ _title }} </h4>
+				<hr>
+				<div class="row">
+					<div class="col-md-6 form-group">
+						<label for="">Nombre de la prueba</label>
+						<input type="text" class="form-control input-2" formControlName="name" maxlength="100">
+					</div>
+					<div class="col-md-6 form-group">
+						<label for="">Sector</label>
+						<select name="" id="" class="form-control input-2" formControlName="sectorId">
+							<option value="">Seleccione uno</option>
+							<option *ngFor="let item of _sectors" [value]="item.id">{{ item.name }}</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 form-group">
+						<label for="">Descripción</label>
+						<textarea name="" id="" formControlName="description" maxlength="500" class="form-control input-2" cols="30" rows="2"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card headerCard">
+			<div class="card-header">
+				<!-- -->
+ 				<button class="btn btn-ok--blue float-right"  [disabled]="_loading || FormtTest.invalid " 
+				 (click)="save()">
+					<i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+					{{ _btnText }}
+				</button>
+
+				<div ngbDropdown class="d-inline-block float-right" style="margin-right: 10px;">
+					<button class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle [disabled]="!_skills.length || _loading">
+						<i class="fa fa-plus" aria-hidden="true"></i>
+						Agregar competencia
+					</button>
+					<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+						<ng-container *ngFor="let item of _skills; let i=index">
+							<button class="dropdown-item" (click)="addSkill(item, i);" *ngIf="item.behaviors?.length > 0">
+								{{ item.name }}
+							</button>
+						</ng-container>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<app-item-test-skill *ngFor="let items of itemsFormArray; let i=index" [index]="i" [item]="items" (validForm)="invalidForm($event)"  (removed)="deleteItem(i)" (behaviorsArray)="addQuestions($event)" (idSkillRemved)="addSkillMenu($event)">
+		</app-item-test-skill>
+
+	</form>
+</ng-container>

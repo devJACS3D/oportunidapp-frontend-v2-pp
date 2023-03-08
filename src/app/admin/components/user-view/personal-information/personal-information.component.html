@@ -1,0 +1,159 @@
+<ng-container *ngIf="userHasInfo(); else noDataToDisplayTemplate">
+  <div class="row">
+    <div class="col">
+      <div class="row">
+        <div
+          class="col-12 mt-4 col-md-6 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.firstName)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Primer Nombre</h4>
+          <p>{{ user.firstName }}</p>
+        </div>
+        <div
+          class="col-12 mt-4 col-md-6 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.secondName)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Segundo Nombre
+          </h4>
+          <p>{{ user.secondName }}</p>
+        </div>
+
+        <div
+          class="col-12 mt-4 col-md-6 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.lastName)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Primer Apellido
+          </h4>
+          <p>{{ user.lastName }}</p>
+        </div>
+        <div
+          class="col-12 mt-4 col-md-6 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.secondLastName)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Segundo Apellido
+          </h4>
+          <p>{{ user.secondLastName }}</p>
+        </div>
+
+        <div
+          class="col-12 mt-4 col-md-6 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.identification)"
+        >
+        <h4 class="text-semi-dark fs-1rem font-weight-bold">Documento</h4>
+          <div class="row">
+            <div class="col-12 col-md-auto text-center text-md-left">
+              {{ user.identificationType.name }}
+            </div>
+            <div class="col text-center text-md-left">
+              <p>{{ user.identification }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col-12 mt-4 col-md-6 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.city)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Departamento
+          </h4>
+          <p>{{ user.city?.state.name }}</p>
+        </div>
+
+        <div
+          class="col-12 mt-4 col-md text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.birthday)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Fecha de nacimiento
+          </h4>
+          <p>{{ user.birthday | date: "dd/MM/yyyy" }}</p>
+        </div>
+
+        <div
+          class="col-12 mt-4 col-md-6 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.credentialUser)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Correo electrónico
+          </h4>
+          <p>{{ user.credentialUser.email }}</p>
+        </div>
+        <div
+          class="col-12 mt-4 col-md-6 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.cellphone)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Celular</h4>
+          <p>{{ user.cellphone }}</p>
+        </div>
+
+        <div
+          class="col-12 mt-4 col-md-6 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.telephone)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Teléfono</h4>
+          <p>{{ user.telephone }}</p>
+        </div>
+        <div class="col-12 mt-4 col-md-6 text-center text-md-left">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Perfil disponible
+          </h4>
+          <p>Si</p>
+        </div>
+
+        <div
+          class="col-12 mt-4 col-md-6 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.maritalGender)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Género</h4>
+          <p>{{ user.maritalGender.name }}</p>
+        </div>
+        <div
+          class="col-12 mt-4 col-md-6 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.maritalStatus)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Estado civil</h4>
+          <p>{{ user.maritalStatus.name }}</p>
+        </div>
+
+        <div
+          class="col-12 mt-4 col-md-6"
+          *ngIf="!utils.isUndefined(user?.availabilityTravel)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Disponibilidad para viajar
+          </h4>
+          <p>{{ user.availabilityTravel ? "Si" : "No" }}</p>
+        </div>
+        <div
+          class="col-12 mt-4 col-md-6"
+          *ngIf="!utils.isUndefined(user?.availabilityToRelocation)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Disponibilidad para reubicación
+          </h4>
+          <p>{{ user.availabilityToRelocation ? "Si" : "No" }}</p>
+        </div>
+
+        <div
+          class="col-12 mt-4 col-md-6"
+          *ngIf="!utils.isUndefined(user?.peopleDiscapacity)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Discapacidad</h4>
+          <p>{{ user.peopleDiscapacity ? "Si" : "No" }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #noDataToDisplayTemplate>
+  <div class="row">
+    <div class="col-12 mt-4 text-center">
+      <img [src]="utils.assets('warning-icon.png')" alt="" />
+      <p>No se ha encontrado información personal.</p>
+    </div>
+  </div>
+</ng-template>

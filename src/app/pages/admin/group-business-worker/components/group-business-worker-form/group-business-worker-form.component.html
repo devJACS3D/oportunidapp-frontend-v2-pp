@@ -1,0 +1,66 @@
+<form (ngSubmit)="save()" class="row" [formGroup]="workerForm">
+  <div class="col-12 col-md-6 form-group">
+    <label>Nombre y apellido</label>
+    <input
+      type="text"
+      class="form-control input-3"
+      formControlName="fullName"
+    />
+    <field-error [fcontrol]="workerForm.get('fullName')"></field-error>
+  </div>
+
+  <div class="col-12 col-md-6 form-group">
+    <label>Correo electrónico</label>
+    <input type="email" class="form-control input-3" formControlName="email" />
+    <field-error [fcontrol]="workerForm.get('email')"></field-error>
+  </div>
+
+  <div class="col-12 col-md-6 form-group">
+    <label class="font-weight-semi-bold">Estádo</label>
+    <ng-select
+      (change)="getCities($event)"
+      notFoundText="No se han encontrado resultados"
+      typeToSearchText="Buscar estádo"
+      clearAllText="Limpiar"
+      placeholder="Seleccionar estádo"
+      appendTo="body"
+      [formControl]="stateControl"
+    >
+      <ng-option *ngFor="let state of states$ | async" [value]="state.id"
+        >{{ state.name }}
+      </ng-option>
+    </ng-select>
+  </div>
+  <div class="col-12 col-md-6 form-group">
+    <label class="font-weight-semi-bold">Ciudad</label>
+    <ng-select
+      formControlName="cityId"
+      notFoundText="No se han encontrado resultados"
+      typeToSearchText="Buscar ciudad"
+      clearAllText="Limpiar"
+      placeholder="Seleccionar ciudad"
+      appendTo="body"
+    >
+      <ng-option *ngFor="let city of cities$ | async" [value]="city.id"
+        >{{ city.name }}
+      </ng-option>
+    </ng-select>
+  </div>
+
+  <div class="col-6 mx-auto">
+    <button
+      [disabled]="workerForm.invalid || (submitting$ | async)"
+      type="submit"
+      class="btn btn-block btn-ok--blue "
+    >
+      <ng-container *ngIf="!(submitting$ | async); else saving">
+        Guardar
+      </ng-container>
+
+      <ng-template #saving>
+        Guardando
+        <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+      </ng-template>
+    </button>
+  </div>
+</form>

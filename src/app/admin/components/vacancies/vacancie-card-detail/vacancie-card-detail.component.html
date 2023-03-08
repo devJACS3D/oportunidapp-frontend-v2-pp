@@ -1,0 +1,37 @@
+<ng-container [formGroup]="formGroup" *ngIf="formGroup">
+  <div class="rounded card shadow mb-4">
+    <div class="card-header bg-dark-blue text-light text-center">
+      <h2 class="lead-header m-0 p-0 py-3 px-4 text-center">Detalle de la vacante</h2>
+    </div>
+
+    <ng-container *BusinessType="businessTypes.OUTSOURCING" >
+      <div class="card-body d-flex justify-content-center align-items-center" >
+        <p class="font-weight-bold m-0 p-0">Valor:</p>
+        <span *ngIf="!(loading$ | async);else loadingTemplate" class="ml-1">{{total |
+          currency:'COP':'symbol-narrow'}}</span>
+        <ng-template #loadingTemplate>
+          <i class=" ml-1 fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        </ng-template>
+      </div>
+    </ng-container>
+   
+  </div>
+
+  <div class="rounded card shadow">
+    <div class="card-body">
+
+      <div class="row mb-2">
+        <div class="col">
+          <div class="bg-image-responsive vacancy-image mx-auto" [style.background]="'url(' + renderImage + ')'">
+          </div>
+        </div>
+      </div>
+
+      <input type="file" (change)="onInputImageChange($event)" id="inputFacePhoto" accept="image/*"
+        style="display: none;">
+      <label class="btn btn-block btn-ok btn-ok--blue" for="inputFacePhoto">
+        Subir archivo
+      </label>
+    </div>
+  </div>
+</ng-container>

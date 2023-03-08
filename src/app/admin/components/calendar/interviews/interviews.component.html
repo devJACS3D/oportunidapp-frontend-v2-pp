@@ -1,0 +1,101 @@
+<page-header [header]="header" [backButton]="false"></page-header>
+
+<div class="row mt-2">
+  <div class="col">
+    <card-wrapper [rounded]="false">
+      <app-calendar-header
+        [excludeDays]="excludeDays"
+        [weekStartsOn]="weekStartsOn"
+        [(view)]="view"
+        [(viewDate)]="viewDate"
+        (viewDateChange)="getEvents()"
+        (viewChange)="getEvents()"
+      >
+      </app-calendar-header>
+    </card-wrapper>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="text-center text-secondary">
+    <i class="fa fa-circle-o-notch fa-spin fa-2x"></i>
+    Cargando eventos...
+  </div>
+</ng-template>
+
+<div class="row">
+  <div class="col-12">
+    <card-wrapper [rounded]="false">
+      <!-- *ngIf="events$ | async; let calendarEvents; else: loading" -->
+      <ng-container *ngIf="events.length >= 0; else loading" >
+        <div [ngSwitch]="view">
+          <mwl-calendar-month-view
+            *ngSwitchCase="'month'"
+            [viewDate]="viewDate"
+            [events]="events"
+            [excludeDays]="excludeDays"
+            [locale]="locale"
+            [activeDayIsOpen]="activeDayIsOpen"
+            [refresh]="refresh"
+            (dayClicked)="
+              dayClicked($event.day);
+              hourSegmentClicked({ hour: 10, minute: 0, second: 0 })
+            "
+            (eventClicked)="eventClicked($event.event)"
+            >
+          <!--   (beforeViewRender)="beforeMonthViewRender($event)" -->
+          </mwl-calendar-month-view>
+          <mwl-calendar-week-view
+            *ngSwitchCase="'week'"
+            [viewDate]="viewDate"
+            [events]="events"
+            [excludeDays]="excludeDays"
+            [weekStartsOn]="weekStartsOn"
+            [locale]="locale"
+            [dayStartHour]="5"
+            [dayEndHour]="19"
+            (eventClicked)="eventClicked($event.event)"
+            (dayHeaderClicked)="viewDate = $event.day.date; view = 'day'"
+            (hourSegmentClicked)="hourSegmentClicked($event)"
+            [refresh]="refresh"
+            >
+           <!--  (beforeViewRender)="beforeWeekViewRender($event)" -->
+          </mwl-calendar-week-view>
+          <mwl-calendar-day-view
+            *ngSwitchCase="'day'"
+            [viewDate]="viewDate"
+            [events]="events"
+            [locale]="locale"
+            [dayStartHour]="7"
+            [dayEndHour]="19"
+            (eventClicked)="eventClicked($event.event)"
+            (hourSegmentClicked)="hourSegmentClicked($event)"
+            [refresh]="refresh"
+            >
+            <!-- (beforeViewRender)="beforeDayViewRender($event)" -->
+          </mwl-calendar-day-view>
+        </div>
+      </ng-container>
+    </card-wrapper>
+  </div>
+</div>
+
+<!-- <ng-template #eventTemplate let-weekEvent="weekEvent" let-tooltipPlacement="tooltipPlacement"
+      let-eventClicked="eventClicked" let-tooltipTemplate="tooltipTemplate"
+      let-tooltipAppendToBody="tooltipAppendToBody" let-tooltipDisabled="tooltipDisabled">
+      <div class="cal-event" [style.backgroundColor]="weekEvent.event.color?.secondary"
+          [style.borderColor]="weekEvent.event.color?.primary" [mwlCalendarTooltip]="
+            !tooltipDisabled
+              ? (weekEvent.event.title
+                | calendarEventTitle: 'weekTooltip':weekEvent.event)
+              : ''
+          " [tooltipPlacement]="tooltipPlacement" [tooltipEvent]="weekEvent.event"
+          [tooltipTemplate]="tooltipTemplate" [tooltipAppendToBody]="tooltipAppendToBody"
+          (mwlClick)="eventClicked.emit()">
+          <mwl-calendar-event-actions [event]="weekEvent.event" [customTemplate]="eventActionsTemplate">
+          </mwl-calendar-event-actions>
+          &ngsp;
+          <mwl-calendar-event-title [event]="weekEvent.event" [customTemplate]="eventTitleTemplate" view="week">
+          </mwl-calendar-event-title>
+      </div>
+  </ng-template> -->

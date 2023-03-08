@@ -1,0 +1,12 @@
+<div class="bg-oportunidapp-light-two">
+  <div class="container">
+    <div class="col-12  text-center">
+      <h1 class="section-title" style="padding: 60px;">Postulantes</h1>
+    </div>
+    <div class="row  card-deck">
+      <div *ngFor="let post of _postulants" class="col-md-4 col-sm-6 animated fadeIn" style="margin-bottom: 25px;">
+        <app-card-postulants [postulant]="post" *ngIf="post.user.image" (viewDetail)="goTo($event)"></app-card-postulants>
+      </div>
+    </div>
+  </div>
+</div>

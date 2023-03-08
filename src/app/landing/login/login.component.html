@@ -1,0 +1,108 @@
+<div class="main-container">
+  <div class="login-container" style="min-width: 350px;">
+    <img style="width: 200px;" src="assets/banner.png" />
+    <br />
+    <br />
+    <br />
+    <span class="text-muted">Bienvenidos! Favor entrar con tu cuenta.</span>
+    <br />
+    <br />
+    <br />
+    <ng-container *ngIf="!(loggedUser$ | async); else loading">
+      <form [formGroup]="formLogin">
+        <div class="row">
+          <div class="col-md-12 form-group text-left">
+            <input
+              type="text"
+              formControlName="email"
+              class="form-control input-1"
+              required
+              (focus)="clearMessage()"
+            />
+            <label class="input-1__label">Usuario</label>
+            <span
+              class="text-danger invalid-control"
+              *ngIf="
+                formLogin.controls.email.invalid &&
+                formLogin.controls.email.dirty
+              "
+            >
+              Campo email o usuario requerido.
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group text-left">
+            <input
+              type="password"
+              formControlName="password"
+              class="form-control input-1"
+              required
+              (focus)="clearMessage()"
+            />
+            <label class="input-1__label">Clave</label>
+            <span
+              class="text-danger invalid-control"
+              *ngIf="
+                formLogin.controls.password.invalid &&
+                formLogin.controls.password.dirty
+              "
+            >
+              Campo contraseña requerido.
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 form-group">
+            <span class="text-danger">
+              {{ errorMessage }}
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <!--
+					  <div class="col-md-6 form-group text-left">
+						  <div class="custom-control custom-checkbox">
+							  <input type="checkbox" class="custom-control-input" id="customCheck1">
+							   <label class="custom-control-label" for="customCheck1">Recuérdame</label> 
+						  </div>
+					  </div>-->
+          <div class="col-md-12 form-group">
+            <!-- <a [routerLink]="[{outlets: {modal: 'password-recovery'}}]"> -->
+            <a routerLink="password-recovery">
+              Recordar contraseña
+            </a>
+          </div>
+        </div>
+        <div class="row justify-content-md-center">
+          <div class="col-md-6 form-group">
+            <button
+              [disabled]="_loading"
+              class="btn btn-block btn-lg btn-ok btn-ok--blue"
+              (click)="logIn()"
+            >
+              <i
+                *ngIf="_loading"
+                class="fa fa-circle-o-notch fa-spin"
+                aria-hidden="true"
+              ></i>
+              Ingresa
+            </button>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+
+    <ng-template #loading>
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  <div class="info-container">
+    <!-- aqui va el background -->
+  </div>
+</div>
+<router-outlet></router-outlet>

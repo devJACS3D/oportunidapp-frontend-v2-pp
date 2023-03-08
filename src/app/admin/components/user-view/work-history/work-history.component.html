@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col">
+    <card-wrapper [rounded]="false" *ngFor="let history of workHistory">
+
+      <div class="row">
+        <div class="col-auto">
+          <img class="img-fluid" style="height: 25px;" [src]="util.assets('portfolio.png')" alt="Cap">
+        </div>
+        <div class="col">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold m-0">{{history.employment}}</h4>
+          <p class="font-weight-light m-0 fs-1rem">{{history.company}}</p>
+          <p class="font-weight-light m-0 fs-1rem mb-3">{{history.startDate | date: 'dd/MM/yyyy'}} -
+            {{history?.finishDate | date: 'dd/MM/yyyy' || 'actualidad'}}</p>
+          <p class="font-weight-light m-0 fs-1rem mb-3">{{history.functions}}</p>
+
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <h4 class="text-semi-dark fs-1rem font-weight-bold m-0">Jefe inmediato:</h4>
+            </div>
+            <div class="col">
+              <p class="font-weight-light m-0 fs-1rem">{{history.boss}}</p>
+            </div>
+            <div class="col-12"></div>
+            <div class="col-auto">
+              <h4 class="text-semi-dark fs-1rem font-weight-bold m-0">Motivo de retiro:</h4>
+            </div>
+            <div class="col">
+              <p class="font-weight-light m-0 fs-1rem">{{history.reasonWithdrawal}}</p>
+            </div>
+          </div>
+
+          <div class="row mt-3" *ShowAuthorized="[AUTHORIZED.ADMIN,AUTHORIZED.PSYCHOLOGIST]">
+            <ng-container *ngIf="applyment.vacancyApplyment?.vacancyApplymentStatusId == steps.REF_BACKGROUND_CHECK">
+              <div class="col-auto rounded">
+                <button [disabled]="history?.validationReferencesLaboral" (click)="showValidate(history.id)"
+                  class="btn reference-button">
+                  <span>{{getVerifiedText(history?.validationReferencesLaboral)}}</span>
+                </button>
+              </div>
+            </ng-container>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="download">
+        <button-download-files [file]="history.cea"></button-download-files>
+      </div>
+
+    </card-wrapper>
+  </div>
+</div>
+
+<ng-container *ngIf="validateReference">
+  <validate-reference-modal [referenceId]="referenceId" (onClose)="saveReference($event)"></validate-reference-modal>
+</ng-container>

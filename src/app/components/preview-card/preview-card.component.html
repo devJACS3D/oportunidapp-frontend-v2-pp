@@ -1,0 +1,8 @@
+<div class="card preview-card">
+  <img class="card-img-top img-fluid" style="max-height: 160px;min-height: 160px;" [src]="item.image" alt="Image">
+  <div class="card-body text-center d-flex flex-column justify-content-around">
+    <h5 class="card-title font-weight-semi-bold">{{item.title}}</h5>
+    <p class="card-text small">{{item.description | truncate: 100}}</p>
+    <a (click)="onPress.emit(item)" class="btn btn-ok btn-ok--blue mt-3 px-4 font-weight-semi-bold">{{btnText}}</a>
+  </div>
+</div>

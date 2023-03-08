@@ -1,0 +1,23 @@
+<div class="row" [formGroup]="commentForm">
+  <div class="col-12">
+    <div class="row mt-3 mb-4">
+      <div class="col">
+        <h4 class="text-secondary">{{header}}</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col form-group">
+        <textarea formControlName="comment" class="form-control input-2" rows="5"></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col text-center">
+        <button [disabled]="commentForm.invalid" class="btn btn-ok--blue" (click)="send()"
+          style="min-width: 100px;">
+          {{buttonText}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

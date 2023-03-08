@@ -1,0 +1,382 @@
+<form [formGroup]="businessForm" (ngSubmit)="sendFormData()">
+  <div class="form-group row">
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">NIT</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="NIT"
+        formControlName="nit"
+      />
+      <field-error [errorsMsg]="nitErrorMessage" [fcontrol]="businessForm.get('nit')"></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Tipo de compañia</label>
+      <input
+        type="text"
+        readonly
+        class="form-control input-3"
+        placeholder="Tipo de compañia"
+        formControlName="typeService"
+      />
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Nombre</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Nombre"
+        formControlName="name"
+      />
+      <field-error [fcontrol]="businessForm.get('name')"></field-error>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Tipo de contribuyente</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Tipo de contribuyente"
+        formControlName="typeOfTaxPayer"
+      />
+      <field-error
+        [fcontrol]="businessForm.get('typeOfTaxPayer')"
+      ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">CIIU</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="CIIU"
+        formControlName="ciiu"
+      />
+      <field-error [fcontrol]="businessForm.get('ciiu')"></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Actividad</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Actividad"
+        formControlName="economicActivity"
+      />
+      <field-error
+        [fcontrol]="businessForm.get('economicActivity')"
+      ></field-error>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Teléfono</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Teléfono"
+        [patterns]="maskPhone"
+        mask="ABBBBBBBBBBBBBB"
+        [validation]="false"
+        [dropSpecialCharacters]="false"
+        formControlName="telephoneContact"
+      />
+      <field-error
+        [fcontrol]="businessForm.get('telephoneContact')"
+      ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Tipo de renta</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Tipo de renta"
+        formControlName="retainerTitleRent"
+      />
+      <field-error
+        [fcontrol]="businessForm.get('retainerTitleRent')"
+      ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Dirección</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Dirección"
+        formControlName="address"
+      />
+      <field-error [fcontrol]="businessForm.get('address')"></field-error>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Representante legal</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Representante legal"
+        formControlName="legalRepresentativeName"
+      />
+      <field-error
+        [fcontrol]="businessForm.get('legalRepresentativeName')"
+      ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">CC Representante</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="CC Representante"
+        mask="000000000000"
+        [validation]="false"
+        formControlName="dniLegalRepresentative"
+      />
+      <field-error
+        [fcontrol]="businessForm.get('dniLegalRepresentative')"
+      ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Nombre de contacto</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Nombre de contacto"
+        formControlName="contactName"
+      />
+      <field-error [fcontrol]="businessForm.get('contactName')"></field-error>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Celular</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Celular"
+        [patterns]="maskPhone"
+        mask="ABBBBBBBBBBBBBB"
+        [validation]="false"
+        [dropSpecialCharacters]="false"
+        formControlName="cellphoneContact"
+      />
+      <field-error
+        [fcontrol]="businessForm.get('cellphoneContact')"
+      ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">EXT</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="EXT"
+        [patterns]="maskPhone"
+        mask="ABBBBBBBBBBBBBB"
+        [validation]="false"
+        [dropSpecialCharacters]="false"
+        formControlName="extTelephoneContact"
+      />
+      <field-error
+        [fcontrol]="businessForm.get('extTelephoneContact')"
+      ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Teléfono</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Teléfono"
+        [patterns]="maskPhone"
+        mask="ABBBBBBBBBBBBBB"
+        [validation]="false"
+        [dropSpecialCharacters]="false"
+        formControlName="telephones"
+      />
+      <field-error
+        [fcontrol]="businessForm.get('telephones')"
+      ></field-error>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Correo de contacto</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Correo"
+        formControlName="emailContact"
+      />
+      <field-error
+      [fcontrol]="businessForm.get('emailContact')"
+    ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Website</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Web"
+        formControlName="url"
+      />
+      <field-error
+      [errorsMsg]="urlErrorMessage"
+      [fcontrol]="businessForm.get('url')"
+    ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Posición</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Posición"
+        formControlName="positionContact"
+      />
+      <field-error
+      [fcontrol]="businessForm.get('positionContact')"
+    ></field-error>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Número de trabajadores</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Número de trabajadores"
+        mask="00000"
+        [validation]="false"
+        formControlName="numberWorkers"
+      />
+      <field-error
+      [fcontrol]="businessForm.get('numberWorkers')"
+    ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Trabajadores directos</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Trabajadores directos"
+        mask="00000"
+        [validation]="false"
+        formControlName="numberWorkersDirect"
+      />
+      <field-error
+      [fcontrol]="businessForm.get('numberWorkersDirect')"
+    ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Trabajadores temporales</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Trabajadores temporales"
+        mask="00000"
+        [validation]="false"
+        formControlName="numberWorkersTemporals"
+      />
+      <field-error
+      [fcontrol]="businessForm.get('numberWorkersTemporals')"
+    ></field-error>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Otros</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Otros"
+        mask="00000"
+        [validation]="false"
+        formControlName="numberWorkersOthers"
+      />
+      <field-error
+      [fcontrol]="businessForm.get('numberWorkersOthers')"
+    ></field-error>
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="font-weight-semi-bold">Trabajadores a buscar</label>
+      <input
+        type="text"
+        class="form-control input-3"
+        placeholder="Trabajadores a buscar"
+        mask="00000"
+        [validation]="false"
+        formControlName="numberWorkersToFind"
+      />
+      <field-error
+      [fcontrol]="businessForm.get('numberWorkersToFind')"
+    ></field-error>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-12">
+      <label class="font-weight-semi-bold">Misión</label>
+      <textarea
+        type="text"
+        class="form-control input-3"
+        formControlName="mission"
+        rows="4"
+      ></textarea>
+      <field-error
+      [fcontrol]="businessForm.get('mission')"
+    ></field-error>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-12">
+      <label class="font-weight-semi-bold">Visión</label>
+      <textarea
+        type="text"
+        class="form-control input-3"
+        formControlName="vision"
+        rows="4"
+      ></textarea>
+      <field-error
+      [fcontrol]="businessForm.get('vision')"
+    ></field-error>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-12">
+      <label class="font-weight-semi-bold">Valores</label>
+      <textarea
+        type="text"
+        class="form-control input-3"
+        formControlName="principles"
+        rows="4"
+      ></textarea>
+      <field-error
+      [fcontrol]="businessForm.get('principles')"
+    ></field-error>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-6">
+        <button
+          type="submit"
+          [disabled]="(submitting | async)"
+          class="btn btn-block btn-ok--blue"
+        >
+          <ng-container *ngIf="!(submitting | async); else savingData">
+            Guardar
+          </ng-container>
+
+          <ng-template #savingData>
+            Guardando
+            <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+          </ng-template>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

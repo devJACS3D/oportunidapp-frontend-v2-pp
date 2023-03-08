@@ -1,0 +1,85 @@
+<!-- ................................................................................................. -->
+<!-- Check if there are records to show-->
+<!-- ................................................................................................. -->
+<ng-container *ngIf="(data.length && data.length > 0 );else noDataTemplate">
+  <div class="row mb-4 mt-1" *ngFor="let data of data">
+    <div class="col-12" [ngClass]="!data.videopreinterviews.length && 'unrealided' " (click)="onShowAlert(data)">
+      <!-- ................................................................................................. -->
+      <!-- When using this component, you must assign the reference of the content that will have both the body and the footer -->
+      <!-- ................................................................................................. -->
+      <app-card-with-footer>
+        <!-- ................................................................................................. -->
+        <!-- Data for component body-->
+        <!-- ................................................................................................. -->
+        <div class="row pt-4 pb-2 pl-3 pr-3" body>
+          <div class="col-md-9 col-sm-12 col-xs-12 col-body-one">
+            <p>{{data.vacancy.name}}</p>
+          </div>
+          <div class="col-md-3 col-sm-12 col-xs-12 col-body-two">
+            <p class="text-center">
+              Estado: <span [ngStyle]="{'color':onDone(data,false)}">{{onDone(data,true)}}</span>
+            </p>
+          </div>
+        </div>
+        <!-- ................................................................................................. -->
+        <!-- Data for component footer-->
+        <!-- ................................................................................................. -->
+        <div class="row pt-3 pb-1 pl-3 pr-3" footer>
+          <div class="col-md-9 col-sm-12 col-xs-12 col-footer-one">
+            <p>Pre Entrevista </p>
+            <p>{{data.status.name}}</p>
+          </div>
+          <div class="col-md-3 col-sm-12 col-xs-12 col-footer-two" *ngIf="data.videopreinterviews.length">
+            <p class="text-center">
+              {{data.videopreinterviews[0].updatedAt | date: 'dd/MM/yyyy'}}
+            </p>
+          </div>
+        </div>
+      </app-card-with-footer>
+    </div>
+  </div>
+  <!-- ................................................................................................. -->
+  <!-- Show pagination-->
+  <!-- ................................................................................................. -->
+  <div class="row mt-4" *ngIf="pagination">
+    <div class="col-md-12 ml-2">
+      <app-pagination [pagination]="pagination" [loader]="loadingPage" (_changePage)="goToPage($event)">
+      </app-pagination>
+    </div>
+  </div>
+</ng-container>
+<!-- ................................................................................................. -->
+<!-- Component modal question pre interview -->
+<!-- ................................................................................................. -->
+<app-modal-question *ngIf="modalQuestion" (modalQuestion)="onModalQuestion($event)"
+  (modalVideoP)="onModalVideoPreInterview($event)" [info]="info"></app-modal-question>
+<!-- ................................................................................................. -->
+<!-- Component modal video pre interview -->
+<!-- ................................................................................................. -->
+<app-modal-video *ngIf="modalVideoP" (loadingInfo)="onLoadingInfo($event)" (modalQuestion)="onModalQuestion($event)"
+  (modalVideoP)="onModalVideoPreInterview($event)" [info]="info"></app-modal-video>
+<!-- ................................................................................................. -->
+<!-- Check if there are no records and if an error occurs -->
+<!-- ................................................................................................. -->
+<ng-template #noDataTemplate>
+  <div class="row mt-5 p-2" *ngIf="!_error">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 text-secondary">
+        {{_textNotFound}}
+      </h4>
+    </div>
+  </div>
+  <!-- Error  -->
+  <div class="row" *ngIf="_error">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 ">
+        {{errorLoadingData}}
+      </h4>
+      <p class="text-center">
+        {{ _error }}
+      </p>
+    </div>
+  </div>
+</ng-template>

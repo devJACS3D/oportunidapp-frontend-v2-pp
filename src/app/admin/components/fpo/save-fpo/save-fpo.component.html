@@ -1,0 +1,18 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-12">
+      <card-header [header]="header$ | async"></card-header>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col 12">
+      <card-wrapper>
+        <!-- Form -->
+        <save-fpo-form [factor]="factor$|async" [submitting]="submitting$" (handleSubmit)="save($event)"></save-fpo-form>
+      </card-wrapper>
+    </div>
+  </div>
+
+</div>

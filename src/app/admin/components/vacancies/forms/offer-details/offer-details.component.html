@@ -1,0 +1,93 @@
+<div class="card shadow" [formGroup]="formGroup">
+  <div class="card-body p-md-5">
+    <div class="row">
+      <div class="col">
+        <!-- Form Begin -->
+        <div class="row">
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Jornada</label>
+            <select class="form-control input-3" formControlName="workdayId">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let workday of $workdays | async" [value]="workday.id">{{ workday.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-12 col-md-6 form-group" *ngIf="$contractTypes | async">
+            <label for="">Tipo de contrato</label>
+            <select class="form-control input-3" formControlName="contractTypeId"
+              (change)="addIdEval($event.target.value)">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let cType of $contractTypes | async" [value]="cType.id">
+                {{ cType.name }}
+              </option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Salary and contract day -->
+        <div class="row">
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Cantidad de vacantes</label>
+            <input type="text" formControlName="amountVacantion" [textMask]="{ mask: maskNumber }" maxlength="2"
+              class="form-control input-3" />
+            <field-error [fcontrol]="formGroup.get('amountVacantion')"></field-error>
+          </div>
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Nivel de riesgo</label>
+            <select class="form-control input-3" formControlName="levelRiesgo">
+              <option selected disabled value="null">Seleccione</option>
+              <option *ngFor="let nivel of listNivelRiesgo" [value]="nivel.id">
+                {{ nivel.description }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Salario mínimo</label>
+            <input type="text" class="form-control input-3" [textMask]="{ mask: maskCurrency }" maxlength="11"
+              formControlName="minSalary" />
+            <field-error [errorsMsg]="minMaxErrorMsg" [fcontrol]="formGroup.get('minSalary')"></field-error>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Salario máximo</label>
+            <input type="text" class="form-control input-3" [textMask]="{ mask: maskCurrency }" maxlength="11"
+              formControlName="maxSalary" />
+            <field-error [fcontrol]="formGroup.get('maxSalary')"></field-error>
+          </div>
+        </div>
+
+        <!-- Languages and ContractDate -->
+        <div class="row justify-content-md-between">
+          <div class="col-12 col-md-4 form-group">
+            <label for="">Fecha de contratación</label>
+            <div class="input-group">
+              <input type="text" class="form-control input-3" formControlName="contractDate" [minDate]="minDate"
+                ngbDatepicker #fContract="ngbDatepicker" placeholder="aaaa-mm-dd" readonly />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="fContract.toggle()">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+            <field-error [fcontrol]="formGroup.get('contractDate')"></field-error>
+          </div>
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Idiomas</label>
+            <div class="languages-container gray-bordered rounded">
+              <div class="form-check" *ngFor="let language of $languages | async">
+                <input [checked]="compare(language.name)" (change)="addOrRemoveLanguage($event, language)"
+                  class="form-check-input" type="checkbox" [value]="language.name" [id]="language" />
+                <label class="form-check-label" [for]="language">
+                  {{ language.name }}
+                </label>
+              </div>
+            </div>
+            <field-error [fcontrol]="formGroup.get('languages')"></field-error>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+$active-dark: $secondary;
+$active-blue: $primary;
+
+.tab-wrapper{
+  border-radius: 0;
+}
+
+.tab{
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Source Sans Pro',sans-serif !important;
+  color: #A5A4BF;
+  height: 50px;
+  font-weight: 300;
+  &.active{
+    color: white;
+    background: $active-dark;
+  }
+  &.active-dark{
+    color: white;
+    background: $active-dark;
+  }
+  &.active-blue{
+    color: white;
+    background: $active-blue;
+  }
+}

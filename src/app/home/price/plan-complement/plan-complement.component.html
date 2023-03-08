@@ -1,0 +1,56 @@
+<div [ngClass]="{'colorful-price bigger-card':(index) == 2}" class="card p-2 shadow pointer"
+  style="border:none;border-radius: 5px;">
+  <div class="card-body">
+    <h5 class="card-title font-weight-semi-bold text-center text-dark">{{item.label}}</h5>
+    <h2 class="mb-2 font-weight-bold text-dark text-center">$ {{item.price | currency:'COP':''}}</h2>
+
+    <div class="d-flex flex-column justify-content-center align-items-center ">
+      <p class="font-weight-semi-bold text-dark my-2">{{item.vacancies}} vacantes</p>
+      <div class="line" [ngClass]="(index) ==2? 'line-primary':'line-tertiary'"></div>
+      <p class="font-weight-semi-bold text-dark my-2">{{item.range}} días</p>
+      <div class="line" [ngClass]="(index) ==2? 'line-primary':'line-tertiary'"></div>
+      <p class="font-weight-semi-bold text-dark my-2 text-justify">{{item.description}}</p>
+    </div>
+  </div>
+  <div class="card-body">
+    <button (click)="onSelectItem.next(item)" class="btn btn-block" [ngClass]="(index)== 2? 'btn-bigger-card':'btn-ok--blue'">SELECCIONAR</button>
+  </div>
+</div>
+
+<!-- <div class="cont cont-border ">
+  <div class="bor" *ngIf="recommended">
+    <p>
+      RECOMENDADO
+    </p>
+  </div>
+  <div class="cont-gray padding-space  " [ngClass]="{'border-right': index === 3}">
+    <div class="title" [ngClass]="{'color2': index === 1, 'color3': index === 2, 'color4': index === 3}">
+      {{title}}
+    </div>
+  </div>
+  <div class="body margin-space  ">
+    &nbsp;
+  </div>
+  <div class="cont-gray padding-space" [ngClass]="{'border-right': index === 3}">
+    <div class="subtitle " [ngClass]="{'color2': index === 1, 'color3': index === 2, 'color4': index === 3}">
+      {{price | currency:'$ ' }}
+    </div>
+  </div>
+  <div class="body margin-space">
+    <p class="title2">
+      {{subtitulo}}
+    </p>
+
+    <ul>
+      <li  *ngFor="let desc of description" >
+        <p>
+          {{desc}}
+        </p>
+      </li>
+    </ul>
+  </div>
+  <div class="btn-foo margin-space" (click)="_selectdPlan($event)"
+    [ngClass]="{'color2': index === 1, 'color3': index === 2, 'color4': index === 3}">
+    SELECCIONAR
+  </div>
+</div> -->

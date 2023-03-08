@@ -1,0 +1,489 @@
+<div class="bg-oportunidapp-light-two pt-5 fix-bottom">
+  <div class="container" *ngIf="_loadingInit">
+    <div class="row">
+      <div class="col-12">
+        Cargando...
+      </div>
+    </div>
+  </div>
+
+  <div class="container" *ngIf="!_loadingInit && _error != ''">
+    <div class="row">
+      <div class="col text-center noResults">
+        <i class="fa fa-inbox" aria-hidden="true"></i>
+        <h4 class="h4 text-secondary">
+          Error cargando información de usuario
+        </h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p class="text-center text-secondary">
+          {{ _error }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" *ngIf="!_loadingInit && _error == ''">
+    <ng-container *ngIf="_user">
+      <div class="row">
+        <div class="col-auto">
+          <div
+            class="img-rounded"
+            [style.background]="'url(' + _userImage.Url + ')'"
+            style="width: 263px; height: 263px; position: relative;"
+          >
+            <input
+              type="file"
+              (change)="onInputImageChange($event)"
+              id="inputUpload"
+              accept="image/*"
+              style="display: none;"
+            />
+            <label for="inputUpload" style="cursor: pointer;">
+              <span class="fa-stack fa-lg edit-icon" style="bottom: 10px;">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+              </span>
+            </label>
+          </div>
+          <div class="col-12" *ngIf="_userImage.Name">
+            {{ _userImage.Name }}
+          </div>
+          <div class="col-12 mt-2 mb-2" *ngIf="_userImage.Name">
+            <button
+              [disabled]="_loadingImg"
+              class="btn btn-ok btn-outline-secondary"
+              (click)="saveImg()"
+            >
+              <i
+                *ngIf="_loadingImg"
+                class="fa fa-circle-o-notch fa-spin"
+                aria-hidden="true"
+              ></i>
+              Guardar cambios
+            </button>
+          </div>
+        </div>
+        <div class="col">
+          <div id="header" class="card">
+            <div class="card-body card-body--header">
+              <div class="row align-items-center">
+                <div class="col-12 col-md-4">
+                  <span class="h6">Datos Personales</span>
+                </div>
+                <div class="col-12 col-md-4">
+                  <div id="progressDiv" class="progress rounded-pill">
+                    <div
+                      class="progress-bar bg-color-oportunidapp rounded-pill"
+                      role="progressbar"
+                      [ngStyle]="{
+                        'width.%': _user.credentialUser.completePercent
+                      }"
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  class="col-12 col-md-4 d-flex align-items-center justify-content-between"
+                >
+                  <ng-container
+                    *ngIf="updatingAvailability$ | async; else changeStatus"
+                  >
+                    <i
+                      class="fa fa-circle-o-notch fa-spin"
+                      aria-hidden="true"
+                    ></i>
+                  </ng-container>
+
+                  <ng-template #changeStatus>
+                    <small class="text-small">
+                      {{
+                        _user.credentialUser.available
+                          ? "Perfil disponible"
+                          : "Perfil no disponible"
+                      }}
+                    </small>
+                    <toggle-switch
+                      [checked]="_user.credentialUser.available"
+                      (onChange)="setAvailability($event)"
+                    >
+                    </toggle-switch>
+                  </ng-template>
+                </div>
+                <!-- <div class="col-2">
+									<div class="custom-control custom-switch">
+										<input type="checkbox" class="custom-control-input" id="customSwitch1">
+										<label class="custom-control-label" for="customSwitch1"></label>
+									</div>
+									<a routerLink="./change-password" class="small">
+										Cambiar contraseña
+									</a>
+								</div> -->
+              </div>
+            </div>
+          </div>
+          <div id="body-header" class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-8">
+                  <div class="row align-items-center">
+                    <div class="col-auto">
+                      <span class="h4 text-secondary font-weight-bold"
+                        >{{ _user.credentialUser.firstName }}
+                        {{ _user.credentialUser.lastName }}</span
+                      >
+                    </div>
+                    <div class="col rating-container">
+                      <ngb-rating
+                        style="outline: none;"
+                        [rate]="_rate"
+                        [starTemplate]="t"
+                        max="5"
+                      >
+                      </ngb-rating>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-5 col-xs-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-auto">
+                          <!-- <i class="fa fa-file-text-o" aria-hidden="true"></i> -->
+                          <img
+                            src="assets/userprofile/identification.png"
+                            style="width: 16px;"
+                          />
+                        </div>
+                        <div class="col text-secondary">
+                          <ng-container
+                            *ngIf="
+                              _user.credentialUser.identification;
+                              else NoRegistrado
+                            "
+                          >
+                            {{ _user.credentialUser.identification }}
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-auto">
+                          <!-- <i class="fa fa-repeat" aria-hidden="true"></i> -->
+                          <img
+                            src="assets/userprofile/age.png"
+                            style="width: 1.2rem;"
+                          />
+                        </div>
+                        <div class="col text-secondary">
+                          <ng-container
+                            *ngIf="_user.credentialUser.age; else NoRegistrado"
+                          >
+                            {{ _user.credentialUser.age }} años
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-auto">
+                          <!-- <i class="fa fa-mars-double" aria-hidden="true"></i> -->
+                          <img
+                            src="assets/userprofile/civil_status.png"
+                            style="width: 1.2rem;"
+                          />
+                        </div>
+                        <div class="col text-secondary">
+                          <ng-container
+                            *ngIf="
+                              _user.credentialUser.maritalStatus;
+                              else NoRegistrado
+                            "
+                          >
+                            {{ _user.credentialUser.maritalStatus.name }}
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-auto">
+                          <!-- <i class="fa fa-globe" aria-hidden="true"></i> -->
+                          <img
+                            src="assets/userprofile/languages.png"
+                            style="width: 1.2rem;"
+                          />
+                        </div>
+                        <div class="col text-secondary">
+                          <ng-container
+                            *ngIf="
+                              _user.credentialUser.languages;
+                              else NoRegistrado
+                            "
+                          >
+                            {{ _user.credentialUser.languages | replace }}
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-7 col-xs-12 col-sm-12">
+                      <div class="row">
+                        <div class="col-auto">
+                          <!-- <i class="fa fa-map-marker" aria-hidden="true"></i> -->
+                          <img
+                            src="assets/userprofile/location.png"
+                            style="width: 1rem;"
+                          />
+                        </div>
+                        <div class="col text-secondary">
+                          <ng-container
+                            *ngIf="
+                              _user.credentialUser.address;
+                              else NoRegistrado
+                            "
+                          >
+                            {{ _user.credentialUser.address }}
+                          </ng-container>
+                        </div>
+                      </div>
+                      <!-- ULTIMAS ACTUALIZACIONES DE FECHAS USUARIOS-->
+                      <div class="row">
+                        <div class="col-auto">
+                          <img
+                            src="assets/userprofile/Solid.png"
+                            style="width: 1rem;"
+                          />
+                        </div>
+                        <div class="col text-secondary">
+                          <span *ngIf="_user.last_singin; else NoRegistrado">
+                            Último Ingreso
+                            {{
+                              _user.last_singin
+                                | date: "dd/MMM/yy":"en-US":"en-US"
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-auto">
+                          <img
+                            src="assets/userprofile/time.png"
+                            style="width: 1rem;"
+                          />
+                        </div>
+                        <div class="col text-secondary">
+                          <span
+                            *ngIf="
+                              _user.credentialUser.updatedAt;
+                              else NoRegistrado
+                            "
+                          >
+                            Última Actualización
+                            {{
+                              _user.credentialUser.updatedAt
+                                | date: "dd/MMM/yy":"en-US":"en-US"
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="row">
+                    <div class="col-12">
+                      <button
+                        id="downloadCertified"
+                        type="button"
+                        [disabled]="loadingCertificate"
+                        (click)="downloadCertificate()"
+                        class="btnProfile btn btn-outline-primary"
+                      >
+                        <div class="row">
+                          <div class="col-10 text-left text-button">
+                            <i
+                              *ngIf="loadingCertificate"
+                              class="fa fa-circle-o-notch fa-spin mr-2"
+                              aria-hidden="true"
+                            ></i>
+                            Descargar Certificado
+                          </div>
+                          <div class="col-2">
+                            <img
+                              class="imageButton"
+                              src="assets/userprofile/download.png"
+                              style="width: 1.2rem;"
+                            />
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="col-12">
+                      <button
+                        id="lifeButton"
+                        type="button"
+                        (click)="curriculumVitae()"
+                        class="btnProfile btn btn-outline-primary"
+                      >
+                        <div class="row">
+                          <div class="col-10 text-left text-button">
+                            Hoja de vida
+                          </div>
+                          <div class="col-2">
+                            <img
+                              class="imageButton"
+                              src="assets/userprofile/uploadLife.png"
+                              style="width: 1.2rem;"
+                            />
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="col-12">
+                      <button
+                        id="changePassword"
+                        type="button"
+                        (click)="changePassword()"
+                        class="btnProfile btn btn-outline-primary"
+                      >
+                        <div class="row">
+                          <div class="col-10 text-left text-button">
+                            Cambiar contraseña
+                          </div>
+                          <div class="col-2">
+                            <img
+                              class="imageButton"
+                              src="assets/userprofile/lock.png"
+                              style="width: 1.2rem;"
+                            />
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                  <!-- <div class="mb-2">
+										<i class="fa fa-file-text-o text-secondary" style="font-size: 4rem;"
+											aria-hidden="true"></i>
+									</div>
+									<ng-container *ngIf="this._cvFile.Location && !_loadingFile">
+										<a class="btn btn-ok--blue" [href]="this._cvFile.Location" target="_BLANCK">
+											Ver hoja de vida
+										</a>
+										<div>
+											<input type="file" (change)="onInputFileChange($event)" id="inputUploadFile"
+												accept="*" style="display: none;">
+											<label for="inputUploadFile" class="btn btn-link" *ngIf="!_loadingFile">
+												Cambiar
+											</label>
+										</div>
+									</ng-container>
+									<ng-container *ngIf="!this._cvFile.Location">
+	
+										<input type="file" (change)="onInputFileChange($event)" id="inputUploadFile"
+											accept="*" style="display: none;">
+										<label for="inputUploadFile" class="btn btn-ok--blue" *ngIf="!_loadingFile">
+											Subir hoja de vida
+										</label>
+									</ng-container>
+	
+									<button class="btn btn-k--blue" *ngIf="_loadingFile" disabled>
+										<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+										Cargando ...
+									</button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="linkProfile" class="card shadow-sm">
+        <div class="card-body card-menu">
+          <div class="row" style="margin: 0px;">
+            <a
+              class="col text-center item-option"
+              routerLink="./"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <span class="h5 text-secondary"
+                >Datos <br />
+                personales</span
+              >
+            </a>
+            <a
+              class="col text-center item-option"
+              routerLink="./studies"
+              routerLinkActive="active"
+            >
+              <span class="h5 text-secondary"
+                >Información <br />
+                académica</span
+              >
+            </a>
+            <a
+              class="col text-center item-option"
+              routerLink="./experiences"
+              routerLinkActive="active"
+            >
+              <span class="h5 text-secondary"
+                >Historial <br />
+                laboral</span
+              >
+            </a>
+            <a
+              class="col text-center item-option"
+              routerLink="./personalityTest"
+              routerLinkActive="active"
+            >
+              <span class="h5 text-secondary">Test de personalidad</span>
+            </a>
+
+            <a
+              class="col text-center item-option"
+              routerLink="./user-tests"
+              routerLinkActive="active"
+            >
+              <span class="h5 text-secondary"
+                >Mis <br />
+                pruebas</span
+              >
+            </a>
+
+            <a
+              class="col text-center item-option"
+              routerLink="./user-vacancies"
+              routerLinkActive="active"
+            >
+              <span class="h5 text-secondary"
+                >Mis <br />
+                vacantes</span
+              >
+            </a>
+            <a
+              class="col text-center item-option"
+              routerLink="./user-interview"
+              routerLinkActive="active"
+            >
+              <span
+                class="h5 text-secondary"
+                style="height: 48px; display: flex; flex-direction: column; justify-content: center;"
+                >Entrevistas</span
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<ng-template #t let-fill="fill">
+  <span class="star" [class.full]="fill === 100">
+    <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+  </span>
+</ng-template>
+
+<ng-template #NoRegistrado>
+  No registrado
+</ng-template>

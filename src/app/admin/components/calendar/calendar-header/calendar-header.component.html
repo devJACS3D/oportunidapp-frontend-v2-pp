@@ -1,0 +1,54 @@
+<div class="row text-center">
+	<div class="col-12 col-md">
+		<div class="btn-group">
+			<div class="btn btn-app-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+				(viewDateChange)="viewDateChange.next(viewDate)">
+				<!-- <i class="fa fa-arrow-left" aria-hidden="true"></i> -->
+				Anterior
+			</div>
+			<div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate"
+				(viewDateChange)="viewDateChange.next(viewDate)">
+				Hoy
+			</div>
+			<div class="btn btn-app-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+				(viewDateChange)="viewDateChange.next(viewDate)">
+				<!-- <i class="fa fa-arrow-right" aria-hidden="true"></i> -->
+				Siguiente
+			</div>
+		</div>
+	</div>
+	<div class="col-12 col-md d-flex flex-column">
+		<h4 class="font-weight-light">{{viewDate | date: 'MMMM':locale}}</h4>
+		<p class="text-black-50">Semana {{viewDate | date: 'W'}} - {{date | date: 'MMMM dd yyyy '}}</p>
+	</div>
+	<div class="col-12 col-md">
+		<div class="btn-group">
+			<div class="btn btn-app-primary" (click)="viewChange.emit('month')" [class.active]="view === 'month'">
+				Mes
+			</div>
+			<div class="btn btn-app-primary" (click)="viewChange.emit('week')" [class.active]="view === 'week'">
+				Semana
+			</div>
+			<div class="btn btn-app-primary" (click)="viewChange.emit('day')" [class.active]="view === 'day'">
+				Día
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!-- <div class="row">
+	<div class="col-12">
+		<card-wrapper [rounded]="false">
+			<div class="row">
+				<div class="col">previous</div>
+				<div class="col-6 d-flex flex-column">
+					<h4>{{date | date: 'MMMM':locale}}</h4>
+					<p>Semana {{date | date: 'W'}} - {{date | date: 'MMMM dd yyyy '}}</p>
+				</div>
+				<div class="col"> after</div>
+			</div>
+		</card-wrapper>
+	</div>
+</div> -->

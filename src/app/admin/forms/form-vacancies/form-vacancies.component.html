@@ -1,0 +1,501 @@
+<!-- <div class="row">
+  <div class="col-md-12">
+    <a class="btn btn-ok--blue" (click)="goback()" style="color: white;">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </a>
+    &nbsp;
+    <span class="h4">{{ _title }}</span>
+  </div>
+</div>
+<br> -->
+<!--
+<card-header [header]="'Aspectos generales'"></card-header> -->
+
+<ng-container *ngIf="!_loadingForm; else LoadingInitTemplate">  
+  <ng-container *ngIf="_error == ''; else errorTemplate">
+    <ng-container *ngIf="_businessProfile">
+      <div class="row valueContainer">
+        <div class="col">
+          <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header text-center">
+              <strong>Valor de la vacante</strong>
+            </div>
+            <div class="toast-body text-center">
+              {{ _amount | currency:'COP':'' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <form [formGroup]="FormEntity">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <div class="row">
+                <div class="col-12 form-group">
+                  <label for="">Nombre de la vacante</label>
+                  <input type="text" class="form-control input-2" formControlName="name" maxlength="100">
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.name.invalid && FormEntity.controls.name.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+                <div class="col-12 form-group">
+                  <label for="">Sector</label>
+                  <select class="form-control input-2" formControlName="sectorId">
+                    <option value="">Seleccionar</option>
+                    <option *ngFor="let sector of _sectors" [value]="sector.id">{{ sector.name }}
+                    </option>
+                  </select>
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.sectorId.invalid && FormEntity.controls.sectorId.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+                <div class="col-6 form-group" *ngIf="!_businessProfile">
+                  <label for="">Empresa</label>
+                  <select class="form-control input-2" formControlName="companyId">
+                    <option value="">Seleccionar</option>
+                    <option *ngFor="let company of _companies" [value]="company.id">
+                      {{ company.name }}
+                    </option>
+                  </select>
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.companyId.invalid && FormEntity.controls.companyId.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+                <div class="col-6 form-group">
+                  <label for="">Empresa confidencial</label>
+                  <div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" formControlName="confidentialCompany" [value]="true" id="confidentialCompany1"
+                        class="custom-control-input">
+                      <label class="custom-control-label" for="confidentialCompany1">Si</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" formControlName="confidentialCompany" [value]="false"
+                        id="confidentialCompany2" class="custom-control-input">
+                      <label class="custom-control-label" for="confidentialCompany2">No</label>
+                    </div>
+                  </div>
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.confidentialCompany.invalid && FormEntity.controls.confidentialCompany.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <label for="">Servicios adicionales</label>
+                  <div class="row">
+                    <div class="col-6 col-md-5 form-group" *ngFor="let addService of _additionalServices">
+                      <div class="row">
+                        <div class="col">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" [(ngModel)]="addService.selected"
+                              [id]="'customCheck1'+addService.id" [ngModelOptions]="{standalone: true}"
+                              (ngModelChange)="calcAmount()">
+                            <label class="custom-control-label" [for]="'customCheck1'+addService.id">{{ addService.name
+                              }}</label>
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <a style="cursor: pointer;" (click)="showDetailService(addService);">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 form-group">
+                  <label for="">Descripción</label>
+                  <textarea rows="3" class="form-control input-2" formControlName="description"
+                    maxlength="500"></textarea>
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.description.invalid && FormEntity.controls.description.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <input type="text" formControlName="country" value="Colombia" disabled style="display: none;">
+                <div class="col form-group">
+                  <label for="">Departamento</label>
+                  <select class="form-control input-2" formControlName="stateId" (change)="changeDepartment($event)">
+                    <option value="">Seleccionar</option>
+                    <option *ngFor="let state of _states" [value]="state.id">
+                      {{ state.name }}
+                    </option>
+                  </select>
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.stateId.invalid && FormEntity.controls.stateId.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+                <div class="col form-group">
+                  <label for="">Ciudad</label>
+                  <select class="form-control input-2" [ngClass]="{'select-loading': _loadingCities}"
+                    formControlName="cityId">
+                    <option value="">Seleccionar</option>
+                    <option *ngFor="let city of _cities" [value]="city.id">
+                      {{ city.name }}
+                    </option>
+                  </select>
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.cityId.invalid && FormEntity.controls.cityId.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <div class="row">
+                <div class="col">
+                  <div class="bg-image-responsive vacancy-image" [style.background]="'url(' + _vacancyImage.Url + ')'">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  {{ _vacancyImage.Name }}
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col">
+                  <input type="file" (change)="onInputImageChange($event)" id="inputFacePhoto" accept="image/*"
+                    style="display: none;">
+                  <label class="btn btn-block btn-ok btn-ok--blue" for="inputFacePhoto">
+                    Seleccionar archivo
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="card">
+        <div class="card-header text-info">
+          <h6>Detalles de la oferta</h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6 form-group">
+              <label for="">Jornada</label>
+              <select class="form-control input-2" formControlName="workdayId">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let workday of _workdays" [value]="workday.id">{{ workday.name }}
+                </option>
+              </select>
+              <span class="text-danger invalid-control"
+                *ngIf="FormEntity.controls.workdayId.invalid && FormEntity.controls.workdayId.dirty">
+                Campo requerido.
+              </span>
+            </div>
+            <div class="col-6 form-group">
+              <label for="">Tipo de contrato</label>
+              <select class="form-control input-2" formControlName="contractTypeId">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let cType of _contractTypes" [value]="cType.id">
+                  {{ cType.name }}
+                </option>
+              </select>
+              <span class="text-danger invalid-control"
+                *ngIf="FormEntity.controls.contractTypeId.invalid && FormEntity.controls.contractTypeId.dirty">
+                Campo requerido.
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 form-group">
+              <label for="">Salario</label>
+              <input type="text" class="form-control input-2" [textMask]="{mask: maskCurrency}" maxlength="11"
+                formControlName="salary" (keyup)="calcAmount()">
+              <span class="text-danger invalid-control"
+                *ngIf="FormEntity.controls.salary.invalid && FormEntity.controls.salary.dirty">
+                Campo requerido.
+              </span>
+            </div>
+            <div class="col-6 form-group">
+              <label for="">Fecha de contratación</label>
+              <div class="input-group">
+                <input type="text" class="form-control input-2" formControlName="contractDate" [minDate]="_minDate"
+                  ngbDatepicker #fContract="ngbDatepicker" placeholder="aaaa-mm-dd" readonly>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                    (click)="fContract.toggle();">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <span class="text-danger invalid-control"
+                *ngIf="FormEntity.controls.contractDate.invalid && FormEntity.controls.contractDate.dirty">
+                Campo requerido.
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 form-group">
+              <label for="">Cantidad de vacantes</label>
+              <input type="text" formControlName="amountVacantion" [textMask]="{mask: maskNumber}"
+                (keyup)="calcAmount()" maxlength="2" class="form-control input-2">
+              <span class="text-danger invalid-control"
+                *ngIf="FormEntity.controls.amountVacantion.invalid && FormEntity.controls.amountVacantion.dirty">
+                Campo requerido.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="card">
+        <div class="card-header text-info">
+          <h6>Requerimientos de la oferta</h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4 form-group">
+              <label for="">Idiomas</label>
+              <select class="form-control input-2" formControlName="languages" style="height: 132px;" multiple>
+                <option *ngFor="let language of _languages" [value]="language.name">
+                  {{ language.name }}
+                </option>
+              </select>
+              <span class="text-danger invalid-control"
+                *ngIf="FormEntity.controls.languages.invalid && FormEntity.controls.languages.dirty">
+                Campo requerido.
+              </span>
+            </div>
+            <div class="col-8">
+              <div class="row">
+                <div class="col-6 form-group">
+                  <label for="">Años de experiencia</label>
+                  <input type="text" formControlName="yearsExperience" [textMask]="{mask: maskNumber}" maxlength="2"
+                    class="form-control input-2">
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.yearsExperience.invalid && FormEntity.controls.yearsExperience.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+                <div class="col-6 form-group">
+                  <label for="">Nivel de estudio</label>
+                  <select class="form-control input-2" formControlName="educationalLevelId">
+                    <option value="">Seleccionar</option>
+                    <option *ngFor="let level of _educationalLevels" [value]="level.id">
+                      {{ level.name }}
+                    </option>
+                  </select>
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.educationalLevelId.invalid && FormEntity.controls.educationalLevelId.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-6 form-group">
+                  <label for="">Edad mínima</label>
+                  <input type="text" formControlName="minimunAge" [textMask]="{mask: maskNumber}" maxlength="2"
+                    class="form-control input-2" [max]="_maxAge">
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.minimunAge.invalid && FormEntity.controls.minimunAge.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+                <div class="col-6 form-group">
+                  <label for="">Edad máxima</label>
+                  <input type="text" formControlName="maximunAge" [textMask]="{mask: maskNumber}" maxlength="2"
+                    class="form-control input-2">
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.maximunAge.invalid && FormEntity.controls.maximunAge.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4 form-group">
+              <label for="">Licencia de conducción</label>
+              <select class="form-control input-2" formControlName="drivingLicenseId">
+                <option value="">Seleccionar</option>
+                <option *ngFor="let license of _drivingLicenses" [value]="license.id">
+                  {{ license.name }}
+                </option>
+              </select>
+              <span class="text-danger invalid-control"
+                *ngIf="FormEntity.controls.drivingLicenseId.invalid && FormEntity.controls.drivingLicenseId.dirty">
+                Campo requerido.
+              </span>
+            </div>
+            <div class="col-8 form-group">
+              <div class="row">
+                <div class="col-4 form-group">
+                  <label for="">Disponibilidad para viajar</label>
+                  <div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" formControlName="availabilityToTravel" value="Si" id="availabilityToTravel1"
+                        class="custom-control-input">
+                      <label class="custom-control-label" for="availabilityToTravel1">Si</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" formControlName="availabilityToTravel" value="No" id="availabilityToTravel2"
+                        class="custom-control-input">
+                      <label class="custom-control-label" for="availabilityToTravel2">No</label>
+                    </div>
+                  </div>
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.availabilityToTravel.invalid && FormEntity.controls.availabilityToTravel.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+
+                <div class="col-4 form-group">
+                  <label for="">Disponibilidad de reubicación</label>
+                  <div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" formControlName="availabilityToRelocation" value="Si"
+                        id="availabilityToRelocation1" class="custom-control-input">
+                      <label class="custom-control-label" for="availabilityToRelocation1">Si</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" formControlName="availabilityToRelocation" value="No"
+                        id="availabilityToRelocation2" class="custom-control-input">
+                      <label class="custom-control-label" for="availabilityToRelocation2">No</label>
+                    </div>
+                  </div>
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.availabilityToRelocation.invalid && FormEntity.controls.availabilityToRelocation.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+
+                <div class="col-4 form-group">
+                  <label for="">Con discapacidad</label>
+                  <div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" formControlName="peopleDiscapacity" value="Si" id="peopleDiscapacity1"
+                        class="custom-control-input">
+                      <label class="custom-control-label" for="peopleDiscapacity1">Si</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" formControlName="peopleDiscapacity" value="No" id="peopleDiscapacity2"
+                        class="custom-control-input">
+                      <label class="custom-control-label" for="peopleDiscapacity2">No</label>
+                    </div>
+                  </div>
+                  <span class="text-danger invalid-control"
+                    *ngIf="FormEntity.controls.peopleDiscapacity.invalid && FormEntity.controls.peopleDiscapacity.dirty">
+                    Campo requerido.
+                  </span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row mb-3" *ngIf="_errorMessage">
+        <div class="col text-center">
+          <div class="alert alert-danger" role="alert">
+            {{ _errorMessage }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-block btn-ok--blue" [disabled]="_loading" (click)="next()">
+            <i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+            <ng-container *ngIf="_businessProfile">
+              <ng-container *ngIf="_idEntity">Guardar cambios</ng-container>
+              <ng-container *ngIf="!_idEntity">Pagar y crear</ng-container>
+            </ng-container>
+            <ng-container *ngIf="!_businessProfile">Continuar</ng-container>
+          </button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</ng-container>
+
+
+<ng-container *ngIf="_showModalTest">
+  <div class="modal-backdrop" style="background-color: #0000007a;"></div>
+  <div class="modal modal-2 animated fadeInDown" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+    <div class="modal-dialog modal-dialog-centered animated fadeInDown" role="document">
+      <div class="modal-content">
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-rounded btn-rounded-close" (click)="close()">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <div class="modal-body modal-body--logis">
+          <h5>Seleccionar prueba</h5>
+          <br>
+          <ng-container *ngFor="let item of _tests">
+            <div class="col-12 form-group">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" [(ngModel)]="item.selected" class="custom-control-input"
+                  [id]="'test-check-'+ item.id">
+                <label class="custom-control-label" [for]="'test-check-'+ item.id">{{ item.name }}</label>
+              </div>
+            </div>
+          </ng-container>
+
+          <br>
+
+          <div class="col-12 text-center">
+            <button class="btn btn-ok btn-ok--blue" [disabled]="_loading || !testSelected.length" (click)="save()">
+              <i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+              {{_btnText}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="_showPaymentModal">
+  <app-modal-payment (close)="_showPaymentModal = false;" (saveTransaction)="saveTransaction($event)"
+    [loading]="_loading" [amount]="_amount" [vacancyId]="_vacancyId"></app-modal-payment>
+</ng-container>
+
+<ng-container *ngIf="_showDetailService">
+  <app-detail-additionals-services (close)="closeDetailService()" [item]="objAdditionalService">
+  </app-detail-additionals-services>
+</ng-container>
+
+<ng-template #LoadingInitTemplate>
+  <div class="row">
+    <div class="col-md-12">
+      Cargando...
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <div class="row">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+      <h4 class="h4">
+        Error cargando información de usuario
+      </h4>
+      <p class="text-center">
+        {{ _error }}
+      </p>
+    </div>
+  </div>
+</ng-template>

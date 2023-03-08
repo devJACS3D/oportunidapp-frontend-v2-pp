@@ -1,0 +1,28 @@
+<div class="row card-body shadow my-5">
+  <div class="col-auto">
+    <img
+      class="img-rounded profile-pictur-75"
+      [src]="utils.getImgSrc(comment.user.image)"
+      alt="User picture"
+    />
+  </div>
+  <div class="col-12 col-md-9 d-flex flex-column" style="gap:15px">
+    <span class="font-weight-semi-bold">{{ comment.user.fullName }}</span>
+    <p class="font-weight-normal font-italic comment-text">
+      {{ comment.description }}
+    </p>
+  </div>
+
+  <ng-container *ngIf="user$ | async; let user">
+    <div class="col-12" *ngIf="user.id === comment.userId">
+      <p
+        *ngIf="!(loading$ | async)"
+        class="d-block text-right text-black-50 pointer"
+        (click)="deleteComment()"
+      >
+        Eliminar comentario
+      </p>
+
+    </div>
+  </ng-container>
+</div>

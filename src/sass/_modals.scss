@@ -1,0 +1,53 @@
+
+.modal-content{
+    border-radius: 7px;
+
+    .modal-body{
+        border-radius: 7px;
+        padding: 2.3rem 2.3rem 1.1rem 2.3rem;
+        // background-size: 12%;
+        background-size: 50px;
+
+        &--logis{
+           // background: url('../assets/modal_corner.png') no-repeat right top;
+            // background-size: 10%;
+            background-size: 50px;
+            border-radius: 7px 7px 0 0;
+        }
+        
+        &--remove{
+            background: url('../assets/modal_corner.png') no-repeat right top, linear-gradient(0deg, #dc3545 32%, #fdfdfd 32%);
+        }
+
+        &--info{
+            background: url('../assets/modal_corner.png') no-repeat right top, linear-gradient(0deg, #e5e5e5 32%, #fdfdfd 32%);
+        }
+
+        &--success{
+            background: url('../assets/modal_corner.png') no-repeat right top, linear-gradient(0deg, #28b73b 32%, #fdfdfd 32%);
+        }
+        
+    }
+    
+    .modal-body ~ .modal-body {
+        border-radius: 0px 0px 7px 7px;
+    }
+
+    // .modal-body--logis{
+    //     background: url('../assets/modal_corner.png') no-repeat right top, linear-gradient(0deg, #dc3545 32%, #fdfdfd 32%);
+    // }
+}
+
+
+
+@include media-breakpoint-up(md) {
+    .modal-md {
+        max-width: 650px;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .modal-xl {
+        max-width: 1000px;
+    }
+}

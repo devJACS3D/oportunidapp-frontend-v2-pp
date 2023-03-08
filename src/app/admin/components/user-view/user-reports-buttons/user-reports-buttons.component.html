@@ -1,0 +1,87 @@
+<div class="row">
+  <div class="col-12 my-1" *ngIf="hasPermission.report">
+    <button (click)="printPersonalityTest()" class="btn font-weight-bold fs-small text-white bg-secondary btn-block">
+      Informe prueba personalidad
+    </button>
+  </div>
+  <div class="col-12 my-1" *ngIf="hasPermission.psychologicalReport">
+    <button (click)="printTest()" class="btn font-weight-bold fs-small text-white bg-secondary btn-block">
+      Informe prueba psicotécnica
+    </button>
+  </div>
+  <div class="col-12 my-1" *ngIf="hasPermission.interviewReport">
+    <button (click)="printInterview()" class="btn font-weight-bold fs-small text-white bg-secondary btn-block">
+      Informe de entrevista
+    </button>
+  </div>
+
+  <div class="col-12 my-1" *ngIf="hasPermission.referenceReport">
+    <button (click)="printWorkReferences()" class="btn font-weight-bold fs-small text-white bg-secondary btn-block">
+      Informe de referencias laborales
+    </button>
+  </div>
+
+  <div class="col-12 my-1" *ngIf="hasPermission.judicialBackgroundReport">
+    <button (click)="printJudicialBackground()" class="btn font-weight-bold fs-small text-white bg-secondary btn-block">
+      Informe de antecedentes judiciales
+    </button>
+  </div>
+
+  <div class="col-12 my-1" *ngIf="hasPermission.preInterviewReport">
+    <button (click)="printPreInterviews()" class="btn font-weight-bold fs-small text-white bg-secondary btn-block">
+      Informe de pre entrevista
+    </button>
+  </div>
+
+  <div class="col-12 my-1 nav-item profile-dropdown" ngbDropdown placement="bottom-right"
+    *ngIf="hasPermission.preInterviewReport">
+    <button type="button" id="dropdownInformeLink" ngbDropdownToggle
+      class="btn font-weight-bold fs-small text-white bg-secondary btn-block dropdown-toggle pointer">
+      Descarga de Informes
+    </button>
+    <div ngbDropdownMenu aria-labelledby="dropdownInformeLink">
+      <div *ngIf="loadingDesRep">
+        <div class="row">
+          <div class="col text-center">
+            <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+      <a class="dropdown-item" style="cursor: pointer;" (click)="downloadRepAfinidad()">
+        Índice de afinidad
+      </a>
+      <a class="dropdown-item" style="cursor: pointer;" (click)="downloadRepDiagPotencialClas()">
+        Diagnostico de potencial clásico
+      </a>
+      <a class="dropdown-item" style="cursor: pointer;" (click)="downloadAutBiomFacial()">
+        Autenticación biométrica facial
+      </a>
+      <button type="button" class="dropdown-item" (click)="infoMetodoDescPot()">
+        Diagnostico de potencial
+      </button>
+      <div *ngIf="showInfoPotencial" id="incluirPDF">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="graficas" checked>
+          <label class="custom-control-label" for="graficas">
+            Graficas
+          </label>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="tblResultados" checked>
+          <label class="custom-control-label" for="tblResultados">
+            Tabla de resultados
+          </label>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="interpretacion" checked>
+          <label class="custom-control-label" for="interpretacion">
+            Interpretación
+          </label>
+        </div>
+        <a class="dropdown-item" style="cursor: pointer;" (click)="downloadDiagPotencial()">
+          Descargar
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

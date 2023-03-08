@@ -1,0 +1,90 @@
+<div
+  class="modal-backdrop"
+  style="background-color: #0000007a; z-index: 1050;"
+></div>
+<div
+  class="modal modal-2 animated fadeInDown"
+  tabindex="-1"
+  role="dialog"
+  style="display: block; overflow-y: auto;"
+>
+  <div
+    class="modal-dialog modal-dialog-centered modal-md animated fadeInDown"
+    role="document"
+  >
+    <div class="modal-content">
+      <!-- ................................................................................................. -->
+      <!-- Button close modal -->
+      <!-- ................................................................................................. -->
+      <div class="d-flex justify-content-center">
+        <button
+          class="btn btn-rounded btn-rounded-close"
+          (click)="onCloseModalVideoP()"
+          [disabled]="loading"
+        >
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <!-- ................................................................................................. -->
+      <!-- See a preview of the attached video -->
+      <!-- ................................................................................................. -->
+      <div class="modal-body modal-body--logis ">
+        <div class="row">
+          <div class="col-12">
+            <h2 class="mb-2">Vista Previa</h2>
+          </div>
+          <div class="col-12" *ngIf="fileVideo.Data; else noVideoTemplate">
+            <app-video
+              [src]="fileVideo.Location"
+              [autoplay]="true"
+              [id]="idVideo"
+            ></app-video>
+            <div class="mt-3 pl-4 pt-2 content-name-video">
+              {{ fileVideo.Name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ................................................................................................. -->
+      <!-- Buttons to upload a previous video and send a pre interview -->
+      <!-- ................................................................................................. -->
+      <div class="d-flex justify-content-center pt-3 pb-5 pl-5 pr-5">
+        <button
+          class="btn btn-ok--dark-blue input-2 btn-modal-video mr-4"
+          (click)="onUploadVideo()"
+          tooltipClass="ngTooltipTop"
+          [ngbTooltip]="
+            'Puede subir un video en formato MP4'
+          "
+          placement="top"
+          [disabled]="loading"
+        >
+          {{ textUpload }}
+        </button>
+        <button
+          [disabled]="!fileVideo.Data || loading"
+          class="btn btn-ok--dark-blue input-2 btn-modal-video"
+          (click)="onSaveVideo()"
+        >
+          <i
+            *ngIf="loading"
+            class="fa fa-circle-o-notch fa-spin"
+            aria-hidden="true"
+          ></i>
+          Enviar Pre-Entrevista
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ................................................................................................. -->
+<!-- If a video from the gallery has not been uploaded -->
+<!-- ................................................................................................. -->
+<ng-template #noVideoTemplate>
+  <div class="col text-center text-secondary">
+    <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+    <h4 class="h4 text-secondary">
+      Aún no se ha subido un video
+    </h4>
+  </div>
+</ng-template>

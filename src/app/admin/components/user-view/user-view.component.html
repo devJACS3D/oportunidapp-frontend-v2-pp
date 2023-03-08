@@ -1,0 +1,129 @@
+<ng-container *ngIf="data$ | async; let data">
+  <page-header [header]="data.vacancyApplyment.vacancy.name | titlecase" [backTo]="backTo" class="my-4">
+  </page-header>
+
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="row flex-column">
+        <div class="col-12">
+          <user-side-card [user]="data.user"></user-side-card>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            <div class="col-12" *ngIf="showReportButtons(data.vacancyApplyment)">
+              <!-- Botones de reportes -->
+              <app-user-reports-buttons [vacancyApplyment]="data.vacancyApplyment"
+                [user]="data.user"></app-user-reports-buttons>
+            </div>
+
+            <ng-container *ShowAuthorized="[authorized.BUSINESS]">
+              <div class="col-12 mt-3" *ngIf="
+                  data.vacancyApplyment.vacancyApplymentStatusId ==
+                  vaStatus.COMPETENT
+                ">
+                <ng-container *BusinessType="businessTypes.TEMPORALIDAD">
+                  <button (click)="goToEntryOrder(data.vacancyApplyment)"
+                    class="btn font-weight-bold fs-small text-white bg-dark-blue btn-block">
+                    Generar orden de ingreso
+                  </button>
+                </ng-container>
+
+                <ng-container *BusinessType="businessTypes.OUTSOURCING">
+                  <button (click)="buyMembershipAlert()" *ngIf="data.additionalData.businessMustPay"
+                    class="btn font-weight-bold fs-small text-white bg-dark-blue btn-block">
+                    Adquirir candidato
+                  </button>
+                </ng-container>
+              </div>
+            </ng-container>
+
+            <div class="col-12 mt-3" *ngIf="showJudicialButton && !disabledButtonJudicial">
+              <button class="btn font-weight-bold fs-small text-white bg-off-blue btn-block"
+                (click)="showJudicialModal()">
+                Validar referencia judicial
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-8">
+      <!-- Tabs -->
+      <tabs-wrapper #tabsWrapper [card-shadow]="true" (tabChange)="setTabIndex($event)">
+        <tab *ngFor="let tab of tabs; let i = index" tabPadding="p-5" activeClass="active-dark" #tabChild
+          (click)="tabsWrapper.selectTab(tabChild)" [tabTitle]="tab" [tabValue]="i"></tab>
+      </tabs-wrapper>
+
+      <!-- Tabs view -->
+      <div class="row">
+        <div class="col-12">
+          <ng-container *ngIf="tabIndex === 0">
+            <ng-container *ngIf="
+                data.user && !data.additionalData.businessMustPay;
+                else userInformationNotAvailable
+              ">
+              <card-wrapper [rounded]="false">
+                <user-personal-information [user]="data.user"></user-personal-information>
+              </card-wrapper>
+              <card-wrapper [rounded]="false">
+                <user-personal-reference [personalReferences]="data.user?.personalReferences"></user-personal-reference>
+              </card-wrapper>
+              <card-wrapper [rounded]="false">
+                <user-additional-data [user]="data.user"></user-additional-data>
+              </card-wrapper>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="tabIndex === 1">
+            <ng-container *ngIf="
+                data.academicTitlesUsers.length > 0;
+                else noDataToDisplayTemplate
+              ">
+              <user-academic-information [academicInformation]="data.academicTitlesUsers"></user-academic-information>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="tabIndex === 2">
+            <ng-container *ngIf="
+                data.laboralExperiences.length > 0;
+                else noDataToDisplayTemplate
+              ">
+              <user-work-history (saveReference)="saveReference($event)" [applyment]="data"
+                [workHistory]="data.laboralExperiences">
+              </user-work-history>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+
+      <ng-template #noDataToDisplayTemplate>
+        <card-wrapper [rounded]="false">
+          <div class="row">
+            <div class="col-12 text-center">
+              <img [src]="util.assets('warning-icon.png')" alt="" />
+              <p>No se ha encontrado información.</p>
+            </div>
+          </div>
+        </card-wrapper>
+      </ng-template>
+
+      <ng-template #userInformationNotAvailable>
+        <card-wrapper [rounded]="false">
+          <div class="row">
+            <div class="col-12 text-center">
+              <img [src]="util.assets('warning-icon.png')" alt="" />
+              <p>Esta información no puede ser visualizada.</p>
+            </div>
+          </div>
+        </card-wrapper>
+      </ng-template>
+    </div>
+  </div>
+
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ MODAL JUDICIAL ANTECEDENT --------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <ng-container *ngIf="validateJudicial">
+    <validate-judicial-reference-modal (modalJudicial)="onModalJudicial($event)"
+      [vacancyApplyment]="data"></validate-judicial-reference-modal>
+  </ng-container>
+</ng-container>

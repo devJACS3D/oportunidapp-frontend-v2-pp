@@ -1,0 +1,76 @@
+<ng-container *ngIf="post$ | async; let post">
+  <div
+    class="blog-image"
+    [style.background]="'url(' + utils.getImgSrc(post.images[0]) + ')'"
+  ></div>
+  <br /><br />
+  <div class="container">
+    <div
+      class="col-12 mb-4 d-flex align-items-center"
+      style="padding-top: 25px;"
+    >
+      <i
+        class="fa fa-arrow-left pointer"
+        aria-hidden="true"
+        (click)="goBack()"
+      ></i>
+      <h4 class="m-0 ml-2 font-weight-light">Atrás</h4>
+    </div>
+    <hr style="background-color: black !important;" />
+    <div class="col-12">
+      <h3 class="font-weight-semi-bold my-4">{{ post.name }}</h3>
+    </div>
+
+    <div class="col-12">
+      <!-- <pre class="card-text card-text--info text-secondary custom-font">{{ post.description }}</pre> -->
+      <p class="text-justify post-description text-black-50" style="overflow-wrap: break-word">
+        {{ post.description }}
+      </p>
+    </div>
+
+    <div class="col-12 mt-2">
+      <h4 class="fs-1rem font-weight-semi-bold my-3">
+        Por {{ post.author }} | {{ post.createdAt | date }}
+      </h4>
+    </div>
+
+    <div class="col-12 d-flex align-items-center" style="gap:10px">
+      Compartir
+      <a (click)="share('facebook', $event)">
+        <span class="fa-stack fa-lg pointer">
+          <i class="fa fa-circle-thin fa-stack-2x"></i>
+          <i class="fa fa-facebook fa-stack-1x"></i>
+        </span>
+      </a>
+
+      <a (click)="share('twitter', $event)">
+        <span class="fa-stack fa-lg pointer">
+          <i class="fa fa-circle-thin fa-stack-2x"></i>
+          <i class="fa fa-twitter fa-stack-1x"></i>
+        </span>
+      </a>
+
+      <!-- 
+				<span class="fa-stack fa-lg">
+					<i class="fa fa-circle-thin fa-stack-2x"></i>
+					<i class="fa fa-thumbs-o-up fa-stack-1x"></i>
+				</span> -->
+    </div>
+
+
+    <div class="col-12 my-4">
+      <post-save-comment [postId]="post.id" (onComment)="refreshComments()"></post-save-comment>
+    </div>
+
+   <div class="col-12" >
+    <app-comment-list [postId]="post.id" [refresh]="commentRefresher$"></app-comment-list>
+   </div>
+
+    <div class="col-12">
+      <h4 class="section-title text-center font-weight-bold my-4">
+        Artículos más relevantes
+      </h4>
+      <app-post-card-list></app-post-card-list>
+    </div>
+  </div>
+</ng-container>

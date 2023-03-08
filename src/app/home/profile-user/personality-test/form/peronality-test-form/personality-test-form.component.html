@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 d-flex justify-content-end flex-column col-12 form-group" *ngFor="let item of (questions$ |async);let idx = index">
+      <ng-container [formGroup]="item">
+        <label class="font-weight-bold">{{item.value.question}}</label>
+        <select class="form-control input-3" formControlName="answerValue">
+          <ng-container formArrayName="answers">
+            <option selected disabled value="null">Seleccionar respuesta</option>
+            <option *ngFor="let ans of item.get('answers')['controls']" [value]="ans.value.value">{{ ans.value.answer }}
+            </option>
+          </ng-container>
+        </select>
+      </ng-container>
+    </div>
+  </div>
+
+
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-6 col-12" *ngIf="(pageIndex$ | async) == (totalPages)">
+      <button [disabled]="items.invalid || (submitting$ | async)" (click)="saveTest()"
+        class="btn btn-block btn-ok--blue">
+        <ng-container *ngIf="!(submitting$ | async);else saving">
+          Guardar
+        </ng-container>
+
+        <ng-template #saving>
+          Guardando...
+          <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        </ng-template>
+      </button>
+    </div>
+  </div>
+
+  <div class="row justify-content-center pagination-container">
+    <div class="col-auto d-flex">
+      <button type="button" *ngFor="let page of pages" [disabled]="(pageIndex$ | async) == page" (click)="setPage(page)" class="btn btn-pagination">
+        {{page}}
+      </button>
+    </div>
+  </div>
+</div>

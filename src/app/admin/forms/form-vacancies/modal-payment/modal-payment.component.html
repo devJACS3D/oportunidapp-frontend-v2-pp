@@ -1,0 +1,113 @@
+<div class="modal-backdrop" style="background-color: #0000007a;"></div>
+<div class="modal modal-2 animated fadeInDown" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+	<div class="modal-dialog modal-dialog-centered animated fadeInDown" role="document">
+		<div class="modal-content">
+			<div class="d-flex justify-content-center">
+				<button class="btn btn-rounded btn-rounded-close border-white" (click)="_close()">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</button>
+			</div>
+
+			<div class="modal-body modal-body--logis">
+				<div class="row">
+					<div class="col-12 text-center">
+						<img class="img-fluid" style="max-height:100px" [src]="utils.assets('logo.png')"
+							alt="Oportunidad logo">
+					</div>
+					<div class="col-12 text-center my-4">
+						<h5 class="text-dark font-weight-bold">Pasarela de pago</h5>
+					</div>
+				</div>
+
+				<form [formGroup]="FormEntity">
+					<div class="row">
+						<div class="col-12 col-md-7 form-group">
+							<label class="small">Número de tarjeta</label>
+							<input type="text" class="form-control input-3" formControlName="number" [mask]="_maskCard"
+								[validation]="false" (input)="setPaymentMethod()">
+						</div>
+						<div class="col-12 col-md form-group">
+							<label class="small">Fecha de expiración</label>
+							<input type="text" class="form-control input 3" formControlName="expirationDate"
+								placeholder="YYYY/MM" mask='0000/00' dropSpecialCharacters="false" [validation]="false">
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12 col-md-7 form-group">
+							<label class="small">Nombre completo</label>
+							<input type="text" class="form-control input-3" formControlName="name" maxlength="100">
+						</div>
+						<div class="col form-group">
+							<label class="small">Código CVV</label>
+							<input type="text" class="form-control input-3" formControlName="securityCode" maxlength="3"
+								mask='000'>
+						</div>
+					</div>
+					<!-- <div class="row">
+						<div class="col form-group">
+							<label class="small">CORREO ELECTRÓNICO</label>
+							<input type="text" class="form-control" formControlName="emailAddress" maxlength="60">
+						</div>
+						<div class="col form-group">
+							<label class="small">TELÉFONO</label>
+							<input type="text" class="form-control" formControlName="contactPhone"
+								[patterns]="_maskPhone" mask='ABBBBBBBBBBBBBB' [validation]="false"
+								[dropSpecialCharacters]="false" maxlength="15">
+						</div>
+					</div> -->
+
+					<div class="row">
+						<div class="col form-group">
+							<label class="small">Tipo de documento</label>
+							<select formControlName="dniType" class="form-control input-3">
+								<option *ngFor="let dtype of documentTypes$ | async" [value]="dtype.id">{{dtype.name}}
+								</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col form-group">
+							<label class="small">Número de documento</label>
+							<input type="text" class="form-control" formControlName="dniNumber" maxlength="15">
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col form-group">
+							<label class="small">Método de pago</label>
+							<div class="text-dark">
+								<ng-container [ngSwitch]="_paymentMethod">
+									<i *ngSwitchCase="'DINERS'" class="fa fa-cc-diners-club fa-2x"></i>
+									<i *ngSwitchCase="'AMEX'" class="fa fa-cc-amex fa-2x"></i>
+									<i *ngSwitchCase="'VISA'" class="fa fa-cc-visa fa-2x"></i>
+									<i *ngSwitchCase="'MASTERCARD'" class="fa fa-cc-mastercard fa-2x"></i>
+								</ng-container>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col">
+							<div class="alert alert-success">
+								Valor de la transacción
+								<span class="font-weight-bold float-right">
+									{{ amount | currency:'COP':'' }}
+								</span>
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<div class="col-12 text-center">
+					<button class="btn btn-ok--blue" [disabled]="FormEntity.invalid||loading" (click)="pay()">
+						<i *ngIf="loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+						Pagar y enviar a revisión
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,139 @@
+<div [ngClass]="{ 'bg-oportunidapp-light-two pt-5 fix-bottom': isOut }">
+  <div [ngClass]="{ 'container': isOut, 'container-fluid': !isOut }">
+    <div class="col-12 mb-4">
+      <button class="btn btn-ok--blue" (click)="goBack()" style="color: white;">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+      </button>
+      &nbsp;
+      <span class="h4">Formulario Generar orden de ingreso</span>
+    </div>
+
+    <div class="row" *ngIf="_loadingForm">
+      <div class="col-md-12">
+        Cargando...
+      </div>
+    </div>
+     
+
+    <ng-container>
+      <form [formGroup]="_formEntity">
+        <div class="card">
+          <div class="card-header text-info">
+            <h6>Aspectos generales</h6>
+          </div>
+          <div class="body-card">
+            <div class="row">
+              <div class="col-4 form-group">
+                <label class="label-info font-weight-bold">Fecha de diligenciamiento</label>
+                <input type="text" class="form-control input-2" formControlName="diligenceDate" maxlength="100">
+              </div>
+              <div class="col-4 form-group">
+                <label class="label-info font-weight-bold">Departamento</label>
+                <select class="form-control input-2" formControlName="stateId" (change)="changeDepartment($event)">
+                  <option value="">Seleccionar</option>
+                  <option *ngFor="let state of _states" [value]="state.id">
+                    {{ state.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-4 form-group">
+                <label class="label-info font-weight-bold">Ciudad</label>
+                <select class="form-control input-2" [ngClass]="{'select-loading': _loadingCities}"
+                  formControlName="cityId">
+                  <option value="">Seleccionar</option>
+                  <option *ngFor="let city of _cities" [value]="city.id">
+                    {{ city.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+         
+
+              <div class="col-6 form-group">
+                <label class="label-info font-weight-bold">Identificación</label>
+                <input type="text" class="form-control input-2" formControlName="identificacion" maxlength="100">
+              </div>
+              <div class="col-6 form-group">
+                <label class="label-info font-weight-bold">Nombre y Apellidos Afiliado</label>
+                <input type="text" class="form-control input-2" formControlName="name" maxlength="100">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6 form-group">
+                <label class="label-info font-weight-bold">Empresa usuario a Ingresar</label>
+                 <select class="form-control " formControlName="branchOfficeId">
+                  <option   value="1" selected="selected">EMp 1
+                  </option>
+                  <option *ngFor="let item of _resultCompanies" [value]="item.id">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-6 form-group">
+                <label class="label-info font-weight-bold">Centro costo</label>
+                <input type="text" class="form-control input-2" formControlName="costCenter" maxlength="100">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6 form-group">
+                <label class="label-info font-weight-bold">Cargo Desempeñar</label>
+                <input type="text" class="form-control input-2" formControlName="cargo" maxlength="100">
+              </div>
+              <div class="col-6 form-group">
+                <label class="label-info font-weight-bold">Teléfono/Celular</label>
+                <input type="text" class="form-control input-2" formControlName="phone" maxlength="100">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6 form-group">
+                <label class="label-info font-weight-bold">Correo Eléctronico</label>
+                <input type="text" class="form-control input-2" formControlName="email" maxlength="100">
+              </div>
+              <div class="col-6 form-group">
+                <label class="label-info font-weight-bold">Fecha de Ingreso</label>
+                <div class="input-group">
+                  <input type="text" class="form-control input-2" formControlName="admissionDate" [minDate]="_minDate"
+                    ngbDatepicker #fContract="ngbDatepicker" placeholder="aaaa-mm-dd" readonly>
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                      (click)="fContract.toggle();">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6 form-group">
+                <label class="label-info font-weight-bold">Auxilio/Bonificaciones (especificar valor y concepto)</label>
+                <input type="text" class="form-control input-2" formControlName="bonuses" maxlength="100">
+              </div>
+              <div class="col-6 form-group">
+                <label class="label-info font-weight-bold">Comisiones u Otros</label>
+                <input type="text" class="form-control input-2" formControlName="others" maxlength="100">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-2 form-group">
+                <button type="submit" [disabled]="_loading" class="btn btn-block btn-ok btn-ok--blue"
+                  (click)="submitForm()">
+                  <i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+                  {{ _btnText }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
+
+    </ng-container>
+  </div>
+</div>

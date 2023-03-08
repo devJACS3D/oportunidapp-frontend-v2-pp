@@ -1,0 +1,49 @@
+<ng-container *ngIf="(serviceTypeConfigs && serviceTypeConfigs?.length > 0 );else noDataTemplate">
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive-sm">
+        <table class="table card-table">
+          <thead>
+            <tr>
+              <th *ngFor="let head of tableHeaders()" scope="col">{{head}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Separator for showing a space between thead an tbody -->
+            <tr class="table-separator">
+              <td [colSpan]="this.tableHeaders().length"></td>
+            </tr>
+
+            <tr *ngFor="let stconfig of serviceTypeConfigs;let i = index">
+              <td class="font-weight-light">{{stconfig.data.displayName}}</td>
+
+              <!-- Services inside the configs. -->
+              <td class="font-weight-light" *ngFor="let service of stconfig.data.services; let index = index">
+                <toggle-switch [checked]="service.fieldVisible" (onChange)="handleChange($event,stconfig,index)">
+                </toggle-switch>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 mx-auto">
+      <button [disabled]="isButtonDisabled()" class="btn btn-block btn-ok--blue" (click)="saveConfig()">Guardar</button>
+    </div>
+  </div>
+
+</ng-container>
+
+<!-- No data template -->
+<ng-template #noDataTemplate>
+  <div class="row p-2">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-filter fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 text-secondary">
+        No se encontrarón resultados.
+      </h4>
+    </div>
+
+  </div>
+
+</ng-template>

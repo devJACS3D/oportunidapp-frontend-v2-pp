@@ -1,0 +1,26 @@
+.custom-switch .custom-control-label::before {
+  left: -2.25rem;
+  width: 4.0rem;
+  pointer-events: all;
+  border-radius: 0.5rem;
+  height: 0.65rem;
+}
+
+.custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+  background: #28b73b;
+  -webkit-transform: translateX(0.75rem);
+  transform: translateX(2.3rem);
+}
+
+.custom-switch .custom-control-label::after {
+  top: -5px;
+  left: calc(-2.34rem + 2px);
+  height: 30px !important;
+  border-radius: 1rem;
+  width: 1.8rem;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  background: #e5e5e5;
+  border-color: #e5e5e5;
+}

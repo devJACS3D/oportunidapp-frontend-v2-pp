@@ -1,0 +1,95 @@
+<div class="container-fluid">
+  <ng-container *ngIf="view == 1">
+    <div class="row">
+      <div class="col-12">
+        <h5 class="font-weight-semi-bold">Instrucciones</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <p class="text-justify">
+          A continuación, encontrará una serie de situaciones que nos permitirán
+          conocer su forma de actuar, pensar y sentir. En general no existen
+          respuestas correctas o incorrectas, porque cada persona tiene
+          actitudes e intereses diferentes. Su tarea consiste en dar respuesta a
+          todas las preguntas de acuerdo a los siguientes criterios para
+          manifestar su grado de interés frente a cada situación.
+        </p>
+        <p class="text-justify">
+          Cada situación será evaluada a partir de las siguientes opciones de
+          respuesta, esto tomará aproximadamente entre 30 a 60 minutos de su
+          tiempo:
+        </p>
+      </div>
+
+      <div class="col-12">
+        <ol>
+          <li>Completamente de acuerdo.</li>
+          <li>Algo de acuerdo.</li>
+          <li>Ni de acuerdo, ni en desacuerdo.</li>
+          <li>Un poco en desacuerdo.</li>
+          <li>Completamente en desacuerdo.</li>
+        </ol>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="view == 2">
+    <div class="row">
+      <div class="col-12">
+        <h5 class="font-weight-semi-bold">Recomendaciones</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <ol>
+          <li>
+            Se le solicita al examinado que responda la prueba de la manera más
+            SINCERA. El instrumento puede identificar intentos deliberados de
+            manipulación de respuestas para ofrecer una imagen positiva o
+            negativa de sí mismo. Con el desarrollo de esta tarea se espera que
+            prime la HONESTIDAD, considerando que es uno de los valores
+            esenciales dentro de cualquier relación laboral.
+          </li>
+          <li>
+            Se les solicita responder de manera individual el instrumento.
+          </li>
+          <li>
+            Se sugiere responder la prueba EN COMPUTADOR, para una mejor
+            visualización de las preguntas y facilitar la rápida finalización de
+            la prueba.
+          </li>
+          <li>
+            Sus respuestas serán tratadas confidencialmente y sólo se utilizarán
+            de modo global, transformadas en puntuaciones.
+          </li>
+        </ol>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container>
+    <div class="row justify-content-between">
+      <div class="col-4">
+        <button
+          *ngIf="view == 2"
+          (click)="(view = view - 1)"
+          class="btn btn-block btn-outline-primary"
+        >
+          Atras
+        </button>
+      </div>
+      <div class="col-4">
+        <button *ngIf="view == 1" (click)="(view = view + 1)" class="btn btn-block btn-ok--blue">
+          Recomendaciones
+        </button>
+
+        <button *ngIf="view == 2" (click)="doTest()" class="btn btn-block btn-ok--blue">
+          Realizar test
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

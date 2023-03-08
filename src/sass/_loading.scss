@@ -1,0 +1,80 @@
+/* Placeholder loading */
+%loading-shared {
+    animation: 0.65s infinite alternate pulse;
+    background-color: #d6d6d6;
+    display: inline-block;
+    position: relative;
+    // margin-top: .4em;
+    // margin-bottom: .4em;
+}
+
+.ph-loading-img {
+    animation: 0.65s infinite alternate pulse;
+    color: #d6d6d6;
+}
+
+.ph-loading {
+    @extend %loading-shared;
+    padding-top: 1em;
+    width: 100%;
+
+    &-xs {
+        @extend %loading-shared;
+        padding-top: 0.7em;
+        width: 30%;
+    }
+    &-sm {
+        @extend %loading-shared;
+        padding-top: 0.75em;
+        width: 50%;
+    }
+
+    &-md {
+        @extend %loading-shared;
+        padding-top: 0.95em;
+        width: 75%;
+    }
+
+    &-lg {
+        @extend %loading-shared;
+        padding-top: 1.3em;
+        width: 100%;
+    }
+
+    &-xl {
+        @extend %loading-shared;
+        padding-top: 1.5em;
+        width: 100%;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.loadingText:after {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -webkit-animation: ellipsis steps(8, end) 900ms infinite;
+    animation: ellipsis steps(8, end) 900ms infinite;
+    content: "\2026"; /* ascii code for the ellipsis character */
+    width: 0px;
+}
+
+@keyframes ellipsis {
+    to {
+        width: 20px;
+    }
+}
+
+@-webkit-keyframes ellipsis {
+    to {
+        width: 20px;
+    }
+}

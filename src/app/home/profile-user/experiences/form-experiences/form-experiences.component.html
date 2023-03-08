@@ -1,0 +1,259 @@
+<h5 class="mt-2 mb-3">{{ _title }} experiencia laboral</h5>
+<p>Los campos marcados con un asterisco (*) son obligatorios</p>
+<hr class="mt-3 mb-4">
+<!------------------------------------------------------------------------------------------------------------------------>
+<!------------------------------------ FORM EXPERIENCIES ---------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------>
+<form [formGroup]="experienciesForm" (ngSubmit)="save()">
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ COMPANY ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<div class="form-group row">
+		<div class="col-12 col-md-12">
+			<label for="">Nombre de la empresa*</label>
+			<input type="text" class="form-control input-2" formControlName="company" maxlength="100">
+			<span class="text-danger invalid-control"
+				*ngIf="experienciesForm.controls.company.invalid && experienciesForm.controls.company.dirty">
+				Campo requerido
+			</span>
+		</div>
+	</div>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ EMPLOYMENT ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<div class="form-group row">
+		<div class="col-12 col-md-12">
+			<label for="">Cargo*</label>
+			<input type="text" class="form-control input-2" formControlName="employment" maxlength="100">
+			<span class="text-danger invalid-control"
+				*ngIf="experienciesForm.controls.employment.invalid && experienciesForm.controls.employment.dirty">
+				Campo requerido
+			</span>
+		</div>
+	</div>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ DATE OF ADMISSION ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<label for="">Fecha de ingreso*</label><br>
+	<div class="form-group row">
+		<div class="col-md-7 col-xs-12 col-sm-12">
+			<div class="row">
+				<div class="col-md-4 col-xs-12 col-sm-12 mb-1">
+					<select class="form-control input-2" formControlName="daysInit">
+						<option value="" disabled class="font-weight-normal">DD</option>
+						<option [selected]="item == experienciesForm.controls.daysInit.value"
+							*ngFor="let item of _days">
+							{{item}}
+						</option>
+					</select>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+					<span class="text-danger invalid-control"
+						*ngIf="experienciesForm.controls.daysInit.invalid && experienciesForm.controls.daysInit.dirty">
+						Campo requerido
+					</span>
+				</div>
+				<div class="col-md-4 col-xs-12 col-sm-12 mb-1">
+					<select class="form-control input-2" formControlName="monthsInit">
+						<option value="" disabled class="font-weight-normal">MM</option>
+						<option [selected]="item == experienciesForm.controls.monthsInit.value"
+							*ngFor="let item of _months">
+							{{item}}
+						</option>
+					</select>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+					<span class="text-danger invalid-control"
+						*ngIf="experienciesForm.controls.monthsInit.invalid && experienciesForm.controls.monthsInit.dirty">
+						Campo requerido
+					</span>
+				</div>
+				<div class="col-md-4 col-xs-12 col-sm-12 mb-1">
+					<select class="form-control input-2" formControlName="yearsInit">
+						<option value="" disabled class="font-weight-normal">AAAA</option>
+						<option [selected]="item == experienciesForm.controls.yearsInit.value"
+							*ngFor="let item of _years">
+							{{item}}
+						</option>
+					</select>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+					<span class="text-danger invalid-control"
+						*ngIf="experienciesForm.controls.yearsInit.invalid && experienciesForm.controls.yearsInit.dirty">
+						Campo requerido
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5 col-xs-12 col-sm-12">
+		</div>
+	</div>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ RETIREMENT DATE ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<label for="">Fecha de retiro*</label><br>
+	<div class="form-group row">
+		<div class="col-md-7 col-xs-12 col-sm-12">
+			<div class="row">
+				<div class="col-md-4 col-xs-12 col-sm-12 mb-1">
+					<select class="form-control input-2" formControlName="daysFinish">
+						<option value="" disabled class="font-weight-normal">DD</option>
+						<option [selected]="item == experienciesForm.controls.daysFinish.value"
+							*ngFor="let item of _days">
+							{{item}}
+						</option>
+					</select>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+					<span class="text-danger invalid-control"
+						*ngIf="experienciesForm.controls.daysFinish.invalid && experienciesForm.controls.daysFinish.dirty">
+						Campo requerido
+					</span>
+				</div>
+				<div class="col-md-4 col-xs-12 col-sm-12 mb-1">
+					<select class="form-control input-2" formControlName="monthsFinish">
+						<option value="" disabled class="font-weight-normal">MM</option>
+						<option [selected]="item == experienciesForm.controls.monthsFinish.value"
+							*ngFor="let item of _months">
+							{{item}}
+						</option>
+					</select>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+					<span class="text-danger invalid-control"
+						*ngIf="experienciesForm.controls.monthsFinish.invalid && experienciesForm.controls.monthsFinish.dirty">
+						Campo requerido
+					</span>
+				</div>
+				<div class="col-md-4 col-xs-12 col-sm-12 mb-1">
+					<select class="form-control input-2" formControlName="yearsFinish">
+						<option value="" disabled class="font-weight-normal">AAAA</option>
+						<option [selected]="item == experienciesForm.controls.yearsFinish.value"
+							*ngFor="let item of _years">
+							{{item}}
+						</option>
+					</select>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+					<span class="text-danger invalid-control"
+						*ngIf="experienciesForm.controls.yearsFinish.invalid && experienciesForm.controls.yearsFinish.dirty">
+						Campo requerido
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5 col-xs-12 col-sm-12">
+			<div class="card pt-2 pb-2 pl-3 border-radius-5 input-2">
+				<div class="custom-control custom-checkbox mt-1">
+					<input type="checkbox" (change)="checkCurrentlyWorkHere($event.target.checked)"
+						class="custom-control-input" id="actuality" formControlName="currentlyWorkHere">
+					<label class="custom-control-label" for="actuality">
+						Actualidad
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ FUNCTIONS ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<div class="form-group row">
+		<div class="col-12 col-md-12">
+			<label for="">Funciones*</label>
+			<textarea rows="4" class="form-control input-2" formControlName="functions"></textarea>
+			<span class="text-danger invalid-control"
+				*ngIf="experienciesForm.controls.functions.invalid && experienciesForm.controls.functions.dirty">
+				Campo requerido
+			</span>
+		</div>
+	</div>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ REASONS FOR WITHDRAWAL ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<div class="form-group row">
+		<div class="col-12 col-md-12">
+			<label for="">Motivos de retiro*</label>
+			<textarea rows="4" class="form-control input-2" formControlName="reasonWithdrawal"
+				maxlength="500"></textarea>
+			<span class="text-danger invalid-control"
+				*ngIf="experienciesForm.controls.reasonWithdrawal.invalid && experienciesForm.controls.reasonWithdrawal.dirty">
+				Campo requerido
+			</span>
+		</div>
+	</div>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ IMMEDIATE BOSS AND CELL ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<div class="form-group row">
+		<div class="col-md-6 col-xs-12 col-sm-12">
+			<label for="">Jefe inmediato*</label>
+			<input type="text" class="form-control input-2" formControlName="boss" maxlength="100">
+			<span class="text-danger invalid-control"
+				*ngIf="experienciesForm.controls.boss.invalid && experienciesForm.controls.boss.dirty">
+				Campo requerido
+			</span>
+		</div>
+		<div class="col-md-6 col-xs-12 col-sm-12">
+			<label for="">Celular*</label>
+			<input type="text" class="form-control input-2" formControlName="cellphone" [patterns]="_maskPhone"
+				mask='ABBBBBBBBBBBBBB' [validation]="false" [dropSpecialCharacters]="false" maxlength="15">
+			<span class="text-danger invalid-control"
+				*ngIf="experienciesForm.controls.cellphone.invalid && experienciesForm.controls.cellphone.dirty">
+				Campo requerido
+			</span>
+		</div>
+	</div>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ ADJUNT DOCUMENT FILE---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<label for="">Certificación laboral</label><br>
+	<ng-container *ngIf="!payload.cea">
+		<div class="form-group row">
+			<div class="col-12">
+				<button class="btn input-2" (click)="onUploadCertificate()" type="button" [disabled]="isInProcess">
+					<div class="row">
+						<div class="col-2">
+							<img class="imageButton" src="assets/userprofile/Add.png" style="width: 1.6rem;">
+						</div>
+						<div class="col-auto">{{experienciesFile.Name | truncate: 20}}</div>
+					</div>
+				</button>
+			</div>
+		</div>
+	</ng-container>
+	<!-- If exists document cea -->
+	<ng-container *ngIf="payload.cea">
+		<div class="form-group row">
+			<div class="col-12">
+				<preview-document [file]="payload.cea" [loadingColor]="'white'" [title]="'Experiencia'"
+					(onPreviewDocument)="onPreviewDocument($event)">
+				</preview-document>
+			</div>
+		</div>
+	</ng-container>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ DOCUMENT IN PROCESS ---------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<ng-container *ngIf="!payload.cea">
+		<div class="form-group row">
+			<div class="custom-control custom-radio custom-control-inline">
+				<div class="col-12">
+					<input (change)="checkDocument($event.target.checked)" formControlName="isInProcess"
+						id="isInProcess" type="checkbox" class="custom-control-input">
+					<label class="custom-control-label" for="isInProcess">Documento en trámite</label>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<!------------------------------------ SAVE DATA ------------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------>
+	<div class="form-group row justify-content-center">
+		<div>
+			<button type="submit" [disabled]="experienciesForm.invalid || loadingData"
+				class="btn btn-ok--blue btn-block btn-lg">
+				<ng-container *ngIf="!(submitting$ | async); else loading">
+					{{_title}}
+				</ng-container>
+				<ng-template #loading>
+					<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+					Guardando
+				</ng-template>
+			</button>
+		</div>
+	</div>
+</form>

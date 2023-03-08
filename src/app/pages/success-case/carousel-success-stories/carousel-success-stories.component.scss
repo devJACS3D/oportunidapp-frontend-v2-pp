@@ -1,0 +1,49 @@
+
+#carousel {
+    position: relative;
+    height: 450px;
+    overflow: hidden;
+
+    & > div{
+        position: absolute;
+        transition: transform 1s, left 1s, opacity 1s, z-index 0s;
+        opacity: 1;
+        width: 230px;
+
+        & > .card{
+            border: none;
+        }
+
+        &.selected{
+            z-index: 10;
+            left: 50%;
+            transform: translateY(0px) translateX(-50%);
+        }
+
+        &.prev{ left: 30%; }
+        &.next{ left: 70%; }
+        &.prev, &.next{
+            z-index: 5;
+            transform: translateY(15px) translateX(-50%);
+            zoom: 92%;
+            opacity: 0.9;
+        }
+
+        &.prevLeftSecond{ left: 15%; }
+        &.nextRightSecond{ left: 85%; }
+        &.prevLeftSecond, &.nextRightSecond{
+            z-index: 4;
+            transform: translateY(30px) translateX(-50%);
+            opacity: 0.7;
+            zoom: 85%;
+        }
+        
+        &.hideLeft{ left: 0%; }
+        &.hideRight{ left: 100%;}
+        &.hideLeft, &.hideRight{
+            opacity: 0;
+            transform: translateY(80px) translateX(-50%);
+            zoom: 75%;
+        }
+    }
+}

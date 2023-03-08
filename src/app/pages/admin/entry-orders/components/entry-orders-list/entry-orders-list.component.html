@@ -1,0 +1,122 @@
+<page-header class="my-4" header="Ordenes de ingreso" [backButton]="false"></page-header>
+
+<only-search-filter searchKey="code" (onSearch)="searchFilter($event)"></only-search-filter>
+<ng-container *ngIf="(entryOrders$ | async); let entryOrders;else loading">
+  <ng-container *ngIf="entryOrders?.length > 0;else noData">
+    <!-- ................................................................................................. -->
+    <!-- TABLE -->
+    <!-- ................................................................................................. -->
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive-sm">
+          <table class="table card-table">
+            <thead>
+              <tr>
+                <th *ngFor="let head of tableHeaders" scope="col">{{head}}</th>
+                <!-- actions -->
+                <th scope="col" style="width: 150px;"></th>
+                <ng-container *ngIf="currentUser.isBusinessProfile">
+                  <th scope="col" style="width: 150px;"></th>
+                </ng-container>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Separator for showing a space between thead an tbody -->
+              <tr class="table-separator">
+                <td [colSpan]="this.tableHeaders.length+1000"></td>
+              </tr>
+
+              <ng-container *ngFor="let entryOrder of entryOrders">
+                <tr class="pointer">
+                  <td class="font-weight-light">
+                    {{entryOrder.id}}
+                  </td>
+                  <td class="font-weight-light">
+                    {{entryOrder.createdAt | date: 'dd/MM/yy'}}
+                  </td>
+                  <td class="font-weight-light">
+                    {{entryOrder.vacancyApplyment.vacancy.name}}
+                  </td>
+                  <td class="font-weight-light">
+                    {{entryOrder?.status?.name}}
+                  </td>
+
+                  <td class="font-weight-light">
+                    <ng-container *ngIf="(downloadingAt$ | async) == entryOrder.id;else downloadButton">
+                      <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+                    </ng-container>
+                    <ng-template #downloadButton>
+                      <img (click)="downloadFile(entryOrder)" [src]="utils.assets('download-icon-filled.png')"
+                        alt="Download">
+                    </ng-template>
+                  </td>
+                  <td class="font-weight-light">
+                    <ng-container *ngIf="(entryOrderStatusAtLoading$ | async) == entryOrder.id;else showStatus">
+                      <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+                    </ng-container>
+
+                    <ng-template #showStatus>
+                      <a class="text-primary pointer" (click)="confirmStatusAlert(entryOrder)">
+                        {{entryOrder.statusId == 2? 'Cancelar orden de ingreso':'Restablecer orden de ingreso'}}
+                      </a>
+                    </ng-template>
+                  </td>
+                  <ng-container *ngIf="currentUser.isBusinessProfile">
+                    <td class="font-weight-light">
+                      <ng-container *ngIf="entryOrder.userQualified">
+                        Calificado &#10003;
+                      </ng-container>
+                      <ng-container *ngIf="!entryOrder.userQualified">
+                        <button class="btn-ok--custom-link-blue btn-cursor-pointer"
+                          (click)="qualifyCandidates(entryOrder)">
+                          Calificar Candidato
+                        </button>
+                      </ng-container>
+                    </td>
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ................................................................................................. -->
+    <!-- PAGINATION -->
+    <!-- ................................................................................................. -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <app-pagination [pagination]="pagination" [loader]="loadingPage" (_changePage)="goToPage($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </ng-container>
+
+
+</ng-container>
+
+<!-- ................................................................................................. -->
+<!-- LOADING TEMPLATE -->
+<!-- ................................................................................................. -->
+<ng-template #loading>
+  <div class="row">
+    <div class="col text-center">
+      <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ................................................................................................. -->
+<!-- NO DATA -->
+<!-- ................................................................................................. -->
+<ng-template #noData>
+  <div class="row mt-4">
+    <div class="col-12 text-center">
+      <h4 class="h4 text-secondary">
+        No se han encontrado resultados.
+      </h4>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,53 @@
+<page-header class="my-3" [header]="header" [backButton]="false"></page-header>
+
+<div class="row" *ngIf="(business$ | async); let business">
+  <div class="col-12">
+    <card-header header="Información de la empresa"></card-header>
+  </div>
+
+  <div class="col-12">
+    <card-wrapper>
+      <div class="row justify-content-center justify-content-md-start">
+        <div class="col-12 col-md-4 mb-4">
+          <div class="img-rounded mx-auto" [style.background]="'url(' + utils.getImgSrc(business.image) + ')'"
+            style="width: 12rem; height: 12rem; position: relative;">
+
+            <input type="file" (change)="setFile($event)" id="inputUpload" accept="image/*" style="display: none;">
+            <label for="inputUpload" style="cursor: pointer;">
+              <span class="fa-stack fa-lg edit-icon">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+              </span>
+            </label>
+          </div>
+          <ng-container *ngIf="businessFile">
+            <button [disabled]="(uploadingFile$|async)" (click)="saveBusinessImage()"
+              class="btn btn-ok--blue mx-auto d-block my-4">
+              <ng-container *ngIf="!(uploadingFile$|async);else uploading">
+                Guardar imagen
+              </ng-container>
+              <ng-template #uploading>
+                Guardando...
+                <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+              </ng-template>
+            </button>
+
+          </ng-container>
+
+          <ng-container *ngIf="buttonCanRate$ | async; let button">
+            <ng-container *ngIf="!button.qualified">
+              <button class="mt-3 btn-ok--blue btn mx-auto d-block" (click)="companyCanRate()">
+                Calificar Plataforma
+              </button>
+            </ng-container>
+          </ng-container>
+
+        </div>
+
+        <div class="col-12 col-md-8">
+          <business-profile-form [submitting]="submitting" (onSubmit)="saveBusiness($event)"></business-profile-form>
+        </div>
+      </div>
+    </card-wrapper>
+  </div>
+</div>

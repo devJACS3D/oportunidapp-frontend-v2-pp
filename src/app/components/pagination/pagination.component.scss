@@ -1,0 +1,58 @@
+@import "../../../sass/vars";
+.page-item{
+    border: none;
+    color: #ccc;
+    background-color: transparent;
+
+
+    & > .page-link{
+        background-color: transparent;
+        border: none;
+        text-decoration:  none;
+
+        &-page{
+            color: gray;
+
+            &.active{
+                color: black;
+                // font-weight: bold;
+            }
+        }
+
+        &:focus{
+            box-shadow: none;
+        }
+    }
+
+    &-loader{
+        padding-top: 6px;
+        width: 16px;
+    }
+
+
+}
+
+.active{
+  color: #b34700 !important
+}
+
+.page-indicator{
+  background-color: $text-secondary !important;
+  border-radius: 50%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  padding: 0.2rem;
+  cursor: pointer;
+  &>.page-icon{
+    color: white !important;
+    font-size: 1rem !important;
+    border: none !important;
+    font-weight: lighter;
+    background-color: transparent;
+  }
+}
+
+
+.perpage-select{
+  border: none !important;
+}

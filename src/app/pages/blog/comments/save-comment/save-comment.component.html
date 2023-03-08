@@ -1,0 +1,35 @@
+<form
+  class="row flex-column justify-content-center align-items-center"
+  [formGroup]="commentForm"
+  (ngSubmit)="saveComment()"
+>
+  <div class="col-12 col-sm-10 form-group">
+    <label class="font-weight-semi-bold mb-3">Dejas tus comentarios</label>
+    <textarea
+      rows="4"
+      formControlName="description"
+      class="input-3 form-control"
+    ></textarea>
+    <field-error [fcontrol]="commentForm.get('description')"></field-error>
+
+    <button
+      type="submit"
+      [disabled]="commentForm.invalid || (loading$ | async)"
+      class="d-block ml-auto btn btn-ok--blue btn-ok--width mt-4"
+    >
+      <ng-container *ngIf="!(loading$ | async); else publishing">
+        Publicar
+      </ng-container>
+
+      <ng-template #publishing>
+        Publicando
+        <i
+          class="fa fa-circle-o-notch fa-spin text-white"
+          aria-hidden="true"
+        ></i>
+      </ng-template>
+    </button>
+  </div>
+  <!--  <div class="col-12 col-sm-4 align-self-sm-end">
+  </div> -->
+</form>

@@ -1,0 +1,241 @@
+<div [ngClass]="{
+    'bg-oportunidapp-light-two pt-5 fix-bottom': isOut,
+    container: clssContainerBussines === true
+  }">
+  <div [ngClass]="{ container: isOut }">
+    <page-header header="Detalle de la vacante" backTo="../../../"></page-header>
+    <div class="row" *ngIf="_loadingForm">
+      <div class="col-md-12">
+        Cargando...
+      </div>
+    </div>
+    <div class="row" *ngIf="!_loadingForm && !_Entity">
+      <div class="col-md-12">
+        Error cargando formulario
+      </div>
+    </div>
+
+    <ng-container *ngIf="!_loadingForm && _Entity">
+      <div class="row mt-4">
+        <div class="col-12 col-md-8">
+          <card-header [header]="_Entity.name"> </card-header>
+
+          <!-- Componente de Resumen de oferta -->
+          <card-wrapper [rounded]="false">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 form-group">
+                  <label class="label-info font-weight-bold">Nombre de la empresa</label>
+                  <div class="font-weight-lighter text-muted">
+                    {{ _Entity.company.name }}
+                  </div>
+                </div>
+                <div class="col-12 form-group">
+                  <label class="label-info font-weight-bold">Sector</label>
+                  <div class="font-weight-lighter text-muted">
+                    {{ _Entity.sector.name }}
+                  </div>
+                </div>
+                <div class="col-12 form-group">
+                  <label class="label-info font-weight-bold">Lugar</label>
+                  <div class="font-weight-lighter text-muted">
+                    {{ _Entity.state.name }}, {{ _Entity.city.name }}
+                  </div>
+                </div>
+                <div class="col-12 form-group">
+                  <label class="label-info font-weight-bold">Descripción de la oferta</label>
+                  <div class="font-weight-lighter text-muted">
+                    {{ _Entity.description }}
+                  </div>
+                </div>
+                <div class="col-12 form-group">
+                  <label class="label-info font-weight-bold">Salario mínimo</label>
+                  <div class="font-weight-lighter text-muted">
+                    ${{ _Entity.minSalary | currency: "COP":"" }}
+                  </div>
+                </div>
+                <div class="col-12 form-group">
+                  <label class="label-info font-weight-bold">Salario máximo</label>
+                  <div class="font-weight-lighter text-muted">
+                    ${{ _Entity.maxSalary | currency: "COP":"" }}
+                  </div>
+                </div>
+                <div class="col-12 form-group">
+                  <label class="label-info font-weight-bold">Idiomas</label>
+                  <div class="font-weight-lighter text-muted">
+                    {{ _Entity.languages }}
+                  </div>
+                </div>
+                <div class="col-12 form-group">
+                  <label class="label-info font-weight-bold">Información adicional de la oferta</label>
+                  <ul>
+                    <li class="font-weight-lighter text-muted">
+                      Edad mínima de {{ _Entity.minimunAge }} años
+                    </li>
+                    <li class="font-weight-lighter text-muted">
+                      Edad máxima de {{ _Entity.maximunAge }} años
+                    </li>
+                    <li class="font-weight-lighter text-muted" *ngIf="_Entity.availabilityToTravel == 'Si'">
+                      Disponibilidad para viajar
+                    </li>
+                    <li class="font-weight-lighter text-muted" *ngIf="_Entity.availabilityToRelocation == 'Si'">
+                      Disponibilidad de reubicación
+                    </li>
+                    <li class="font-weight-lighter text-muted">
+                      {{ _Entity.yearsExperience }} años de experiencia
+                    </li>
+                    <li class="font-weight-lighter text-muted" *ngIf="_Entity.drivingLicense?.name">
+                      Licencia de conducción {{ _Entity.drivingLicense?.name }}
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-12 form-group">
+                  <ng-container *ngIf="isOut">
+                    <ng-container *ngIf="_currentUser | async as _user; else NoLogged">
+
+                      <button *ngIf="_user.isAgentProfile" [disabled]="_loading" class="btn btn-ok btn-ok--blue"
+                        style="width: 140px;" (click)="apply()">
+                        <i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+                        Aplicar
+                      </button>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container *ngIf="!isOut">
+                    <ng-container *ngIf="_currentUser | async as _user">
+                      <div class="row">
+                        <div class="col-auto" *ngIf="_user.userTypeId != 3 && _Entity.published">
+                          <a (click)="
+                              goToCompetendsOrStands(1, _Entity.id, 'stands', _idVacante)
+                            " class="btn btn-ok btn-ok--blue" style="min-width: 110px;">
+                            Postulados
+                          </a>
+                        </div>
+                        <div class="col-auto" *ngIf="_Entity.published">
+                          <a class="btn btn-ok btn-ok--blue" style="min-width: 110px;" (click)="
+                              goToCompetendsOrStands(
+                                8,
+                                _Entity.id,
+                                'competents',
+                                _idVacante
+                              )
+                            ">
+                            Aptos
+                          </a>
+                        </div>
+                        <ng-container *ShowAuthorized="[
+                            AUTHORIZED.ADMIN,
+                            AUTHORIZED.PSYCHOLOGIST
+                          ]">
+                          <div class="col-auto" *ngIf="!_Entity.published">
+                            <a (click)="publishRequisition()" class="btn btn-ok--blue p-2" style="min-width: 110px;">
+                              Publicar
+                            </a>
+                          </div>
+                          <div class="col-auto" *ngIf="!_Entity.published">
+                            <a routerLink="../../edit/{{ _Entity.id }}" class="btn btn-outline-primary p-2"
+                              style="min-width: 110px;">
+                              Editar
+                            </a>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </card-wrapper>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <!-- <div class="row mb-3">
+            <div class="col-12">
+              <div
+                class="bg-image-responsive"
+                [style.background]="'url(' + _vacancyImage.Url + ')'"
+                style="width: 100%; height: 170px;"
+              ></div>
+            </div>
+          </div> -->
+
+          <card-wrapper [rounded]="false">
+            <span class="h5 card-title">Resumen de la oferta</span>
+          </card-wrapper>
+
+          <card-wrapper [rounded]="false">
+            <div class="row">
+              <div class="col-auto form-group justify-content-center col-icon">
+                <img src="assets/calendar.png" style="width: 30px;" />
+              </div>
+              <div class="col col-description">
+                {{ _Entity.contractDate | date }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-auto form-group justify-content-center col-icon">
+                <img src="assets/location.png" style="width: 30px; position: relative; bottom: 5px;" />
+              </div>
+              <div class="col col-description">
+                {{ _Entity.city.name }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-auto form-group justify-content-center col-icon">
+                <img src="assets/dollar.png" style="width: 30px;" />
+              </div>
+              <div class="col col-description">
+                {{ _Entity.maxSalary | currency:'COP':'' }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-auto form-group justify-content-center col-icon">
+                <img src="assets/writing.png" style="width: 30px;" />
+              </div>
+              <div class="col col-description">
+                {{ _Entity.contractType.name }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-auto form-group justify-content-center col-icon">
+                <img src="assets/workschedule.png" style="width: 30px;" />
+              </div>
+              <div class="col col-description">
+                {{ _Entity.workday.name }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-auto form-group justify-content-center col-icon">
+                <img src="assets/settings.png" style="width: 30px;" />
+              </div>
+              <div class="col col-description">
+                {{ _Entity.sector.name }}
+              </div>
+            </div>
+
+            <ng-container *ngIf="isOut">
+              <ng-container *ngIf="_currentUser | async as _user; else NoLogged">
+                <button *ngIf="_user.isAgentProfile" [disabled]="_loading" class="btn btn-ok btn-ok--blue"
+                  style="width: 140px;" (click)="apply()">
+                  <i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+                  Aplicar
+                </button>
+              </ng-container>
+            </ng-container>
+          </card-wrapper>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #NoLogged>
+  <button class="btn btn-ok btn-ok--blue" style="width: 140px;" *ngIf="isVac"
+    [routerLink]="['../../', { outlets: { modal: ['login'] } }]">
+    Aplicar
+  </button>
+  <button class="btn btn-ok btn-ok--blue" style="width: 140px;" *ngIf="!isVac"
+    [routerLink]="['../../../../../', { outlets: { modal: ['login'] } }]">
+    Aplicar
+  </button>
+</ng-template>

@@ -1,0 +1,81 @@
+<div class="modal-backdrop" style="background-color: #0000007a;"></div>
+<div class="modal modal-2 animated fadeInUp" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+	<div class="modal-dialog modal-dialog-centered modal-md" role="document">
+		<div class="modal-content">
+			<div class="d-flex justify-content-center" *ngIf="viewState == 1">
+				<button class="btn btn-rounded btn-rounded-close" routerLink="../../">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</button>
+			</div>
+			<div class="modal-body modal-body--logis">
+				<ng-container *ngIf="viewState == 1">
+					<div class="row">
+						<div class="col-12 text-center icon-container">
+							<img src="assets/Yes.png">
+						</div>
+					</div>
+
+					<div class="row mt-2 mb-4">
+						<div class="col-12 text-center">
+							<span class="text-secondary">
+								Calificar prueba. <br>
+								Desea marcar al candidato como:
+							</span>
+						</div>
+					</div>
+					<div class="row">
+						<!-- <div class="col text-center">
+							<button class="btn btn-outline-secondary" routerLink="../../">
+								Cancelar
+							</button>
+						</div> -->
+						<div class="col text-center">
+							<button class="btn btn-danger" style="min-width: 100px;"
+								(click)="_approved = false; viewState = 2">
+								No Apto
+							</button>
+						</div>
+						<div class="col text-center">
+							<button class="btn btn-success" style="min-width: 100px;"
+								(click)="_approved = true; viewState = 2">
+								Apto
+							</button>
+						</div>
+					</div>
+				</ng-container>
+
+				<ng-container *ngIf="viewState == 2">
+					<div class="row animated fadeInRight">
+						<div class="col-12">
+							<div class="row mt-3 mb-4">
+								<div class="col">
+									<h4 class="text-secondary">Añadir comentario</h4>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col form-group">
+									<textarea [(ngModel)]="_comment" class="form-control input-2" rows="5"></textarea>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col text-center">
+									<button class="btn btn-outline-secondary mr-3" (click)="viewState = 1"
+										style="min-width: 100px;">
+										Volver
+									</button>
+
+									<button [disabled]="_loadingComment || !_comment" class="btn btn-ok btn-ok--blue"
+										(click)="checkTest()" style="min-width: 100px;">
+										<i *ngIf="_loadingComment" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+										Enviar
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</div>

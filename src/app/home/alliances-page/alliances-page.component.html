@@ -1,0 +1,75 @@
+<div class="bg-oportunidapp-light-two pt-5 fix-bottom">
+	<div class="container">
+		<!-- Ver en detalle de la allianza -->
+		<router-outlet></router-outlet>
+
+
+		<!-- Titulo del componente -->
+		<div class="row">
+			<div class="col-12 text-center">
+				<span class="section-title">Nuestros aliados</span>
+			</div>
+		</div>
+
+		<ng-container *ngIf="!_loadingInit; else LoadingTemplate">
+			<ng-container *ngIf="_error == ''; else errorTemplate">
+				<ng-container *ngIf="_result?.data?.length; else noDataTemplate">
+					<div class="row justify-content-center">
+						<div class="col-md-10">
+							<div class="row card-deck">
+								<ng-container *ngFor="let item of _result?.data">
+									<div class="col-md-4 col-sm-6" style="margin-top: 25px;">
+										<app-card-alliance [alliance]="item" (viewDetail)="viewDetail($event)"></app-card-alliance>
+									</div>
+								</ng-container>
+							</div>
+						</div>
+					</div>
+
+					<br><br>
+					<div class="row">
+						<div class="col-12">
+							<app-pagination [pagination]="_pagination" [loader]="_loadingPage"
+								(_changePage)="goToPage($event)"></app-pagination>
+						</div>
+					</div>
+				</ng-container>
+			</ng-container>
+		</ng-container>
+
+	</div>
+</div>
+
+
+<ng-template #LoadingTemplate>
+	<div class="row">
+		<div class="col">
+			Cargando ...
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #errorTemplate>
+	<div class="row">
+		<div class="col text-center text-secondary">
+			<i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+			<h4 class="h4">
+				Error cargando información de aliados
+			</h4>
+			<p class="text-center">
+				{{ _error }}
+			</p>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #noDataTemplate>
+	<div class="row">
+		<div class="col text-center text-secondary">
+			<i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+			<h4 class="h4">
+				Aún no hay registros de aliados
+			</h4>
+		</div>
+	</div>
+</ng-template>

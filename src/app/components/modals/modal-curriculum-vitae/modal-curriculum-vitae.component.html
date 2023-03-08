@@ -1,0 +1,61 @@
+<div class="row mt-3 ">
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ TITLE ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <div class="col-12 text-center">
+    <h4>Hoja de vida</h4>
+    <br />
+    <p class="subtitle">
+      Adjunta tu hoja de vida en cualquier formato tipo PDF, JPG o WORD.
+    </p>
+  </div>
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ ADJUNT DOCUMENT CURRICULUM VITAE ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <ng-container *ngIf="!data.cv">
+  <div
+    class="col-12 d-flex justify-content-center text-center mt-3"
+    (click)="onUploadCV()"
+  >
+    <div
+      class="d-flex justify-content-center  align-items-center btn-cursor-pointer"
+      style="width: 338px; height: 50px; background-color: #E4EAF1; border-radius: 5px;"
+    >
+      <img src="assets/actions/cv.png" alt="" />
+      <p class="ml-3 mt-3" style="color: #ff6600;">
+        {{ cv.Name | truncate: 30 }}
+      </p>
+    </div>
+  </div>
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ SAVE CHANGES ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <div class="col-12 d-flex justify-content-center mt-4 mb-3">
+    <!-- Submit button -->
+    <button class="btn btn-ok--blue" (click)="onSave()" [disabled]="loading || !cv.Data">
+      <i
+        *ngIf="loading"
+        class="fa fa-circle-o-notch fa-spin text-white"
+        aria-hidden="true"
+      ></i>
+      Guardar cambios
+    </button>
+  </div>
+</ng-container>
+<!------------------------------------------------------------------------------------------------------------------------>
+<!------------------------------------ COMMENT HTML ---------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------>
+ <!-- If exists document cv -->
+ <ng-container *ngIf="data.cv">
+  <div class="col-12 d-flex justify-content-center text-center mt-3">
+    <preview-document
+      [file]="data.cv"
+      [loadingColor]="'white'"
+      [title]="'Hoja de vida'"
+      (onPreviewDocument)="onPreviewDocument($event)"
+    >
+    </preview-document>
+  </div>
+</ng-container>
+  
+</div>

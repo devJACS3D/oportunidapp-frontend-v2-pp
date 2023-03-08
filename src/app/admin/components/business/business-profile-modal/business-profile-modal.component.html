@@ -1,0 +1,144 @@
+<div class="container">
+  <!-- ................................................................................................. -->
+  <!-- Title -->
+  <!-- ................................................................................................. -->
+  <div class="row">
+    <div class="col-12">
+      <h5 class="text-left font-weight-light">{{ header }}</h5>
+    </div>
+  </div>
+  <hr />
+  <form [formGroup]="businessForm" (ngSubmit)="update()">
+    <div class="row">
+      <div class="col-12">
+        <h5 class="text-left font-weight-light">Datos personales</h5>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-12">
+        <label class="font-weight-semi-bold">Nombre del blog</label>
+        <input
+          type="text"
+          readonly
+          class="input-3 form-control readonly-input"
+          [value]="business.name"
+        />
+      </div>
+      <div class="col-12 col-md-6">
+        <label class="font-weight-semi-bold">NIT</label>
+        <input
+          type="text"
+          readonly
+          class="input-3 form-control readonly-input"
+          [value]="business.nit"
+        />
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-12 col-md-6">
+        <label class="font-weight-semi-bold">Teléfono</label>
+        <input
+          type="text"
+          readonly
+          class="input-3 form-control readonly-input"
+          [value]="business.cellphoneContact"
+        />
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-12">
+        <h5 class="text-left font-weight-light">Datos de la empresa</h5>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-12">
+        <label class="font-weight-semi-bold">Tipo de empresa</label>
+        <select class="form-control input-3" formControlName="businessTypeId">
+          <option selected disabled value="null"
+            >Seleccionar tipo de empresa</option
+          >
+          <option
+            *ngFor="let businessType of businessTypes$ | async"
+            [value]="businessType.id"
+            >{{ businessType.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-12">
+        <label class="font-weight-semi-bold">Nombre de la empresa</label>
+        <input
+          formControlName="name"
+          type="text"
+          class="input-3 form-control"
+        />
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-12">
+        <label class="font-weight-semi-bold">Acerca de la empresa</label>
+        <textarea
+          formControlName="description"
+          type="text"
+          class="input-3 form-control"
+        ></textarea>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-12">
+        <label class="font-weight-semi-bold">Nuestros valores</label>
+        <textarea
+          formControlName="principles"
+          type="text"
+          class="input-3 form-control"
+        ></textarea>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-12">
+        <label class="font-weight-semi-bold">Mision</label>
+        <textarea
+          formControlName="mission"
+          type="text"
+          class="input-3 form-control"
+        ></textarea>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-12">
+        <label class="font-weight-semi-bold">Vision</label>
+        <textarea
+          formControlName="vision"
+          type="text"
+          class="input-3 form-control"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6">
+        <button
+          type="submit"
+          [disabled]="businessForm.invalid || (submitting$ | async)"
+          class="btn btn-ok--blue btn-block"
+        >
+          <ng-container *ngIf="!(submitting$ | async); else updating">
+            Actualizar
+          </ng-container>
+
+          <ng-template #updating>
+            Guardando...
+            <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+          </ng-template>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

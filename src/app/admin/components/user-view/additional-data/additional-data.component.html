@@ -1,0 +1,205 @@
+<ng-container *ngIf="userHasAdditionalInfo(); else noDataToDisplayTemplate">
+  <div class="row">
+    <div class="col">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h4 class="light-header fs-2rem">Datos adicionales</h4>
+        </div>
+      </div>
+      <hr />
+      <!-- Additional data begin -->
+      <div class="row mt-4" *ngIf="!utils.isUndefined(user?.usersSectors)">
+        <div class="col-12 text-md-left text-center">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Sector</h4>
+        </div>
+        <div
+          *ngFor="let sector of user.usersSectors"
+          class="col-12 col-md-auto"
+        >
+          <span class="badge badge-sector p-3">{{ sector.name }}</span>
+        </div>
+      </div>
+
+      <div class="row mt-4" *ngIf="!utils.isUndefined(user?.languages)">
+        <div class="col-12 text-md-left text-center">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Lenguajes</h4>
+        </div>
+        <div *ngFor="let language of user.languages" class="col-12 col-md-auto">
+          <span class="badge badge-sector p-3">{{ language }}</span>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div
+          class="col-12 col-md-6 mt-4 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.placeResidenceCity)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Lugar de residencia
+          </h4>
+          <p>{{ user.placeResidenceCity.name }}</p>
+        </div>
+        <div
+          class="col-12 col-md-6 mt-4 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.district)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Barrio</h4>
+          <p>{{ user.district }}</p>
+        </div>
+
+        <div
+          class="col-12 col-md-6 mt-4 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.stratum)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Estrato</h4>
+          <p>{{ user.stratum }}</p>
+        </div>
+        <div
+          class="col-12 col-md-6 mt-4 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.housingType)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Tipo de vivienda
+          </h4>
+          <p>{{ user.housingType }}</p>
+        </div>
+
+        <div
+          class="col-12 col-md-6 mt-4 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.placeIdentificationCity)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Lugar de expedición del documento
+          </h4>
+          <p>{{ user.placeIdentificationCity.name }}</p>
+        </div>
+        <div
+          class="col-12 col-md-6 mt-4 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.identificationIssueDate)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            F. expedición del documento
+          </h4>
+          <p>{{ user.identificationIssueDate | date: "dd/MM/yyyy" }}</p>
+        </div>
+
+        <div
+        class="col-12 col-md-6 mt-4 text-center text-md-left"
+        *ngIf="!utils.isUndefined(user?.placeIdentificationCity)"
+      >
+        <h4 class="text-semi-dark fs-1rem font-weight-bold">
+          Lugar de expedición del documento
+        </h4>
+        <p>{{ user.placeIdentificationCity.name }}</p>
+      </div>
+      <div
+        class="col-12 col-md-6 mt-4 text-center text-md-left"
+        *ngIf="!utils.isUndefined(user?.identificationIssueDate)"
+      >
+        <h4 class="text-semi-dark fs-1rem font-weight-bold">
+          F. expedición del documento
+        </h4>
+        <p>{{ user.identificationIssueDate | date: "dd/MM/yyyy" }}</p>
+      </div>
+
+      <div
+          class="col-12 col-md-6 mt-4 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.militaryCardNumber)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Libreta militar
+          </h4>
+          <p>{{ user.militaryCardNumber }}</p>
+        </div>
+        <div
+          class="col-12 col-md-6 mt-4 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.bloodTypes)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Grupo sanguineo
+          </h4>
+          <p>{{ user.bloodTypes.description }}</p>
+        </div>
+
+        <div class="col-12 col-md-6 mt-4" *ngIf="!utils.isUndefined(user?.workday)">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Jornada de interés
+          </h4>
+          <p>{{ user.workday.name }}</p>
+        </div>
+        <div
+          class="col-12 col-md-6 mt-4"
+          *ngIf="!utils.isUndefined(user?.minimumSalary)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Salario mínimo
+          </h4>
+          <p>{{ user.minimumSalary | currency: "COP":"" }}</p>
+        </div>
+        <div class="col-12 col-md-6 mt-4" *ngIf="!utils.isUndefined(user?.maxSalary)">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Salario máximo
+          </h4>
+          <p>{{ user.maxSalary | currency: "COP":"" }}</p>
+        </div>
+
+        <div class="col-12 col-md-6 mt-4" *ngIf="!utils.isUndefined(user?.facebook)">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Facebook</h4>
+          <p>{{ user.facebook }}</p>
+        </div>
+        <div class="col-12 col-md-6 mt-4" *ngIf="!utils.isUndefined(user?.twitter)">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Twitter</h4>
+          <p>{{ user.twitter }}</p>
+        </div>
+        <div class="col-12 col-md-6 mt-4" *ngIf="!utils.isUndefined(user?.instagram)">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Instagram</h4>
+          <p>{{ user.instagram }}</p>
+        </div>
+        <div class="col-12 col-md-6 mt-4" *ngIf="!utils.isUndefined(user?.linkedin)">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Linkedin</h4>
+          <p>{{ user.linkedin }}</p>
+        </div>
+
+        <div
+          class="col-12 col-md-6 mt-4 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.height)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Estatura</h4>
+          <p>{{ user.height }}</p>
+        </div>
+        <div
+          class="col-12 col-md-6 mt-4 text-center text-md-left"
+          *ngIf="!utils.isUndefined(user?.weight)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">Peso</h4>
+          <p>{{ user.weight ? user.weight + " kg" : "" }}</p>
+        </div>
+
+        <div class="col-12 col-md-6 mt-4" *ngIf="!utils.isUndefined(user?.dependents)">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Número de personas a cargo
+          </h4>
+          <p>{{ user.dependents }}</p>
+        </div>
+        <div
+          class="col-12 col-md-6 mt-4"
+          *ngIf="!utils.isUndefined(user?.authorizeCompanyData)"
+        >
+          <h4 class="text-semi-dark fs-1rem font-weight-bold">
+            Autoriza el manejo de datos a la compañia
+          </h4>
+          <p>{{ utils.returnYesOrNot(user?.authorizeCompanyData) }}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #noDataToDisplayTemplate>
+  <div class="row">
+    <div class="col">
+      No se han encontrado datos adicionales.
+    </div>
+  </div>
+</ng-template>

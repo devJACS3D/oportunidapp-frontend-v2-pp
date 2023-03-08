@@ -1,0 +1,55 @@
+<!-- ................................................................................................. -->
+<!-- Training plan header -->
+<!-- ................................................................................................. -->
+<div class="row mb-3">
+  <div class="col">
+    <h5> {{header}} plan de formación</h5>
+  </div>
+</div>
+<hr>
+<!-- ................................................................................................. -->
+<!-- Form begin -->
+<!-- ................................................................................................. -->
+<form (ngSubmit)="submit()" [formGroup]="trainingPlanForm">
+  <div class="row">
+    <div class="col-12 form-group">
+      <label class="fs-small font-weight-semi-bold">Nombre de plan de formación</label>
+      <input type="text" class="form-control input-3" formControlName="name">
+      <span class="text-danger invalid-control"
+        *ngIf="trainingPlanForm.controls.name.invalid && trainingPlanForm.controls.name.dirty">
+        Campo requerido.
+      </span>
+    </div>
+
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12 col-md form-group">
+          <label class="fs-small font-weight-semi-bold">Competencias</label>
+          <div class="multiselect-container gray-bordered rounded">
+            <div class="form-check" *ngFor="let skill of skills | async">
+              <input [checked]="compareValues(skill.id)" (change)="addSkill($event.target.value)"
+                class="form-check-input" type="checkbox" [value]="skill.id" [id]="skill.id">
+              <label class="form-check-label" [for]="skill.id">
+                {{ skill.name }}
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col"></div>
+      </div>
+    </div>
+
+    <div class="col-12 form-group">
+      <label class="fs-small font-weight-semi-bold">Descripción</label>
+      <textarea formControlName="description" class="form-control input-3" rows="5"></textarea>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-12 col-md-6">
+      <button [disabled]="buttonShouldBeDisabled()" type="submit" class="btn btn-ok--blue btn-block">
+        <span *ngIf="!isEditing">Crear</span>
+        <span *ngIf="isEditing">Actualizar</span>
+      </button>
+    </div>
+  </div>
+</form>

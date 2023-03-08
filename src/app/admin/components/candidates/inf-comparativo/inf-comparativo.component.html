@@ -1,0 +1,38 @@
+<div class="modal-backdrop" style="background-color: #0000007a;"></div>
+<div class="modal modal-2 animated fadeInDown" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+  <div class="modal-dialog modal-dialog-centered animated fadeInDown" role="document">
+    <div class="modal-content">
+      <div class="d-flex justify-content-center">
+        <button class="btn btn-rounded btn-rounded-close" (click)="close()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="modal-body modal-body--logis">
+        <h5>Seleccione Candidatos</h5>
+        <h4>Solo se permiten escoger a 5 candidatos</h4>
+        <br>
+        <ng-container *ngFor="let item of candidatos">
+          <div *ngIf="item.user.afinidad != 'En proceso'">
+            <div class="col-12 form-group" id="listCandidatos">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" [id]="'inf-check-'+ item.user.id" class="custom-control-input"
+                  [value]="item.user.idCandEval">
+                <label class="custom-control-label" [for]="'inf-check-'+ item.user.id">
+                  {{ item.user.fullName }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <br>
+        <div class="col-12 text-center">
+          <button class="btn btn-block btn-ok--blue" (click)="downloadRepComparativo()">
+            <i *ngIf="espera" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

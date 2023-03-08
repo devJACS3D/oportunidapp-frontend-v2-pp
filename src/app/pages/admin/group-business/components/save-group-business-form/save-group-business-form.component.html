@@ -1,0 +1,33 @@
+<form (ngSubmit)="save()" class="row flex-column" [formGroup]="businessForm">
+  <div class="col-12 col-md-8 form-group">
+    <label>Nombre</label>
+    <input type="text" class="form-control input-3" formControlName="name" />
+    <field-error [fcontrol]="businessForm.get('name')"></field-error>
+  </div>
+
+  <div class="col-12 col-md-8  d-flex align-items-center form-group">
+    <label class="m-0">Activa:</label>
+    <input
+      type="checkbox"
+      class="form-check-inline ml-3"
+      formControlName="active"
+    />
+  </div>
+
+  <div class="col-6 align-self-center">
+    <button
+      [disabled]="businessForm.invalid || (submitting$ | async)"
+      type="submit"
+      class="btn btn-block btn-ok--blue "
+    >
+    <ng-container *ngIf="!(submitting$ | async); else saving">
+      Guardar
+    </ng-container>
+
+    <ng-template #saving>
+      Guardando
+      <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+    </ng-template>
+    </button>
+  </div>
+</form>

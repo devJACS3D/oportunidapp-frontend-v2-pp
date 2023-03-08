@@ -1,0 +1,157 @@
+<!-- Page header with buttons -->
+<page-header header="Usuarios" [backButton]="false">
+  <div class="row mb-2 justify-content-md-end justify-content-center">
+    <div class="col-auto">
+      <button class="btn btn-light-red mx-1">
+        <img src="../../../../assets/files/download.png" alt="" />
+        PDF
+      </button>
+      <button class="btn btn-green mx-1">
+        <img src="../../../../assets/files/download.png" alt="" />
+        Excel
+      </button>
+    </div>
+  </div>
+
+  <!-- Side buttons go here -->
+</page-header>
+
+<ng-container *ngIf="!_loadingInit">
+  <!-- Filters for users -->
+  <filtered-search
+    searchQueryPlaceholder="Nombre o identificación"
+    [filterValues]="filterParams"
+    [showOpts]="filterOpts"
+    (onApplyFilter)="applyFilters($event)"
+  >
+  </filtered-search>
+
+  <!-- If there is data to show  -->
+  <ng-container *ngIf="users.length && users.length > 0; else noDataTemplate">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive-sm">
+          <table class="table card-table">
+            <thead>
+              <tr>
+                <th *ngFor="let head of tableHeaders" scope="col">
+                  {{ head }}
+                </th>
+                <!-- actions -->
+                <th scope="col" style="width: 150px;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Separator for showing a space between thead an tbody -->
+              <tr class="table-separator">
+                <td [colSpan]="this.tableHeaders.length + 1"></td>
+              </tr>
+
+              <tr *ngFor="let user of users">
+                <td class="font-weight-light">
+                  <img
+                    class="table-img"
+                    [src]="utils.getImgSrc(user.image)"
+                    alt="User profile picture"
+                  />
+                </td>
+                <td class="font-weight-light">
+                  {{ user.firstName + " " + user.lastName }}
+                </td>
+                <td class="font-weight-light">
+                  {{ user.credentialUser.email }}
+                </td>
+                <td class="font-weight-light">{{ user.userType.name }}</td>
+                <td class="font-weight-light">
+                  {{ user.usersSectors | sectorsPipe }}
+                </td>
+                <td class="font-weight-light">
+                  {{ user.curriculumsSeens?.length || 0 }}/100
+                </td>
+                <td class="font-weight-light">{{user.available? "Si": "No"}}</td>
+                <td class="font-weight-light text-primary pointer">
+                    <button class="btn p-0 btn-blue-primary btn-verify-icon">
+                      <img
+                        src="../../../../assets/actions/fillArrow_right.png"
+                        alt=""
+                      />
+                    </button>
+                </td>
+                <!-- Actions -->
+                <td class="">
+                  <ng-container *ShowAuthorized="Authorize.ADMIN">
+                    <!-- routerLink="./form-users/{{ user.id }}" -->
+                    <img
+                      class="action-icon"
+                      routerLink="./edit/{{ user.id }}"
+                      src="../../../../assets/actions/edit.png"
+                    />
+                    <img
+                      class="action-icon"
+                      (click)="delete(user)"
+                      src="../../../../assets/actions/delete.png"
+                    />
+                  </ng-container>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <app-pagination
+          [pagination]="_pagination"
+          [loader]="_loadingPage"
+          (_changePage)="goToPage($event)"
+        >
+        </app-pagination>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="_showConfirm">
+    <app-confirmation
+      [_message]="_confirmMessage"
+      [_loadingConfirm]="_loadingConfirm"
+      (close)="closeConfirm($event)"
+      (confirm)="confirm($event)"
+    >
+    </app-confirmation>
+  </ng-container>
+</ng-container>
+
+<!-- No data template -->
+<ng-template #noDataTemplate>
+  <div class="row p-2" *ngIf="!_error">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-filter fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 text-secondary">
+        No se encontrarón resultados con los párametros indicados.
+      </h4>
+    </div>
+  </div>
+
+  <!-- Error  -->
+  <div class="row" *ngIf="_error">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 ">
+        Error cargando información
+      </h4>
+      <p class="text-center">
+        {{ _error }}
+      </p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-container *ShowAuthorized="Authorize.ADMIN">
+  <floating-button
+    [icon]="utils.assets('actions/addplus.png')"
+    (onClick)="createUser()"
+  ></floating-button>
+</ng-container>

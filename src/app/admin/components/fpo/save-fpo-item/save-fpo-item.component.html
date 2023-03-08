@@ -1,0 +1,18 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-12">
+      <card-header [header]="header"></card-header>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col 12">
+      <card-wrapper>
+        <!-- Form -->
+        <fpo-item-form (handleSubmit)="save($event)" [submitting]="submitting$"></fpo-item-form>
+      </card-wrapper>
+    </div>
+  </div>
+
+</div>

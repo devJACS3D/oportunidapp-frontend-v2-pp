@@ -1,0 +1,17 @@
+<div class="row" *ngIf="postComments$ | async; let postComments">
+  <div class="col-12">
+    <ng-container *ngFor="let comment of postComments">
+      <app-comment-card
+        [loading]="deletingComment$"
+        [comment]="comment"
+        (onDelete)="confirmDelete($event)"
+      ></app-comment-card>
+    </ng-container>
+  </div>
+
+  <div class="col-12" *ngIf="limit < totalElements">
+    <a class="text-primary btn text-center d-block" (click)="loadMore()"
+      >Ver más comentarios</a
+    >
+  </div>
+</div>

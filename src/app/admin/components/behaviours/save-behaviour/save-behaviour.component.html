@@ -1,0 +1,28 @@
+<div class="container">
+
+  <page-header [header]="title" [backTo]="'../../'" class="my-4"></page-header>
+
+  <!-- Form -->
+  <ng-container>
+    <div class="row flex-md-row flex-column-reverse">
+      <form class="col-12" [formGroup]="behavioursForm" (ngSubmit)="handleSave()">
+        <!-- Card Header for  "Crear conducta" -->
+        <card-header [header]="header"></card-header>
+
+        <card-wrapper>
+          <behaviour-form [behaviours]="behavioursForm.get('behaviors')"></behaviour-form>
+        </card-wrapper>
+
+        <div class="row justify-content-md-center">
+          <div class="col-12 col-md-4">
+            <!-- Submit button -->
+            <button [disabled]="behavioursForm.invalid || isSubmitting" type="submit" class="btn btn-block btn-ok--blue">
+              Guardar cambios
+              <i *ngIf="isSubmitting" class="fa fa-circle-o-notch fa-spin text-white" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+</div>

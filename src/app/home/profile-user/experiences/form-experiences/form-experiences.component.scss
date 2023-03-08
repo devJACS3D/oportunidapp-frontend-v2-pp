@@ -1,0 +1,100 @@
+.dropdown-toggle::after {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 6em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+}
+
+// elemento {
+//   width: -moz-available !important;
+//   width: 100% !important;
+// }
+
+.ml-n4 {
+  margin-left: -1rem !important;
+}
+
+.ml-n6 {
+  margin-left: -1.5rem !important;
+}
+
+.dropdown-menu {
+  max-height: 280px;
+  overflow-y: auto;
+  min-width: 100% !important;
+  background-attachment: local, local, scroll, scroll;
+}
+
+.dropdown-item {
+  white-space: normal;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  color: #00000073 !important;
+  border: 1px solid #dfdfdf !important;
+  /* no standardized syntax available, no ie-friendly solution available */
+}
+
+select.study {
+  width: 100% !important;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+select + i.fa {
+  float: right;
+  margin-top: -30px;
+  margin-right: 10px;
+  /* this is so when you click on the chevron, your click actually goes on the dropdown menu */
+  pointer-events: none;
+  /* everything after this is just to cover up the original arrow */
+  /* (for browsers that don't support the syntax used above) */
+  background-color: transparent;
+  color: black !important;
+  padding-right: 5px;
+  font-size: 12px;
+}
+
+select option {
+  padding-right: 21px;
+}
+
+.button-addon2{
+  //   background-color: transparent;
+  background-color: transparent;
+  border-bottom-color: #e5e5e5;
+  border-top-color: #e5e5e5;
+  border-left-style:none;
+  border-right-color: #e5e5e5;
+}
+
+// .button-addon2.btn-outline-secondary:hover {
+//   color: #6c757d;
+// }
+
+// .btn-outline-primary:hover {
+//   color: #414141;
+//   border-color: #1A8AC4;
+//   background: transparent;
+// }
+
+// .btn-outline-primary{
+//   color: #414141;
+//   border-color: #1A8AC4;
+//   background: transparent;
+// }
+.input-2.calendar{
+  background: transparent !important;
+  border-right-style: none;
+}

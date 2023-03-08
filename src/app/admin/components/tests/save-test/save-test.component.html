@@ -1,0 +1,44 @@
+<div class="container">
+  <page-header [header]="title" [backTo]="isEditing?'../../':'../'" class="my-4"></page-header>
+
+  <div class="row flex-md-row flex-column-reverse">
+    <form (ngSubmit)="handleSave()" [formGroup]="testForm" class="col-12 col-md-8">
+      <!-- Card Header for  "aspectos generales" -->
+      <card-header header="Aspectos generales"></card-header>
+
+      <!-- General aspects tests form wrapper -->
+      <card-wrapper>
+        <test-general-aspects [testForm]="testForm"></test-general-aspects>
+      </card-wrapper>
+
+      <ng-container *ngIf="questionsTest.length > 0" formArrayName="questionsTest">
+        <div *ngFor="let test of questionsTest.controls; let idx = index">
+          <!-- Questions -->
+          <card-header [header]="'Preguntas | '+test.value.behaviourName">
+            <div class="row justify-content-center align-items-center h-100">
+              <div class="col mr-md-4" *ngIf="idx % 4 === 0">
+                <i (click)="removeQuestion(idx)" class="fa fa-minus-circle pointer" aria-hidden="true"></i>
+              </div>
+            </div>
+          </card-header>
+          <card-wrapper>
+            <test-questions [questionsFormGroup]="test"></test-questions>
+          </card-wrapper>
+          <!-- Feedbacks -->
+          <card-header [header]="'Feedback | '+test.value.behaviourName"></card-header>
+          <card-wrapper>
+            <test-feedbacks [trainingPlans]="trainingPlans" [feedbacksFormGroup]="test"></test-feedbacks>
+          </card-wrapper>
+
+
+        </div>
+      </ng-container>
+
+      <button [disabled]="testForm.invalid || isSubmitting" class="btn btn-block btn-ok--blue">
+        <ng-container *ngIf="isEditing">Actualizar</ng-container>
+        <ng-container *ngIf="!isEditing">Crear</ng-container>
+        <i *ngIf="isSubmitting" class="fa fa-circle-o-notch fa-spin text-white" aria-hidden="true"></i>
+      </button>
+    </form>
+  </div>
+</div>

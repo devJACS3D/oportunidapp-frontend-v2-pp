@@ -1,0 +1,99 @@
+<div class="row" *ngIf="_loadingForm">
+  <div class="col-md-12">
+    Cargando...
+  </div>
+</div>
+<div class="row" *ngIf="!_loadingForm && !_EntityBehaviors">
+  <div class="col-md-12">
+    Error cargando formulario
+  </div>
+</div>
+<ng-container *ngIf="!_loadingForm && _EntityBehaviors">
+  <h4 class="text-secondary">Conductas</h4>
+  <br>
+  <form [formGroup]="FormtTest">
+    <div class="card">
+      <div class="card-body">
+        <h4> {{ _title }} </h4>
+        <hr>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="">Nombre de la conducta #1</label>
+            <input type="text" class="form-control input-2" formControlName="name" maxlength="100">
+            <p [ngClass]="{'validation': FormtTest.value.name === ''}" style="color: white; font-size: 13px;
+            margin: 0;">* Campo requerido</p>          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="">Nombre de la conducta #2</label>
+            <input type="text" class="form-control input-2" formControlName="name2" maxlength="100">
+            <p [ngClass]="{'validation': FormtTest.value.name2 === ''}" style="color: white; font-size: 13px;
+            margin: 0;">* Campo requerido</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="">Nombre de la conducta #3</label>
+            <input type="text" class="form-control input-2" formControlName="name3" maxlength="100">
+            <p [ngClass]="{'validation': FormtTest.value.name3 === ''}" style="color: white; font-size: 13px;
+            margin: 0;">* Campo requerido</p>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label for="">Nombre de la conducta #4</label>
+            <input type="text" class="form-control input-2" formControlName="name4" maxlength="100">
+            <p [ngClass]="{'validation': FormtTest.value.name4 === ''}" style="color: white; font-size: 13px;
+            margin: 0;">* Campo requerido</p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card headerCard">
+      <div class="card-header">
+        <button class="btn btn-ok--blue float-right" (click)="save()" [disabled]="FormtTest.invalid">
+          <i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+          Guardar
+        </button>
+        <!-- 
+        <div class="d-inline-block float-right" style="margin-right: 10px;">
+          <button class="btn btn-light" id="dropdownBasic1" [disabled]="!_skills.length || _loading"
+            (click)="addSkill()">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Agregar pregunta
+          </button>
+
+        </div>-->
+      </div>
+    </div>
+    <!--
+         <app-item-behaviors *ngFor="let item of itemsFormArray.controls; let i=index" [index]="i" [item]="item"
+      (removed)="deleteItem($event)">
+    </app-item-behaviors>F
+    -->
+
+
+  </form>
+</ng-container>

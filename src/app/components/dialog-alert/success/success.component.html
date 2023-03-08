@@ -1,0 +1,40 @@
+<div class="modal-backdrop" style="background-color: #0000007a;"></div>
+<div class="modal modal-2 animated fadeInDown" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+	<div class="modal-dialog modal-dialog-centered animated fadeInDown" role="document">
+		<div class="modal-content">
+			<div class="modal-body modal-body--logis pt-3">
+
+				<div class="row mb-2" *ngIf="title">
+					<div class="col-12 text-center">
+						<span class="font-weight-bold text-secondary">
+							{{ title }}
+						</span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-12 text-center icon-container">
+						<img src="assets/Yes.png">
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-body bg-success pt-3">
+				<div class="row justify-content-md-center">
+					<div class="col-md-12 text-center">
+						<span class="h6 text-white">
+							{{ message }}
+						</span>
+					</div>
+				</div>
+				<div class="row mt-3">
+					<div class="col-12 text-center">
+						<button type="button" class="btn btn-ok btn-outline-light" (click)="okButtonClick()">
+							Pre-entrevistas
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

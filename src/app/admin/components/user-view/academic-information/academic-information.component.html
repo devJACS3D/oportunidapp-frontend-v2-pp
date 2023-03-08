@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col">
+
+    <card-wrapper [rounded]="false" *ngFor="let info of academicInformation">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <img class="img-fluid" style="height: 25px;" [src]="util.assets('graduate-cap.png')" alt="Cap">
+        </div>
+        <div class="col">
+          <h4 class="text-semi-dark fs-1rem font-weight-bold m-0">{{info.title}}</h4>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-12">
+          <p class="font-weight-light m-0 fs-1rem">{{info.institution}}</p>
+          <p class="font-weight-light m-0 fs-1rem">{{info.finishedDate | date: 'dd/MM/yyyy'}}</p>
+        </div>
+      </div>
+
+      <div class="download">
+        <button-download-files [file]="info.cea"></button-download-files>
+      </div>
+
+    </card-wrapper>
+
+  </div>
+</div>

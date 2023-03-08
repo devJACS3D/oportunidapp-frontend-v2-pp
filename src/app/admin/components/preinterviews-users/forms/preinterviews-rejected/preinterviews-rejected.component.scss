@@ -1,0 +1,24 @@
+@import '../../../../../../sass/_vars.scss';
+
+@media (min-width: 768px){
+    .modal-md {
+        max-width: 850px;
+    }
+}
+
+.modal, .modal-backdrop {
+    z-index: 1051;
+}
+
+
+$bg-white: white;
+$bg-blue: $color-blue-button;
+
+.primary-default{
+    background-color: $bg-blue;
+    width: 176px;
+    height: 46px;
+    border: 1px solid $bg-blue;
+    color:$bg-white;
+    border-radius: 5px;
+}

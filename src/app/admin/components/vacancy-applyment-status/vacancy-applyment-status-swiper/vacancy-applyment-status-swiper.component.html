@@ -1,0 +1,53 @@
+<ng-container *ngIf="($vacancyApplymentStatus | async) as $vaStatus; else loadingOrErrorTemplate">
+  <div class="row my-2 align-items-center" [hidden]="hidden">
+    <div class="col-1 text-right pointer">
+      <img (click)="slideTo('prev')" src="../../../../assets/actions/circle-arrow-left.png" alt="">
+    </div>
+    <div class="col-10">
+      <swiper [config]="config" #swiperWrapper>
+
+        <div (click)="filter(applyment)" class="card shadow pointer"
+          *ngFor="let applyment of $vaStatus">
+
+          <div class="card-body d-flex flex-column flex-md-row align-items-center justify-content-around"
+            [ngStyle]="{'background-color':applyment.selected?  applyment.bgColor: '#fff'}">
+            <p [ngClass]="applyment.selected? '_header active': '_header'">
+              {{applyment.name}}
+            </p>
+            <span
+              [ngClass]="applyment.selected? '_header_count active': '_header_count'">{{applyment.vacancyApplymentCount}}</span>
+          </div>
+          <div class="card-body p-0"
+            [ngStyle]="{'background-color': applyment.selected? '#fff': applyment.bgColor ,height:'15px'}">
+          </div>
+        </div>
+      </swiper>
+    </div>
+    <div class="col-1 text-left pointer">
+      <img (click)="slideTo('next')" [src]="utils.assets('actions/circle-arrow-right.png')" alt="">
+    </div>
+  </div>
+</ng-container>
+
+
+<ng-template #loadingOrErrorTemplate>
+  <div *ngIf="$loadingError | async; else loadingTemplate">
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-8">
+        <div class="alert alert-danger text-center">
+          Ha ocurrido un error. <span (click)="fetchData()"><strong>Recargar</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loadingTemplate>
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-8">
+        <div class="alert text-center">
+          <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>

@@ -1,0 +1,242 @@
+<div class="bg-oportunidapp-light-two pt-5 fix-bottom">
+
+	<ng-container *ngIf="_filterForm">
+		<div class="filterform-container" style="position: fixed;">
+			<div class="card animated fadeInLeft">
+				<div class="card-header bg-white">
+					<div class="row">
+						<div class="col">
+							<span class="h5">Filtrar vacantes</span>
+
+							<button type="button" class="close" (click)="_filterForm = false;">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<form [formGroup]="FormFilter">
+						<div class="row">
+							<div class="col-12 form-group">
+								<input type="text" class="form-control" placeholder="Nombre vacante"
+									formControlName="vacanciesNameSearch">
+							</div>
+							<div class="col-12 form-group">
+								<select class="form-control" formControlName="stateId"
+									(change)="changeDepartment($event)">
+									<option value="">Departamento</option>
+									<option *ngFor="let state of _states" [value]="state.id">
+										{{ state.name }}
+									</option>
+								</select>
+							</div>
+							<div class="col-12 form-group">
+								<select class="form-control" formControlName="cityId"
+									[ngClass]="{'select-loading': _loadingCities}">
+									<option value="">Ciudad</option>
+									<option *ngFor="let city of _cities" [value]="city.id">
+										{{ city.name }}
+									</option>
+								</select>
+							</div>
+							<div class="col-12 form-group">
+								<input type="text" class="form-control" [textMask]="{mask: maskCurrency}" maxlength="23"
+									placeholder="Salario" formControlName="salary">
+							</div>
+							<div class="col-12 form-group">
+								<select class="form-control" formControlName="sectorsNameSearch">
+									<option value="">Sector</option>
+									<option *ngFor="let sector of _sectors" [value]="sector.name">{{ sector.name }}
+									</option>
+								</select>
+							</div>
+							<div class="col-12 form-group">
+								<!-- <input type="text" class="form-control" placeholder="Fecha de creación" formControlName="date"> -->
+								<div class="input-group">
+									<input type="text" class="form-control input-2" formControlName="date"
+										[maxDate]="_maxDate" ngbDatepicker #fdate="ngbDatepicker"
+										placeholder="Fecha de creación" readonly>
+									<div class="input-group-append">
+										<button class="btn btn-outline-secondary" type="button" id="button-addon2"
+											(click)="fdate.toggle();">
+											<i class="fa fa-calendar" aria-hidden="true"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="card-footer bg-white">
+					<div class="row">
+						<div class="col-12 text-center">
+							<button [disabled]="_loadingFilter || !validFilterForm" class="btn btn-ok btn-ok--blue"
+								style="min-width: 110px;" (click)="filter()">
+								<i *ngIf="_loadingFilter" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+								Buscar
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-container>
+
+	<div class="container">
+		<!-- Titulo del componente -->
+		<div class="row">
+			<div class="col-12 text-center">
+				<h4 class="section-title text-center font-weight-bold my-4">Vacantes disponibles</h4>
+			</div>
+		</div>
+		<br>
+
+		<ng-container *ngIf="!_loadingInit; else LoadingTemplate">
+
+			<ng-container *ngIf="_error == ''; else errorTemplate">
+				<ng-container *ngIf="_result?.data?.length; else noDataTemplate">
+
+					<div class="row justify-content-center">
+						<div class="col-md-10">
+							<div class="row">
+								<div class="col mb-3" style="padding-left: 31px;">
+									<button class="btn btn-outline-secondary mr-2" (click)="_filterForm = true">
+										<i class="fa fa-filter" aria-hidden="true"></i>
+										Filtrar
+									</button>
+									<button class="btn btn-outline-danger" *ngIf="filterParams" (click)="clearFilter()"
+										title="Deshacer filtros">
+										<i *ngIf="!_loadingPage" class="fa fa-minus-circle"></i>
+										<i *ngIf="_loadingPage" class="fa fa-circle-o-notch fa-spin"
+											aria-hidden="true"></i>
+									</button>
+								</div>
+								<div class="col flex-row-reverse d-flex" style="padding-right: 0px;">
+									<button class="btn btn-link text-secondary btn-order"
+										[ngClass]="{'active': !_cardView}" (click)="_cardView = false">
+										<i class="fa fa-list-ul" aria-hidden="true"></i>
+									</button>
+									<button class="btn btn-link text-secondary btn-order"
+										[ngClass]="{'active': _cardView}" (click)="_cardView = true">
+										<i class="fa fa-th-large" aria-hidden="true"></i>
+									</button>
+								</div>
+							</div>
+
+							<div class="row card-deck" *ngIf="_cardView">
+								<ng-container *ngFor="let item of _result?.data">
+									<div class="col-md-4 col-sm-6 animated fadeIn" style="margin-bottom: 25px;">
+										<app-card-vacancy [vacancy]="item" (viewDetail)="viewDetail($event)">
+										</app-card-vacancy>
+									</div>
+								</ng-container>
+							</div>
+
+							<ng-container *ngIf="!_cardView">
+								<div class="card animated fadeIn vacancies-card">
+									<div class="card-body vacancies-index-cards">
+										<div class="row row-vacancy align-items-center mb-2">
+											<div class="image-empty-column">
+											</div>
+											<div class="col-3">
+												<span class="font-weight-bold vacancy-label-title">Vacante</span>
+											</div>
+											<div class="col">
+												<p class="card-text card-text--info text-secondary post-description-title">
+													Descripción
+												</p>
+											</div>
+											<div class="col-auto">
+											</div>
+										</div>
+
+
+										<div class="row row-vacancy align-items-center mb-2"
+											*ngFor="let item of _result?.data">
+											<div class="col-auto">
+												<div class="bg-image-responsive"
+													[style.background]="'url(' + getUrlImage(item?.images) + ')'"
+													style="width: 4rem; height: 4em;"></div>
+											</div>
+											<div class="col-3">
+												<span class="card-vacancy-name">{{ item.name }}</span>
+											</div>
+											<div class="col">
+												<p class="card-text card-text--info text-secondary post-description">
+													{{ item.description | truncate: 60 }}
+												</p>
+											</div>
+											<div class="col-auto">
+												<button class="btn btn-ok btn-ok--blue btn-vacancy-details" (click)="viewDetail(item)">
+													Detalles
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-container>
+						</div>
+					</div>
+
+					<br>
+
+					<div class="row">
+						<div class="col-md-12 main-vacancies-pagination">
+							<app-pagination [pagination]="_pagination" [loader]="_loadingPage"
+								(_changePage)="goToPage($event)">
+							</app-pagination>
+						</div>
+					</div>
+				</ng-container>
+			</ng-container>
+
+		</ng-container>
+
+	</div>
+</div>
+
+<ng-template #LoadingTemplate>
+	<div class="row justify-content-center">
+		<div class="col-md-10">
+			<div class="row card-deck">
+				<ng-container *ngFor="let item of arrayOne(3)">
+					<div class="col-md-4 col-sm-6" style="margin-bottom: 25px;">
+						<app-card-vacancy style="width: 100%;"></app-card-vacancy>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #noDataTemplate>
+	<div class="row">
+		<div class="col text-center text-secondary">
+			<i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+			<h4 *ngIf="_filterForm" class="h4">
+				Aún no hay vacantes disponibles
+			</h4>
+			<h4 *ngIf="!_filterForm" class="h4">
+				No se encuentran resultados 
+			</h4>
+			<button class="btn btn-outline-secondary" *ngIf="filterParams" (click)="clearFilter()"
+										title="Deshacer filtros">
+										Deshacer filtros
+									</button>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #errorTemplate>
+	<div class="row">
+		<div class="col text-center text-secondary">
+			<i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+			<h4 class="h4">
+				Error cargando información de vacantes
+			</h4>
+			<p class="text-center">
+				{{ _error }}
+			</p>
+		</div>
+	</div>
+</ng-template>

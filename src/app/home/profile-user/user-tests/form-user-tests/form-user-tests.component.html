@@ -1,0 +1,115 @@
+<div class="modal-backdrop" style="background-color: #0000007a;"></div>
+<div
+  class="modal modal-2 animated fadeInDown"
+  tabindex="-1"
+  role="dialog"
+  style="display: block; overflow-y: auto;"
+>
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content">
+      <div class="d-flex justify-content-center">
+        <button
+          class="btn btn-rounded btn-rounded-close border-white"
+          (click)="close()"
+        >
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body modal-body--logis" [formGroup]="testAnswersForm">
+        <!-- ................................................................................................. -->
+        <!-- Test header -->
+        <!-- ................................................................................................. -->
+        <div class="row mb-2">
+          <div class="col-12">
+            <h5 class="font-weight-semi-bold">
+              Test psicotécnico - {{ test.name }}
+            </h5>
+          </div>
+        </div>
+        <!-- ................................................................................................. -->
+        <!-- Test Quote -->
+        <!-- ................................................................................................. -->
+        <div class="row mb-3">
+          <div class="col-12">
+            <p class="small m-0 font-weight-normal">
+              Recuerde que cada test refleja lo que es usted como persona a
+              nivel personal y profesional.
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <p class="small m-0 font-weight-normal">{{ test.description }}</p>
+          </div>
+        </div>
+
+        <div class="row my-3">
+          <div class="col-12">
+            <hr />
+          </div>
+        </div>
+
+        <ng-container>
+          <div
+            class="row"
+            *ngFor="let testQ of questionsTest.controls; let idx = index"
+          >
+            <!-- Question columns -->
+            <div class="col-12">
+              <div
+                class="row"
+                *ngFor="
+                  let item of testQ.get('questions')['controls'];
+                  let questionId = index
+                "
+              >
+                <h5 class="font-weight-bold fs-1rem col-12">
+                  {{ questionId + 1 }}. {{ item.value }}
+                </h5>
+                <div
+                  class="col form-group d-flex flex-column"
+                  *ngFor="let radio of radioButtons"
+                >
+                  <label>
+                    {{ radio }}
+                  </label>
+                  <input
+                    (change)="
+                      setAnswer(
+                        testQ.get('answers'),
+                        questionId,
+                        $event.target.value
+                      )
+                    "
+                    [name]="item.value"
+                    [id]="item.value+'_'+idx+'_'+item.id"
+                    type="radio"
+                    [value]="radio"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <div class="row justify-content-center">
+          <div class="col-4 text-center">
+            <button
+              type="submit"
+              [disabled]="testAnswersForm.invalid || isSubmitting"
+              class="btn btn-block btn-ok btn-ok--blue"
+              (click)="save()"
+            >
+              <i
+                *ngIf="isSubmitting"
+                class="fa fa-circle-o-notch fa-spin"
+                aria-hidden="true"
+              ></i>
+              Enviar prueba
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

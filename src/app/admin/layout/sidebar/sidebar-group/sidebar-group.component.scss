@@ -1,0 +1,24 @@
+
+@import "../../../../../sass/vars";
+
+.show{ display: block !important; }
+.hide{ display: none; }
+
+$bgColor: #43425d;
+
+.sub-menu-container-v2{
+    position: absolute;
+    content: "";
+    z-index: 10000;
+    left: -1000px;
+    bottom: -5px;
+    background-color: $bgColor !important;
+    display: none;
+}
+
+.show-v2{
+    display: block !important;
+    border-right: 5px solid $text-primary;
+    min-width: 200px;
+    max-height: 200px;
+}

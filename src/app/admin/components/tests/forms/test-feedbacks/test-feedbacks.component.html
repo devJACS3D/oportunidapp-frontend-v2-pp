@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col">
+    <ng-container [formGroup]="feedbacksFormGroup">
+      <ng-container formArrayName="feedbacks">
+        <div class="row align-items-center" *ngFor="let feedback of feedbacks.controls;let idx = index">
+          <div class="col-12 form-group">
+            {{idx+1}}. Ingrese feedback correspondiente al nivel {{idx+1}}
+          </div>
+
+          <ng-container [formGroupName]="idx">
+            <div class="col">
+              <div class="row">
+                <div class="col-12 col-md-6 form-group">
+                  <label for="">Plan de formación</label>
+                  <select formControlName="trainingPlanId" class="form-control border-bottom text-light-gray">
+                    <option selected disabled value="null">Seleccionar</option>
+                    <option *ngFor="let trainingPlan of trainingPlans" [value]="trainingPlan.id">{{trainingPlan.name}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col"></div>
+              </div>
+            </div>
+
+
+            <div class="col-12 form-group">
+              <input formControlName=feedback type="text" class="form-control input-3"
+                [placeholder]="'¿Pregunta '+(idx+1)+'?'" maxlength="100">
+            </div>
+          </ng-container>
+
+        </div>
+      </ng-container>
+    </ng-container>
+
+  </div>
+</div>

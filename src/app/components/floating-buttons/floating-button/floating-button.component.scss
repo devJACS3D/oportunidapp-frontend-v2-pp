@@ -1,0 +1,32 @@
+@import '../../../../sass/vars';
+
+.floating-button-fixed {
+  position: fixed;
+  padding: 1rem;
+  border-radius: 50%;
+  background: $primary;
+  cursor: pointer;
+  z-index: 1040;
+  img {
+    width: 25px;
+    height: 25px;
+  }
+
+  &.bl {
+    bottom: 10% !important;
+    left: 2% !important;
+  }
+  &.br {
+    bottom: 10% !important;
+    right: 2% !important;
+  }
+
+  &.cl {
+    top: 50% !important;
+    left: 2% !important;
+  }
+  &.cr {
+    top: 50% !important;
+    right: 2% !important;
+  }
+}

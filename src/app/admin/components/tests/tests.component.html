@@ -1,0 +1,14 @@
+<div class="container">
+    <page-header [hidden]="hidden" header="Pruebas psicotécnicas" class="my-4" [backButton]="false"></page-header>
+    <div [hidden]="hidden" class="row mb-2">
+        <div class="col-12">
+            <tabs-wrapper (tabChange)="handleTabChange($event)" #tabsWrapper>
+                <tab #tabChild (click)="tabsWrapper.selectTab(tabChild)" *ngFor="let test of tests; let idx = index"
+                    [tabTitle]="test" [tabValue]="idx">
+                </tab>
+            </tabs-wrapper>
+        </div>
+    </div>
+
+    <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,73 @@
+<div class="container">
+  <h5 class="text-md-left text-center font-weight-light">{{ header }}</h5>
+  <hr>
+  <form class="row" [formGroup]="partnerForm" (ngSubmit)="save()">
+
+    <div class="col-12 col-md-6 form-group">
+      <label class="font-weight-semi-bold">Nombre de la empresa</label>
+      <input formControlName="name" type="text" class="form-control input-3" placeholder="Nombre de la empresa">
+      <span class="text-danger invalid-control"
+        *ngIf="partnerForm.controls.name.invalid && partnerForm.controls.name.dirty">
+        Campo requerido.
+      </span>
+    </div>
+
+    <div class="col-12 col-md-6 form-group">
+      <label class="font-weight-semi-bold">URL</label>
+      <input formControlName="url" type="text" class="form-control input-3" placeholder="URL">
+      <span class="text-danger invalid-control"
+      *ngIf="partnerForm.controls.url.invalid && partnerForm.controls.url.dirty">
+      Ingrese una URL valida.
+    </span>
+    </div>
+    <div class="col-12 form-group">
+      <label class="font-weight-semi-bold">Descripción</label>
+      <textarea formControlName="description" rows=3 class="form-control input-3"></textarea>
+      <span class="text-danger invalid-control"
+        *ngIf="partnerForm.controls.description.invalid && partnerForm.controls.description.dirty">
+        Campo requerido.
+      </span>
+    </div>
+
+    <div class="col-12">
+      <div class="row align-items-center">
+        <div class="col-12 col-md-auto">
+          <input (change)="setImage($event)" type="file" accept="image/*" [hidden]="true" #uploadFile>
+
+          <Button type="button" class="btn btn-app-secondary font-weight-light" (click)="uploadFile.click()">
+            Adjuntar logo
+            <img class="ml-1" [src]="utils.assets('actions/upload.png')" alt="Upload icon">
+          </Button>
+        </div>
+        <ng-container *ngIf="previewImage">
+          <div class="ml-1 col-12 col-md">
+            <img class="file-img" [src]="previewImage.url" [alt]="previewImage.name">
+
+            <span class="ml-1 font-weight-light text-muted">{{previewImage.name | truncate: 30}}</span>
+          </div>
+        </ng-container>
+      </div>
+
+    </div>
+
+    <div class="col-12 mt-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-12">
+          <button type="submit" [disabled]="partnerForm.invalid || (this.submitting$ | async)"
+            class="btn btn-block btn-lg btn-ok--blue">
+
+            <ng-container *ngIf="!(this.submitting$ | async);else saving">
+              Guardar
+            </ng-container>
+
+            <ng-template #saving>
+              Guardando...
+              <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+            </ng-template>
+
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

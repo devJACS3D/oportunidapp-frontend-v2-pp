@@ -1,0 +1,15 @@
+<!-- tabs wrapper -->
+
+<div class="row">
+  <div class="col-12">
+    <tabs-wrapper (tabChange)="handleTabChange($event)" #tabsWrapper>
+      <ng-container *ngIf="businessTypes && businessTypes?.length">
+        <tab #tabChild (click)="tabsWrapper.selectTab(tabChild)" *ngFor="let btype of businessTypes"
+          [tabTitle]="btype.name" [tabValue]="btype"></tab>
+      </ng-container>
+    </tabs-wrapper>
+  </div>
+</div>
+
+
+<router-outlet></router-outlet>

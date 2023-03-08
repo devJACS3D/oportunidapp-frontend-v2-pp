@@ -1,0 +1,83 @@
+<!-- go back -->
+<page-header [header]="title" [backButton]="false" class="my-4"></page-header>
+
+<only-search-filter (onSearch)="applyFilters($event)"></only-search-filter>
+
+<ng-container *ngIf="(skills?.length && skills?.length > 0 );else noDataTemplate">
+  <!-- Table -->
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive-sm">
+        <table class="table card-table">
+          <thead>
+            <tr>
+              <th class="text-left" *ngFor="let head of tableHeaders" scope="col">{{head}}</th>
+              <!-- actions -->
+              <th scope="col" style="width: 150px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Separator for showing a space between thead an tbody -->
+            <tr class="table-separator">
+              <td [colSpan]="this.tableHeaders.length+1"></td>
+            </tr>
+            <ng-container *ngFor="let skill of skills; let idx = null;">
+              <tr>
+                <td (click)="idx? idx=null: idx=skill.id" class="font-weight-light text-left pointer">{{skill.name}}
+                </td>
+                <td>
+                  <button  routerLink="./create/{{ skill.id }}" *ngIf="skill.behaviors?.length === 0" class="table-link btn btn-sm btn-link">
+                    <i class="fa fa-plus text-dark"></i>
+                  </button>
+
+                  <img *ngIf="skill.behaviors?.length > 0" class="action-icon" routerLink="../../skills/edit/{{ skill.id }}"
+                    [src]="utils.assets('actions/edit.png')">
+                </td>
+              </tr>
+              <!-- Info for skill -->
+              <ng-container *ngIf="idx === skill.id">
+                <tr *ngFor="let behavior of skill.behaviors" class="border-left-beh" [id]="idx">
+                  <td class="text-left paddign-left-beh">
+                    {{behavior.name}}
+                  </td>
+                  <td>
+                    <button routerLink="./edit/{{ skill.id  }}" class="table-link btn btn-sm btn-link">
+                      <i class="fa fa-pencil" style="color: gray"></i>
+                    </button>
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <app-pagination [pagination]="pagination" [loader]="loadingPage" (_changePage)="goToPage($event)">
+      </app-pagination>
+    </div>
+  </div>
+</ng-container>
+
+<!-- Delete modal -->
+<ng-container *ngIf="showDeleteOpts">
+  <app-confirmation [_message]="deleteText" [_loadingConfirm]="false" (close)="onDeleteClose($event,true)"
+    (confirm)="onDeleteClose($event)">
+  </app-confirmation>
+</ng-container>
+
+<ng-template #noDataTemplate>
+  <div class="row p-2">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-filter fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 text-secondary">
+        No se encontrarón resultados.
+      </h4>
+    </div>
+  </div>
+</ng-template>

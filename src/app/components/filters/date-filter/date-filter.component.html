@@ -1,0 +1,63 @@
+<div class="row align-items-center" [formGroup]="dateForm">
+  <div class="col-12 col-sm col-md form-group">
+    <label class="font-weight-light">Desde</label>
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control input-3 borderless"
+        formControlName="fromDate"
+        ngbDatepicker
+        #fromDatePicker="ngbDatepicker"
+        placeholder="año-mes-día"
+        (focus)="fromDatePicker.toggle()"
+        readonly
+      />
+      <div class="input-group-append">
+        <button
+          class="btn btn-outline-secondary borderless"
+          type="button"
+          id="button-addon2"
+          (click)="fromDatePicker.toggle()"
+        >
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm col-md form-group">
+    <label class="font-weight-light">Hasta</label>
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control input-3 borderless"
+        ngbDatepicker
+        formControlName="toDate"
+        #toDatePicker="ngbDatepicker"
+        placeholder="año-mes-día"
+        (focus)="toDatePicker.toggle()"
+        readonly
+      />
+      <div class="input-group-append">
+        <button
+          class="btn btn-outline-secondary borderless"
+          type="button"
+          id="button-addon2"
+          (click)="toDatePicker.toggle()"
+        >
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-sm-4 col-md-2">
+    <button class="filter-button btn btn-block  btn-ok--blue text-center" (click)="filter()">
+      Buscar
+    </button>
+    <ng-container *ngIf="dateForm.dirty">
+      <div class="clear-filters-icon pointer" (click)="clearFilters()">
+        <i class="fa fa-times"></i>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-12">
+    <label for="">Servicios adicionales</label>
+    <div class="row">
+      <div class="col-6 col-md-5 form-group" *ngFor="let addService of $additionalServices | async">
+        <div class="row">
+          <div class="col">
+            <div class="custom-control custom-checkbox">
+              <input [checked]="compare(addService.id)" (change)="addOrRemove($event,addService)" type="checkbox"
+                class="custom-control-input" [id]="'customCheck1'+addService.id">
+              <label class="custom-control-label" [for]="'customCheck1'+addService.id">{{ addService.name}}
+              </label>
+            </div>
+          </div>
+          <div class="col-auto">
+            <a style="cursor: pointer;">
+              <i class="fa fa-info-circle" aria-hidden="true" (click)="detail()"></i>
+            </a>
+          </div>
+
+          <ng-container *ngIf="showDetailService">
+            <app-detail-additionals-services (close)="showDetailService=false" [item]="addService">
+            </app-detail-additionals-services>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

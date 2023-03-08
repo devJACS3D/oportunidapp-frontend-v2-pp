@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h5 class="text-left font-weight-light">{{header}}</h5>
+    </div>
+  </div>
+  <hr>
+
+  <div class="row form-group">
+    <div class="col-md-4 col-12">
+      <label class="font-weight-bold">Factor</label>
+      <input type="text" class="form-control input-3 readonly-input" [value]="data.facet?.factor?.name" readonly>
+    </div>
+    <div class="col-md-4 col-12">
+      <label class="font-weight-bold">Faceta</label>
+      <input type="text" class="form-control input-3 readonly-input" [value]="data.facet?.name" readonly>
+    </div>
+    <div class="col-md-4 col-12">
+      <label class="font-weight-bold">Estado</label>
+      <input type="text" class="form-control input-3 readonly-input" [value]="data.isPositive ? 'Positivo':'Negativo'" readonly>
+    </div>
+  </div>
+
+  <div class="row" [formGroup]="fpoItemForm">
+    <div class="col-12">
+      <label class="font-weight-bold">Item</label>
+      <textarea class="form-control input-3 " formControlName="content" row="4"></textarea>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-12 mt-3">
+      <button [disabled]="fpoItemForm.invalid || (submitting$ | async)" (click)="save()" class="btn btn-block btn-ok--blue">
+        <ng-container *ngIf="!(submitting$ | async);else saving">
+          Guardar
+        </ng-container>
+
+        <ng-template #saving>
+          Guardando...
+          <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        </ng-template>
+      </button>
+    </div>
+  </div>
+</div>

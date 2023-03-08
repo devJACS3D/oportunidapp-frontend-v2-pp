@@ -1,0 +1,140 @@
+<div class="row mt-5" *ngIf="_loadingInit">
+  <div class="col-md-12">
+    Cargando vacantes...
+  </div>
+</div>
+
+<ng-container *ngIf="!_loadingInit">
+  <page-header header="Vacantes" [backButton]="false">
+    <div class="row mb-2 justify-content-md-end justify-content-center">
+      <div class="col-auto">
+        <button class="btn btn-light-red mx-1" (click)="downloadPDF()">
+          <img [src]="utils.assets('files/download.png')" alt="download PDF" />
+          PDF
+        </button>
+        <button class="btn btn-green mx-1" (click)="downloadCSV()">
+          <img [src]="utils.assets('files/download.png')" alt="download Excel" />
+          Excel
+        </button>
+      </div>
+    </div>
+
+    <!-- Side buttons go here -->
+  </page-header>
+
+  <!-- Filters -->
+  <filtered-search searchQueryPlaceholder="Nombre" [filterValues]="filterParams" [showOpts]="filterOpts"
+    (onApplyFilter)="applyFilters($event)">
+  </filtered-search>
+  <!-- If there is data to show  -->
+  <ng-container *ngIf="vacancies.length && vacancies.length > 0; else noDataTemplate">
+    <!-- Bootstrap table  -->
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive-sm">
+          <table class="table card-table">
+            <thead>
+              <tr>
+                <th *ngFor="let head of tableHeaders" scope="col">
+                  {{ head }}
+                </th>
+                <!-- actions -->
+                <ng-container *ShowAuthorized="[AUTHORIZED.ADMIN, AUTHORIZED.PSYCHOLOGIST]">
+                  <th scope="col" style="width: 30px;"></th>
+                  <th scope="col" style="width: 30px;"></th>
+                </ng-container>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Separator for showing a space between thead an tbody -->
+              <tr class="table-separator">
+                <td [colSpan]="this.tableHeaders.length + 2"></td>
+              </tr>
+
+              <tr *ngFor="let vacancy of vacancies">
+                <td class="font-weight-light pointer" routerLink="./detail/{{ vacancy.id }}/{{ vacancy.idVacEval }}">
+                  {{ vacancy.name }}
+                </td>
+                <td class="font-weight-light pointer" routerLink="./detail/{{ vacancy.id }}/{{ vacancy.idVacEval }}">
+                  {{ vacancy.company.name }}
+                </td>
+                <td class="font-weight-light pointer" routerLink="./detail/{{ vacancy.id }}/{{ vacancy.idVacEval }}">
+                  {{ vacancy.createdAt | date: "dd/MM/yyyy" }}
+                </td>
+                <td class="font-weight-light pointer" routerLink="./detail/{{ vacancy.id }}/{{ vacancy.idVacEval }}">
+                  {{ vacancy.contractDate | date: "dd/MM/yyyy" }}
+                </td>
+                <td class="font-weight-light pointer" routerLink="./detail/{{ vacancy.id }}/{{ vacancy.idVacEval }}">
+                  {{ vacancy.curriculumsSeens.length }} / 100
+                </td>
+                <td class="font-weight-light text-primary pointer" (click)="goToCompetents(vacancy)">
+                  Aptos
+                </td>
+
+                <!-- ................................................................................................. -->
+                <!-- TABLE DATA ONLY FOR ADMINS OR PSYCHOLOGISTS -->
+                <!-- ................................................................................................. -->
+                <ng-container *ShowAuthorized="[AUTHORIZED.ADMIN, AUTHORIZED.PSYCHOLOGIST]">
+                  <td>
+                    <toggle-switch [checked]="vacancy.published" (onChange)="confirmVacancyPublish($event, vacancy)">
+                    </toggle-switch>
+                  </td>
+                  <td routerLink="./edit/{{ vacancy.id }}">
+                    <img class="action-icon" [src]="utils.assets('actions/edit.png')" />
+                  </td>
+                  <td (click)="removeVacancy(vacancy)">
+                    <img class="action-icon" [src]="utils.assets('actions/delete.png')" />
+                  </td>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <app-pagination [pagination]="_pagination" [loader]="_loadingPage" (_changePage)="goToPage($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<!-- No data template -->
+<ng-template #noDataTemplate>
+  <div class="row p-2" *ngIf="!_error">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-filter fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 text-secondary">
+        No se encontrarón resultados con los párametros indicados.
+        <span *ShowAuthorized="[AUTHORIZED.ADMIN, AUTHORIZED.PSYCHOLOGIST]" class="text-primary pointer"
+          (click)="createVacancy()">Crear nueva vacante</span>
+      </h4>
+    </div>
+  </div>
+
+  <!-- Error  -->
+  <div class="row" *ngIf="_error">
+    <div class="col text-center text-secondary">
+      <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+      <h4 class="h4 ">
+        Error cargando información
+      </h4>
+      <p class="text-center">
+        {{ _error }}
+      </p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="_showConfirm">
+  <app-confirmation [_message]="_confirmMessage" [_loadingConfirm]="_loadingConfirm" (close)="closeConfirm($event)"
+    (confirm)="confirm($event)">
+  </app-confirmation>
+</ng-container>
+
+<floating-button [icon]="utils.assets('actions/addplus.png')"
+  *ShowAuthorized="[AUTHORIZED.ADMIN, AUTHORIZED.PSYCHOLOGIST]" (onClick)="createVacancy()"></floating-button>

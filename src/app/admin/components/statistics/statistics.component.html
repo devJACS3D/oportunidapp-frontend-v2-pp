@@ -1,0 +1,135 @@
+<h4 class="text-secondary">Estadísticas</h4>
+<br>
+
+<form [formGroup]="FormEntity">
+	<div class="card">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-auto">
+					<label for="">Fecha de ingreso</label>
+					<div class="input-group">
+						<input type="text" class="form-control input-2" formControlName="startDate" [maxDate]="_maxDate"
+							ngbDatepicker #f_startDate="ngbDatepicker" placeholder="aaaa-mm-dd" readonly>
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" type="button" id="button-addon2"
+								(click)="f_startDate.toggle();">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+					<span class="text-danger invalid-control"
+						*ngIf="FormEntity.controls.startDate.invalid && FormEntity.controls.startDate.dirty">
+						Campo requerido
+					</span>
+				</div>
+				<div class="col-auto">
+					<label for="">Fecha de retiro</label>
+					<div class="input-group">
+						<input type="text" class="form-control input-2" formControlName="endDate" [minDate]="_minDate"
+							[maxDate]="_todayDate" ngbDatepicker #f_endDate="ngbDatepicker" placeholder="aaaa-mm-dd" readonly>
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" type="button" id="button-addon2"
+								 (click)="f_endDate.toggle();">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+					<span class="text-danger invalid-control"
+						*ngIf="FormEntity.controls.endDate.invalid && FormEntity.controls.endDate.dirty">
+						Campo requerido
+					</span>
+				</div>
+				<div class="col-auto">
+					<label for="" style="visibility: hidden;">label btn</label>
+					<br>
+					<button class="btn btn-ok btn-ok--blue" [disabled]="FormEntity.invalid" (click)="search()">
+						Consultar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col text-center">
+						<span class="font-weight-bold text-secondary">Aplicados a Vacantes</span>
+						<h2>{{amountVacancyApplications}}</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col text-center">
+						<span class="font-weight-bold text-secondary">Creadas por empresa</span>
+						<h2>{{amountVacanciesCreatedByCompanies}}</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col text-center">
+						<span class="font-weight-bold text-secondary">Registrados en el sistema</span>
+						<h2>{{amountRegisteredUsers}}</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<br>
+
+<div class="row">
+	<div class="col-4">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col text-center">
+						<span class="text-secondary">
+							Registrador por género
+						</span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col">
+						<div echarts [options]="pieOption" class="demo-chart"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-8">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col text-center">
+						<span class="text-secondary">
+							Edades de los registrados
+						</span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col">
+						<div echarts [options]="graphOptions" class="demo-chart"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

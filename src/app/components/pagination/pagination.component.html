@@ -1,0 +1,58 @@
+<div class="row pagination-next-button">
+  <div class="col-12 next-button-column">
+    <button [disabled]="_pagination.currentPage == _pagination.pages?.length" class="btn btn-ok btn-ok--blue"
+      (click)="goToPage(_pagination.currentPage, 1)">
+      Siguiente
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="row align-items-center justify-content-start">
+     <!--  <div class="col-3">
+        <select (change)="setItemsPerPage($event.target.value)" class="custom-select perpage-select"
+          [value]="itemPerPage">
+          <option *ngFor="let perPage of itemsPerPage" [value]="perPage">{{perPage}}</option>
+        </select>
+      </div> -->
+      <div class="col-7">
+        <span class="pagination-total-results"> {{_pagination?.elementsNumber}} {{_pagination?.elementsNumber > 1?
+          'Resultados': 'Resultado'}} </span>
+      </div>
+    </div>
+  </div>
+  <div class="col-auto">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-indicator">
+          <button [disabled]="_pagination.currentPage == 1" class="page-icon"
+            (click)="goToPage(_pagination.currentPage, -1)">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+          </button>
+        </li>
+
+        <li class="page-item" *ngFor="let page of pages">
+          <button [disabled]="_loadingPage" class="btn-link page-link page-link-page"
+            [ngClass]="{'active': page == _pagination.currentPage}" (click)="goToPage(page)">
+            {{ page }}
+          </button>
+        </li>
+
+        <li class="page-indicator">
+          <button [disabled]="_pagination.currentPage == _pagination.pages?.length"
+            class="page-icon page-link-direction" (click)="goToPage(_pagination.currentPage, 1)">
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+          </button>
+        </li>
+
+        <li class="page-item page-item-loader">
+          <i *ngIf="_loadingPage" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div class="col">
+
+  </div>
+</div>

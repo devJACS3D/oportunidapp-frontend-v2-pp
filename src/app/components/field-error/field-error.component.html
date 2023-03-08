@@ -1,0 +1,6 @@
+
+<ng-container *ngIf="(error$ | async); let error">
+  <ng-container *ngIf="formControl.dirty">
+    <span class="small text-danger">{{error}}</span>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,21 @@
+.preview-container {
+    width: 116px;
+    height: 151px;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid #1a8ac4;
+    position: relative;
+}
+
+.preview-container > p {
+    font-size: 10px;
+}
+
+.preview-content {
+    position: absolute;
+    background-color: #43425de0;
+    width: 116px;
+    height: 151px;
+    top: 0;
+    border-radius: 5px;
+}

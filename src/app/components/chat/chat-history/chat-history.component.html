@@ -1,0 +1,89 @@
+<div class="row">
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ TITLE HISTORY ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <div class="col-12">
+    <ng-container *ngIf="!isAdmins(); else titleAdmins">
+      <div class="d-flex pt-2 pb-2">
+        <img class="btn-cursor-pointer" width="25" height="25" src="assets/chat/backward.png" alt="" routerLink="/">
+        <h4 class="title-page ml-3">Historial de chats</h4>
+      </div>
+    </ng-container>
+    <ng-template #titleAdmins>
+      <h4 class="title-page pt-2 pb-2">Chats</h4>
+    </ng-template>
+  </div>
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ SEARCH ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <div class="col-12">
+    <card-wrapper [rounded]="0" [mpaddign]="'p-m-0'">
+      <div class="row">
+        <div class="col-md-1 col-xs-12 col-sm-12">
+          <img src="assets/actions/search.png" alt="">
+        </div>
+        <div class="col-md-11 col-xs-12 col-sm-12">
+          <input placeholder="Buscar" class="input-search" type="search" #search type="text"
+            (keyup)="searchHistory(search.value)">
+        </div>
+      </div>
+    </card-wrapper>
+  </div>
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ CHAT HISTORY ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <div class="col-12">
+    <card-wrapper [rounded]="0" [mpaddign]="'p-m-0'">
+      <div class="scrollbar" style="height: 68vh; ">
+        <ng-container *ngIf="(chats.length);else noDataTemplate">
+          <ul class="list-group list-group-flush">
+            <ng-container *ngFor="let item of chats">
+              <li class="list-group-item btn-cursor-pointer" #li (click)="onClickChat(item, li);">
+                <div class="row mt-1">
+                  <div class="col-md-2 col-xs-12 col-sm-12">
+                    <img width="32" height="32" class="img-rounded" [src]="utils.getImgSrc(item.image)" alt="">
+                  </div>
+                  <div class="col-md-8 col-xs-12 col-sm-12">
+                    <p class="mt-1">{{item.fullName}}</p>
+                  </div>
+                  <div class="col-md-2 col-xs-12 col-sm-12">
+                    <ng-container *ngIf="!isAdmins() && item.chatMessagesCount > 0">
+                      <span class="badge badge-danger">{{item.chatMessagesCount}}</span>
+                    </ng-container>
+                  </div>
+                </div>
+              </li>
+            </ng-container>
+          </ul>
+        </ng-container>
+      </div>
+    </card-wrapper>
+  </div>
+</div>
+
+<ng-template #noDataTemplate>
+  <!-- IF LOADING -->
+  <ng-container *ngIf="loadingPage && !_error">
+    Cargando...
+  </ng-container>
+  <!-- IF NOT LOADING -->
+  <ng-container *ngIf="!loadingPage">
+    <div class="text-center">
+      <div class="col-12">
+        <i class="fa fa-inbox noResults" aria-hidden="true"></i> <br>
+        <!-- IF DATA NOT FOUND -->
+        <ng-container *ngIf="!chats?.length && !_error">
+          <h4 class="h4 text-secondary">
+            No se han encontrado resultados
+          </h4>
+        </ng-container>
+        <!-- IF ERROR DATA -->
+        <ng-container *ngIf="_error">
+          <h4 class="h4 text-secondary">
+            Error cargando el historial de chats
+          </h4>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

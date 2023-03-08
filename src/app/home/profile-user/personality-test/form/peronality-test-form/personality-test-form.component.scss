@@ -1,0 +1,17 @@
+@import "../../../../../../sass/_vars.scss";
+.pagination-container{
+    position: absolute;
+    bottom: -24px;
+    z-index: 10;
+    left: 0;
+    width: 100%;
+    transform: translate(3%, 0);
+}
+
+.btn-pagination{
+    border-radius: 50%;
+    background: $text-primary;
+    color: white !important;
+    min-width: 45px;
+    min-height: 45px;
+}

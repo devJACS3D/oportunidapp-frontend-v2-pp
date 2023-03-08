@@ -1,0 +1,294 @@
+<div class="card shadow" [formGroup]="formGroup">
+  <div class="card-body p-md-5">
+    <div class="row">
+      <div class="col">
+        <!-- Form begin -->
+        <!-- Name -->
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="">Nombre de la vacante</label>
+            <input type="text" class="form-control input-3" formControlName="name" maxlength="100" />
+            <ng-container *ngIf="msgVacantesAll[0]">
+              <h5 *ngIf="msgVacTxt != ''"> {{ msgVacTxt }} </h5>
+              <button type="button" (click)="openExistVac()" class="btn btn-ok--blue">Mostrar</button>
+            </ng-container>
+            <field-error [fcontrol]="formGroup.get('name')"></field-error>
+          </div>
+        </div>
+
+        <!-- Area and sector -->
+        <div class="row">
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Sector</label>
+            <select class="form-control input-3" formControlName="sectorId">
+              <option selected disabled value="null">Seleccionar sector</option>
+              <option *ngFor="let sector of $sectors | async" [value]="sector.id">{{ sector.name }}
+              </option>
+            </select>
+            <span class="text-danger invalid-control" *ngIf="
+                formGroup.controls.sectorId.invalid &&
+                formGroup.controls.sectorId.dirty
+              ">
+              Campo requerido.
+            </span>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Tipo de servicio a contratar</label>
+            <select class="form-control input-3" formControlName="serviceTypeId">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let servceType of $serviceTypes | async" [value]="servceType.id">
+                {{ servceType.name }}
+              </option>
+            </select>
+            <span class="text-danger invalid-control" *ngIf="
+                formGroup.controls.serviceTypeId.invalid &&
+                formGroup.controls.serviceTypeId.dirty
+              ">
+              Campo requerido.
+            </span>
+          </div>
+        </div>
+
+        <div class="row" *ShowAuthorized="[AUTHORIZED.ADMIN, AUTHORIZED.PSYCHOLOGIST]">
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Empresa</label>
+            <select class="form-control input-3" formControlName="companyId">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let company of $companies | async; index as i" [value]="company.id">
+                {{ company.name }}
+              </option>
+            </select>
+            <span class="text-danger invalid-control" *ngIf="
+                          formGroup.controls.companyId.invalid &&
+                          formGroup.controls.companyId.dirty
+                        ">
+              Campo requerido.
+            </span>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Empresas Evaluatest</label>
+            <select class="form-control input-3" formControlName="companyIdEval" [(ngModel)]="selectedId">
+              <option selected disabled value="null">Seleccionar</option>
+              <option value="new">Nueva empresa</option>
+              <option *ngFor="let company of listEmpresas" [value]="[company.idEmp, company.idPadreEmp]">
+                {{ company.nomEmpesa }}
+              </option>
+            </select>
+            <span class="text-danger invalid-control" *ngIf="
+                formGroup.controls.companyId.invalid &&
+                formGroup.controls.companyId.dirty
+              ">
+              Campo requerido.
+            </span>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Modelo Competencia</label>
+            <select class="form-control input-3" formControlName="modeloCom">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let modCom of listModCompetencia" [value]="modCom.Id">
+                {{ modCom.Name }}
+              </option>
+            </select>
+            <span class="text-danger invalid-control" *ngIf="
+                formGroup.controls.companyId.invalid &&
+                formGroup.controls.companyId.dirty
+              ">
+              Campo requerido.
+            </span>
+          </div>
+
+          <div class="col-12 col-md-6 form-group" *ngIf="showNuevaEmp">
+            <label for="">Nombre nueva empresa</label>
+            <input type="text" class="form-control input-3" formControlName="nameNewEmpr" maxlength="100" />
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Nivel Puesto</label>
+            <select class="form-control input-3" formControlName="nivelPue">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let puesto of puestos" [value]="puesto.Id">{{ puesto.Name }}
+              </option>
+            </select>
+            <span class="text-danger invalid-control" *ngIf="
+                formGroup.controls.companyId.invalid &&
+                formGroup.controls.companyId.dirty
+              ">
+              Campo requerido.
+            </span>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Industria</label>
+            <select class="form-control input-3" formControlName="industria">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let industria of listIndustrias" [value]="industria.Id">{{ industria.Name
+                }}
+              </option>
+            </select>
+            <span class="text-danger invalid-control" *ngIf="
+                formGroup.controls.companyId.invalid &&
+                formGroup.controls.companyId.dirty
+              ">
+              Campo requerido.
+            </span>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Area Funcional</label>
+            <select class="form-control input-3" formControlName="areaFuncional">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let areaFun of listAreaFun" [value]="areaFun.Id">
+                {{ areaFun.Name}}
+              </option>
+            </select>
+            <span class="text-danger invalid-control" *ngIf="
+                formGroup.controls.companyId.invalid &&
+                formGroup.controls.companyId.dirty
+              ">
+              Campo requerido.
+            </span>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Buscar tipo de puesto por</label>
+            <select class="form-control input-3" formControlName="searchTypePuesto">
+              <option selected disabled value="null">Seleccionar</option>
+              <option value="1">Industria
+              </option>
+              <option value="2">Area Funcional
+              </option>
+            </select>
+            <span class="text-danger invalid-control" *ngIf="
+                formGroup.controls.companyId.invalid &&
+                formGroup.controls.companyId.dirty
+              ">
+              Campo requerido.
+            </span>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Tipo de puesto</label>
+            <select class="form-control input-3" formControlName="typePuesto">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let puesto of listPuestoType" [value]="puesto.Id">
+                {{ puesto.Name }}
+              </option>
+            </select>
+            <span class="text-danger invalid-control" *ngIf="
+                formGroup.controls.companyId.invalid &&
+                formGroup.controls.companyId.dirty
+              ">
+              Campo requerido.
+            </span>
+          </div>
+        </div>
+
+        <!-- Additional Services -->
+        <additional-services-form [services]="formGroup.controls['additionalsServiceId']"
+          (listChange)="setAdditionalServices($event)"></additional-services-form>
+
+        <!-- Description -->
+        <div class="row">
+          <div class="col-12 form-group">
+            <label for="">Descripción</label>
+            <textarea rows="3" class="form-control input-3" formControlName="description" maxlength="500"></textarea>
+            <field-error [fcontrol]="formGroup.get('description')"></field-error>
+          </div>
+        </div>
+
+        <!-- Country information -->
+        <div class="row">
+          <div class="col-12 col-md-6 form-group">
+            <label for="">País</label>
+            <select class="form-control input-3" formControlName="country_id">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let country of $countries | async" [value]="country.id" [id]="'pais-'+country.id">
+                {{ country.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Departamento</label>
+            <select class="form-control input-3" formControlName="stateId">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let state of $states | async" [value]="state.id" [id]="'dep-'+state.id">
+                {{ state.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Ciudad</label>
+            <select class="form-control input-3" formControlName="cityId">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let city of $cities | async" [value]="city.id" [id]="'ciu-'+city.id">
+                {{ city.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" *ShowAuthorized="[AUTHORIZED.ADMIN, AUTHORIZED.PSYCHOLOGIST]">
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Pre entrevista</label>
+            <select class="form-control input-3" formControlName="preinterviewId">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let preInterview of $preInterviews | async" [value]="preInterview.id">
+                {{ preInterview.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Social networks -->
+        <div class="row">
+          <div class="col-12">
+            <social-network [title]="'Publicar en:'" [formGroup]="formGroup" (handleChange)="handleSocialMedia($event)">
+            </social-network>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-12">
+            <label for="" class="mr-2">Empresa condifencial:</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" formControlName="confidentialCompany" id="inlineRadio1"
+                [value]="true" />
+              <label class="form-check-label" for="inlineRadio1">Si</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" formControlName="confidentialCompany" id="inlineRadio2"
+                [value]="false" />
+              <label class="form-check-label" for="inlineRadio2">No</label>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <label for="" class="mr-2">Es un puesto clave:</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" formControlName="puestoClave" id="inlineRadio1"
+                [value]="true" />
+              <label class="form-check-label" for="inlineRadio1">Si</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" formControlName="puestoClave" id="inlineRadio2"
+                [value]="false" />
+              <label class="form-check-label" for="inlineRadio2">No</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ShowAuthorized="[AUTHORIZED.ADMIN, AUTHORIZED.PSYCHOLOGIST]">
+  <app-vacante-exis-empresa [dataEmpresa]="msgVacantesAll[1]" *ngIf="showModalExist" (onClose)="closeExistVac($event)"
+    (onChange)="existSubcarpeta($event)">
+  </app-vacante-exis-empresa>
+</ng-container>

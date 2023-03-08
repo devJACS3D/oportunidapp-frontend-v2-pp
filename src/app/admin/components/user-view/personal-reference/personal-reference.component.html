@@ -1,0 +1,50 @@
+<ng-container *ngIf="personalReferences?.length > 0; else noDataToDisplayTemplate">
+<div class="row">
+    <div class="col">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h4 class="light-header fs-2rem">Referencia Personal/Familiar</h4>
+        </div>
+      </div>
+      <hr>
+      <div class="row" *ngFor="let reference of personalReferences">
+        <div class="col-12 reference-card">
+          <div class="row">
+            <div class="col-12 col-md">
+              <p class="font-weight-bold fs-1-25rem m-0">{{reference.name |titlecase}}</p>
+            </div>
+            <div class="col-12 col-md">
+              <p class="font-weight-normal m-0 fs-1-25rem text-right">{{reference.relationship | titlecase}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-12 col-md">
+              <p class="m-0 font-weight-normal m-0 fs-1-25rem">{{reference.occupation}}</p>
+            </div>
+            <div class="col-12 col-md">
+              <p class="m-0 font-weight-normal m-0 fs-1-25rem text-right">Teléfono</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md">
+              <p class="m-0 font-weight-light fs-1-25rem">{{reference.address}}</p>
+            </div>
+            <div class="col-12 col-md">
+              <p class="m-0 font-weight-light fs-1-25rem text-right">{{reference.cellphone}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #noDataToDisplayTemplate>
+  <div class="row">
+    <div class="col-12 text-center">
+      <img [src]="utils.assets('warning-icon.png')" alt="">
+      <p>No se han encontrado referencias personales.</p>
+    </div>
+  </div>
+</ng-template>

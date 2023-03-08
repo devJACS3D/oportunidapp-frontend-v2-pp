@@ -1,0 +1,16 @@
+
+<div class="sidebar-container">
+	<div class="userimg-container">
+		<!-- <img src="assets/nativappslogo.jpg" style="width: 100%;"> -->
+	</div>
+
+	<div class="menu-container" *ngIf="navigations && navigations?.length > 0">
+		<ng-container *ngFor="let item of navigations">
+			<!-- Items -->
+			<app-sidebar-item [hiddenText]="textShouldBeHidden" (onItemClick)="closeAll($event)" *ngIf="item.type == 'item'" [item]="item" ></app-sidebar-item>
+			<!-- Group Items -->
+			<app-sidebar-group [hiddenText]="textShouldBeHidden" (onItemClick)="closeAll($event)" *ngIf="item.type == 'group'" [groupItems]="item"></app-sidebar-group>
+			
+		</ng-container>
+	</div>
+</div>

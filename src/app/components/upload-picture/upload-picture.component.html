@@ -1,0 +1,16 @@
+<div class="row mb-2">
+  <div class="col">
+    <div class="img-fluid bg-image-responsive upload-picture-img mx-auto" [style.background]="'url('+imgSrc+')'">
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col">
+    <input type="file" (change)="onInputImageChange($event)" id="inputFacePhoto" accept="image/*"
+      style="display: none;">
+    <label class="btn btn-block btn-ok btn-ok--blue" for="inputFacePhoto">
+      Subir archivo
+    </label>
+  </div>
+</div>

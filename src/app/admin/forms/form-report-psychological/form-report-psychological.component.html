@@ -1,0 +1,76 @@
+<div #cont class="" style="height: auto;">
+  <div class="container paper" id="contenido">
+    <div class="row text-center">
+      <div class="col-12">
+        <h3>Reporte de entrevista</h3>
+      </div>
+    </div>
+
+
+    <div class="row ">
+      <div class="col-12 text-center">
+        <p>{{ user.user.firstName }} {{user.user.lastName }} {{user.user.secondLastName }}</p>
+      </div>
+    </div>
+
+    <hr>
+    <div class="row ">
+      <div class="col-4">
+         <p><b>Vacante: </b> {{vacancy_data.name}}</p>
+         <p><b>Profesión: </b> {{user.title.title }}</p>
+
+      </div>
+      <div class="col-4">
+        <p><b>Cédula: </b> {{user.user.identification }}</p>
+      </div>
+      <div class="col-4">
+        <p><b>Fecha: </b> {{date | date: 'medium' }}</p>
+      </div>
+    </div>
+    <hr>
+
+    <h4>Entrevista y estado de aprobación</h4>
+    <div class="row">
+      <table class="table table-white border">
+        <tr>
+          <thead>
+            <tr>
+              <th> Comentario </th>
+              <th> Fecha </th>
+              <th> Hora </th>
+              <th> Dirección </th>
+              <th> Aprobado </th>
+
+            </tr>
+          </thead>
+          <tbody class="border">
+            <tr *ngFor="let item of testData?.interviews">
+              <td style="width: 60%;">
+                {{item.comment}}
+              </td>
+              <td style="width:12%;">
+                {{item.date}}
+              </td>
+              <td style="width: 12%;">
+                {{item.hour.hour}} : {{item.hour.minutes}}
+              </td>
+              <td style="width: 14%;">
+                {{item.address}}
+              </td>
+              <td style="width: 12%;">
+                <span *ngIf="item.approved==true">Si</span>
+                <span *ngIf="item.approved!=true">No</span>
+
+              </td>
+
+            </tr>
+          </tbody>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+  <br>
+  <button (click)="generarPDF()" class="btn btn-info">Descargar PDF</button>
+
+</div>

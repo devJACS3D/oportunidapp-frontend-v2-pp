@@ -1,0 +1,316 @@
+<div class="row">
+	<div class="col-md-12">
+		<a class="btn btn-ok--blue" (click)="goback()" style="color: white;">
+			<i class="fa fa-arrow-left" aria-hidden="true"></i>
+		</a>
+		&nbsp;
+		<span class="h4">{{ _title }}</span>
+	</div>
+</div>
+<br>
+
+
+<ng-container>
+	<ng-container>
+
+		<form [formGroup]="FormEntity">
+			<div class="card">
+				<div class="card-header text-info">
+					<h6>información de la empresa</h6>
+				</div>
+				<div class="card-body">
+
+					<div class="row">
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">NIT</label>
+							<input type="text" class="form-control input-2" formControlName="nit" maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Tipo de compañia</label>
+							<select class="form-control input-2" formControlName="typeService">
+								<option  [value]="null" disabled>Tipo de compañía</option>
+								<option  [value]="'Temporal'">Temporal</option>
+								<option  [value]="'Outsourcing'">Outsourcing</option>
+							</select>
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Nombre</label>
+							<input type="text" class="form-control input-2" formControlName="name" maxlength="100">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Tipo de contribuyente</label>
+							<input type="text" class="form-control input-2" formControlName="typeOfTaxPayer"
+								maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">CIIU</label>
+							<input type="text" class="form-control input-2" formControlName="ciiu" maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Actividad</label>
+							<input type="text" class="form-control input-2" formControlName="economicActivity"
+								maxlength="100">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Telefono</label>
+							<input type="text" class="form-control input-2" formControlName="telephones"
+								maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Titulo de renta</label>
+							<input type="text" class="form-control input-2" formControlName="retainerTitleRent"
+								maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Dirección</label>
+							<input type="text" class="form-control input-2" formControlName="address" maxlength="100">
+						</div>
+					</div>
+					<div class="row">
+
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Representante legal</label>
+							<input type="text" class="form-control input-2" formControlName="legalRepresentativeName"
+								maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">CC Representante</label>
+							<input type="text" class="form-control input-2" formControlName="dniLegalRepresentative"
+								maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Nombre de contacto</label>
+							<input type="text" class="form-control input-2" formControlName="contactName"
+								maxlength="100">
+						</div>
+					</div>
+					<div class="row" style="visibility: hidden;height: 1px;overflow: hidden;">
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Ciudad</label>
+							<input type="text" class="form-control input-2" formControlName="cityId" maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Ciudad de expedicion</label>
+							<input type="text" class="form-control input-2" formControlName="expeditionCityId"
+								maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Posicion</label>
+							<input type="text" class="form-control input-2" formControlName="positionContact"
+								maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Celular</label>
+							<input type="text" class="form-control input-2" formControlName="cellphoneContact"
+								maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Telefono</label>
+							<input type="text" class="form-control input-2" formControlName="telephoneContact"
+								maxlength="100">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">EXT</label>
+							<input type="text" class="form-control input-2" formControlName="extTelephoneContact"
+								maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">Correo</label>
+							<input type="text" class="form-control input-2" formControlName="emailContact"
+								maxlength="100">
+						</div>
+						<div class="col-4 form-group">
+							<label class="label-info font-weight-bold">
+								número de trabajadores</label>
+							<input type="text" class="form-control input-2" formControlName="numberWorkers"
+								maxlength="100">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-3 form-group">
+							<label class="label-info font-weight-bold">Trabajadores directos</label>
+							<input type="text" class="form-control input-2" formControlName="numberWorkersDirect">
+						</div>
+						<div class="col-3 form-group">
+							<label class="label-info font-weight-bold">Trabajadores Temporales </label>
+							<input type="text" class="form-control input-2" formControlName="numberWorkersTemporals">
+						</div>
+						<div class="col-3 form-group">
+							<label class="label-info font-weight-bold">Otros </label>
+							<input type="text" class="form-control input-2" formControlName="numberWorkersOthers">
+						</div>
+						<div class="col-3 form-group">
+							<label class="label-info font-weight-bold">Trabajadores a buscar </label>
+							<input type="text" class="form-control input-2" formControlName="numberWorkersToFind">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-3 form-group">
+							<button class="btn btn-ok btn-ok--blue" [disabled]="_loading" (click)="editCompany()">
+								<i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+								Guardar
+							</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="row mb-3" *ngIf="_errorMessage">
+				<div class="col text-center">
+					<div class="alert alert-danger" role="alert">
+						{{ _errorMessage }}
+					</div>
+				</div>
+			</div>
+			<!--
+			<div class="row">
+				<div class="col">
+					<button class="btn btn-block btn-ok--blue" [disabled]="_loading" (click)="next()">
+						<i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+						<ng-container *ngIf="_businessProfile">
+							<ng-container *ngIf="_idEntity">Guardar cambios</ng-container>
+							<ng-container *ngIf="!_idEntity">Pagar y crear</ng-container>
+						</ng-container>
+						<ng-container *ngIf="!_businessProfile">Continuar</ng-container>
+					</button>
+				</div>
+			</div> -->
+		</form>
+		<ng-container>
+			<div class="card">
+				<div class="card-header text-info">
+					<h6>Planes contratados</h6>
+				</div>
+				<div class="card-body">
+					<table class="table table-white table-hover">
+						<thead>
+							<tr>
+								<th>Paquete </th>
+								<th>Publicaciones Disponibles</th>
+								<th>Precio</th>
+								<th>Fecha Vencimineto</th>
+								<th>Fecha Creacion</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of packs; let i = index">
+								<td style="cursor: pointer;">
+									{{ item._label }}
+								</td>
+								<td style="cursor: pointer;">
+									{{ item._vacancies }}
+								</td>
+								<td style="cursor: pointer;">
+									{{ item._price }}
+								</td>
+								<td style="cursor: pointer;">
+									{{ item.expireAt | date:'short' }}
+								</td>
+								<td style="cursor: pointer;">
+									{{ item.createdAt | date:'short' }}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</ng-container>
+
+		<div class="card">
+			<div class="card-header text-info">
+				<h6>Movimientos</h6>
+			</div>
+			<div class="card-body">
+				<div class="col-md-12">
+					<table class="table table-white table-hover">
+						<thead>
+							<tr>
+								<th>Order ID </th>
+								<th>Estado</th>
+								<th>Fecha</th>
+								<th>Detalle</th>
+								<th>Valor $</th>
+								<th>Cargar Factura</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of mov; let i = index">
+								<td>
+									{{ item.orderId }}
+								</td>
+								<td>
+									{{ item.state }}
+								</td>
+								<td>
+									{{ item?.updatedAt | date }}
+								</td>
+								<td>
+									Compra vancante: {{ item?.vacancy?.name }}
+								</td>
+
+								<td>
+									{{ item.value | currency:'COP':''  }}
+								</td>
+								<th>
+									<a *ngIf="item.attached!== null" href="{{ item.attached?.Location }}">Descargar
+										Factura</a>
+									<input type="file" *ngIf="item.attached === null"
+										(change)="onInputImageChange($event, item.id)" id="inputUpload{{i}}">
+
+								</th>
+								<!--	<td>
+									<button [disabled]="_loadingPage" routerLink="../../../form-company/{{ item.id }}"
+										class="table-link btn btn-sm btn-link">
+										<i class="fa fa-pencil" aria-hidden="true"></i>
+									</button>
+									 <button [disabled]="_loadingPage" (click)="delete(item)" class="table-link btn btn-sm btn-link">
+									<i class="fa fa-trash" aria-hidden="true"></i>
+								  </button>
+								</td> -->
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</ng-container>
+</ng-container>
+
+
+
+
+<ng-template #LoadingInitTemplate>
+	<div class="row">
+		<div class="col-md-12">
+			Cargando...
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #errorTemplate>
+	<div class="row">
+		<div class="col text-center text-secondary">
+			<i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+			<h4 class="h4">
+				Error cargando información de usuario
+			</h4>
+			<p class="text-center">
+				{{ _error }}
+			</p>
+		</div>
+	</div>
+</ng-template>

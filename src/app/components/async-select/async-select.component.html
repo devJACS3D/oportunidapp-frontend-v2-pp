@@ -1,0 +1,26 @@
+<ng-container *ngIf="!hasError; else errorTemplate">
+    <label *ngIf="label" for="">{{label}}</label>
+    <select [disabled]="disabled" (change)="handleChange($event)"[name]="name"
+    [ngClass]="borderlessSelect? 'borderless': 'input-3'"
+    [class]="'form-control text-wrap '+classes" [value]="defaultValue">
+      <option selected disabled value="null">{{placeholder}}</option>
+      <option *ngFor="let d of data" [value]="d[selectValueFromProperty]">{{d.name}}</option>
+    </select>
+</ng-container>
+
+
+<ng-template class="row" #errorTemplate>
+  <div class="row">
+    <div class="col text-center text-md-left">
+      <div class="form-group">
+        <select class="form-control hasError font-size-12">
+          <option selected disabled>{{placeholder}}</option>
+        </select>
+        <p class="small text-danger">
+          Ha ocurrido un error al cargar los datos <span class="font-weight-bold pointer" (click)="fetchData()">pulsa para reintentar</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

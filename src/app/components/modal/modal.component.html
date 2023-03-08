@@ -1,0 +1,21 @@
+<ng-container>
+  <div class="modal-backdrop" style="background-color: #0000007a;"></div>
+  <div class="modal modal-2 animated fadeInDown" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document" [ngClass]="class">
+      <div class="modal-content">
+
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-rounded btn-rounded-close border" (click)="close()" [disabled]="loading">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="modal-body modal-body--logis">
+          <ng-template modalContent></ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!-- *ngIf="modalData.backdrop" -->
+<!-- *ngIf="modalData.closeButton"  -->

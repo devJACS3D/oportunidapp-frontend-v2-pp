@@ -1,0 +1,101 @@
+<div class="bg-oportunidapp-blue pt-5 fix-bottom">
+	<div class="container">
+
+		<div class="row mb-4">
+			<div class="col text-center text-white">
+				<h3>Últimos casos de éxito</h3>
+
+				<span style="max-width: 50px;">
+					Conoce algunos de nuestros casos de éxito que han pasado por nuestro <br> proceso de selección
+				</span>
+			</div>
+		</div>
+
+		<app-carousel-success-stories></app-carousel-success-stories>
+	</div>
+</div>
+
+<div class="bg-oportunidapp-light-two py-5">
+	<div class="container">
+		<div class="row mb-3">
+			<div class="col text-center">
+				<h4 class="section-title text-center font-weight-bold my-4">
+					Otros casos de éxito
+				  </h4>
+			</div>
+		</div>
+
+		<div class="row justify-content-center mb-4">
+			<div class="col-10" style="padding-left: 15px; padding-right: 15px;">
+				<div class="card shadow no-radious">
+					<div class="card-body card-menu">
+						<div class="row" style="margin: 0px;">
+							<a class="col text-center item-option" 
+								(click)="changeFilter(2)">
+								<span class="text-secondary font-weight-lighter">Trabajadores</span>
+							</a>
+							<a class="col text-center item-option"
+								(click)="changeFilter(1)">
+								<span class="text-secondary font-weight-lighter">Empresas</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<ng-container *ngIf="successCases$ | async ; let successCases; else LoadingTemplate">
+				<ng-container *ngIf="successCases?.length; else noDataTemplate">
+					<div class="row justify-content-center">
+						<div class="col-md-10">
+							<div class="row card-deck">
+								<ng-container *ngFor="let item of successCases">
+									<div class="col-md-4 col-sm-6 success-stories" style="margin-bottom: 25px;">
+										<app-card-success-stories (click)="goToDetail(item.id)" [successStory]="item"></app-card-success-stories>
+									</div>
+								</ng-container>
+							</div>
+						</div>
+					</div>
+
+					<br>
+					<div class="row">
+						<div class="col-md-12">
+							<app-pagination [pagination]="pagination" [loader]="_loadingPage"
+								(_changePage)="goToPage($event)">
+							</app-pagination>
+						</div>
+					</div>
+			</ng-container>
+		</ng-container>
+
+	</div>
+</div>
+
+
+
+<ng-template #LoadingTemplate>
+	<div class="row justify-content-center">
+		<div class="col-md-10">
+			<div class="row card-deck">
+				<ng-container *ngFor="let item of arrayOne(3)">
+					<div class="col-md-4 col-sm-6" style="margin-bottom: 25px;">
+						<app-card-success-stories></app-card-success-stories>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #noDataTemplate>
+	<div class="row">
+		<div class="col text-center text-secondary">
+			<i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+			<h4 class="h4">
+				Aún no hay historias registradas
+			</h4>
+		</div>
+	</div>
+</ng-template>

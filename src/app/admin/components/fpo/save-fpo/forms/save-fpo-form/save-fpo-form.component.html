@@ -1,0 +1,48 @@
+<form class="container-fluid" [formGroup]="fpoForm" (ngSubmit)="handleSubmit()">
+
+  <div class="row form-group">
+    <label class="col-12 font-weight-semi-bold">
+      Factor
+    </label>
+    <div class="col-12 col-md-6">
+      <input formControlName="name" type="text" class="form-control input-3" placeholder="Factor">
+    </div>
+
+    <div class="col-12 col-md-6 d-flex align-items-center">
+      <div class="custom-control custom-checkbox mt-1">
+        <input [readOnly]="factor.id?true:false" formControlName="isMultiFacet" type="checkbox"
+          class="custom-control-input" id="isMultiFacet">
+        <label class="custom-control-label" for="isMultiFacet">
+          Multi faceta
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row form-group" formArrayName="facets">
+    <div class="col-md col-12" *ngFor="let facet of facets.controls;let idx = index">
+      <ng-container [formGroupName]="idx">
+        <label class="font-weight-semi-bold">
+          Faceta {{idx+1}}
+        </label>
+        <input formControlName="name" type="text" class="form-control input-3" placeholder="Faceta 1">
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-4 col-12">
+      <button type="submit" [disabled]="fpoForm.invalid || (submitting$ | async)" class="btn btn-block btn-ok--blue">
+        <ng-container *ngIf="!(submitting$ | async);else saving">
+          Guardar
+        </ng-container>
+
+        <ng-template #saving>
+          Guardando...
+          <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        </ng-template>
+      </button>
+    </div>
+  </div>
+
+</form>

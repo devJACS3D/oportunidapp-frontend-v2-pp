@@ -1,0 +1,19 @@
+// .title-information > p{
+//     line-height: 25px;
+// }
+
+.title-information > p:nth-child(1) {
+    font-weight: 900;
+    font-size: 20px;
+}
+
+.title-information > p:nth-child(2) {
+    font-weight: normal;
+    font-size: 20px;
+}
+
+.title-information > p:nth-child(3),
+.title-information > p:nth-child(4) {
+    font-weight: 300;
+    font-size: 20px;
+}

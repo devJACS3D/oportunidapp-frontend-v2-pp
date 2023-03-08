@@ -1,0 +1,199 @@
+.btn {
+    cursor: pointer;
+    &-ok{
+        border-radius: 5px;
+        // border-bottom-left-radius: 0.6rem;
+        // border-top-right-radius: 0.6rem;
+
+        &--blue{
+            color: #fff;
+            background-color: $primary;
+            border-color: $secondary;//$color-blue-active;
+            &.active{
+                background-color: $secondary;//$color-blue-active;
+            }
+            &.vacancies{
+                background-color: $primary;
+                font-size: 12px;
+                font-weight: bold;
+                padding: 10px 40px;
+            }
+        }
+
+        &--dark-blue{
+            color: #fff;
+            background-color: $secondary;
+            border-radius: 8px;
+        }
+        &--dark-blue:hover{
+            color: rgba(255, 255, 255, 0.795);
+        }
+        &--blue-light{
+            color: #fff;
+            background-color: $primary;
+            border-radius: 8px;
+        }
+        &--blue-light:hover{
+            color: rgba(255, 255, 255, 0.795);
+        }
+        &--width{
+            width: 176px;
+        }
+        &--height{
+            height: 46px;
+        }
+        &--custom-blue{
+            background-color: $primary;
+            width: 176px;
+            height: 46px;
+            border: 1px solid $primary;
+            color:$color-white;
+            border-radius: 5px;
+        }
+        &--custom-blue-not-bg{
+            background-color: $color-transparent;
+            width: 176px;
+            height: 46px;
+            border: 1px solid $primary;
+            color:$primary;
+            border-radius: 5px;
+        }
+        &--custom-blue-not-bg:hover{
+            background-color: $primary;
+            color:$color-white
+        }
+        &--custom-link-blue{
+            color: $primary;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+    }
+
+    /* Outline styles */
+    &-outline{
+        &-primary{
+            // background: transparent !important;
+            border-color: $primary;
+            color: $primary;
+            &:hover{
+                color: $primary;
+                border-color: $primary;
+            }
+        }
+    }
+
+    &-app-secondary{
+        background: #A5A4BF;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        &:hover{
+            color: white;
+            border-color: #A5A4BF;
+        }
+    }
+    &-app-primary{
+        background: $primary;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        &:hover{
+            color: white;
+            border-color: $primary;
+        }
+    }
+    &-app-dark{
+        background: #414141;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        &:hover{
+            color: white;
+            border-color: #414141;
+        }
+    }
+    &-app-darkblue{
+        background: $secondary;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        &:hover{
+            color: white;
+            border-color: $secondary;
+        }
+    }
+
+    &-rounded {
+        background-color: $secondary;
+        border-radius: 999em;
+        color: white;
+
+        &-add{
+            width: 46px;
+            height: 46px;
+            margin-top: -44px;
+            position: absolute;
+        }
+
+        &-addNoresults{
+            width: 46px;
+            height: 46px;
+        }
+
+        &-close{
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            margin-top: -20px;
+            z-index: 1060;
+        }
+    }
+}
+
+
+.btn-light-red{
+  /* Buttons */
+  background-color:$btn-light-red;
+  color: white;
+  font-weight: 400;
+}
+
+.btn-blue-primary{
+  background:$primary;
+}
+
+.btn-green{
+ background-color:$btn-green;
+ color: white;
+ font-weight: 400;
+
+}
+
+.btn-cursor-pointer:hover{
+    cursor: pointer;
+    opacity: .8;
+}
+
+.btn.disabled, .btn:disabled{
+    cursor: no-drop !important;
+}
+
+.btn-outline-secondary{
+ border-color: $secondary !important;
+ color: $secondary !important;
+
+ &:hover{
+     color: white !important;
+     background-color: $secondary !important;
+ }
+}
+
+// .btn-outline-primary, .btn-outline-primary:active{
+//     color: #4874A0 !important;
+//     background-color: transparent !important;
+//     border-color: #00528c;
+// }
+
+
+// Definir colores para active, normal y disabled

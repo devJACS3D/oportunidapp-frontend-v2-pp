@@ -1,0 +1,90 @@
+<div class="card shadow" [formGroup]="formGroup" *ngIf="formGroup">
+  <div class="card-body p-md-5">
+    <div class="row">
+      <div class="col">
+        <!-- Form Begin -->
+
+        <div class="row">
+          <div class="col-12 col-md-5 form-group">
+            <label for="">Años de experiencia</label>
+            <input type="text" formControlName="yearsExperience" [textMask]="{mask: maskNumber}" maxlength="2"
+              class="form-control input-3">
+              <field-error [fcontrol]="formGroup.get('yearsExperience')"></field-error>
+          </div>
+
+          <div class="col-12 col-md-3 form-group">
+            <label for="">Edad mínima</label>
+            <input type="text" formControlName="minimunAge" [textMask]="{mask: maskNumber}" maxlength="2"
+              class="form-control input-3" [max]="maxAge">
+              <field-error [errorsMsg]="minMaxAgeErrors" [fcontrol]="formGroup.get('minimunAge')"></field-error>
+          </div>
+
+          <div class="col-12 col-md-3 form-group">
+            <label for="">Edad máxima</label>
+            <input type="text" formControlName="maximunAge" [textMask]="{mask: maskNumber}" maxlength="2"
+              class="form-control input-3">
+              <field-error [fcontrol]="formGroup.get('maximunAge')"></field-error>
+          </div>
+        </div>
+
+        <!-- Studies & license -->
+        <div class="row">
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Estudios</label>
+            <select class="form-control input-3" formControlName="educationalLevelId">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let level of $educationalLevels | async" [value]="level.id">
+                {{ level.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-12 col-md-6 form-group">
+            <label for="">Licencia de conducción</label>
+            <select class="form-control input-3" formControlName="drivingLicenseId">
+              <option selected disabled value="null">Seleccionar</option>
+              <option *ngFor="let license of $drivingLicenses | async" [value]="license.id">
+                {{ license.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Checkboxes -->
+        <div class="row">
+          <div class="col-auto">
+            <yes-not-checkbox [formGroup]="formGroup" id="availabilityToRelocation"
+              title="Disponinibilidad de reubicación"></yes-not-checkbox>
+          </div>
+          <div class="col-auto">
+            <yes-not-checkbox [formGroup]="formGroup" id="availabilityToTravel" title="Disponinibilidad para viajar">
+            </yes-not-checkbox>
+          </div>
+
+          <div class="col-auto">
+            <yes-not-checkbox [formGroup]="formGroup" id="peopleDiscapacity" title="Con discapacidad">
+            </yes-not-checkbox>
+          </div>
+        </div>
+
+        <div class="row" *ShowAuthorized="[AUTHORIZED.ADMIN,AUTHORIZED.PSYCHOLOGIST]">
+          <div class="col-12">
+            <label for="">Campos para validación</label>
+
+            <div formGroupName="vacancyRequirement" class="border input-3"
+              style="max-height: 100px; min-height: 100px; overflow-y: scroll;padding: 0.25rem 0 0.25rem 1rem;">
+              <div class="form-check" *ngFor="let requirement of getAvailableRequirements()">
+                <input [name]="requirement.controlName" [formControlName]="requirement.controlName"
+                  class="form-check-input" type="checkbox" [id]="requirement.controlName">
+                <label class="form-check-label" [for]="requirement.controlName">
+                  {{requirement.name}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Form end -->
+      </div>
+    </div>
+  </div>
+</div>

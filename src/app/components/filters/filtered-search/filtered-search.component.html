@@ -1,0 +1,486 @@
+<div class="row flex-row" [ngClass]="showAll ? 'card shadow' : 'mb-2'">
+  <div
+    class="col-12"
+    [ngClass]="showAll ? 'card-body m-0' : ''"
+    [formGroup]="filteredForm"
+  >
+    <div
+      class="row justify-content-md-between"
+      [ngClass]="{ 'align-items-center': !showAll }"
+    >
+      <div class="col-12 col-md-9">
+        <div class="row row-filter">
+          <div
+            *ngIf="showOpts.searchQuery"
+            [ngClass]="{ 'form-group-10': showAll }"
+            class="col-12 col-md-3 col-padding-small  col-padding-small"
+          >
+            <input
+              [placeholder]="searchQueryPlaceholder"
+              type="text"
+              class="form-control font-size-12 "
+              [ngClass]="!showAll ? 'borderless' : 'input-3'"
+              formControlName="searchQuery"
+              maxlength="50"
+            />
+          </div>
+
+          <div
+            [ngClass]="{ 'form-group-10': showAll }"
+            class="col-12 col-md-3 col-padding-small"
+            *ngIf="showOpts.educationalLevelId"
+          >
+            <async-select
+              class="font-size-12 text-light-gray"
+              [borderlessSelect]="!showAll ? true : false"
+              [defaultValue]="getFormValue('educationalLevelId')"
+              [async-data]="$educationalLevels"
+              (onChange)="handleAsyncSelectChange($event)"
+              placeholder="Nivel de estudios"
+              name="educationalLevelId"
+            >
+            </async-select>
+          </div>
+
+          <ng-container>
+            <div
+              [ngClass]="{ 'form-group-10': showAll }"
+              class="col-12 col-md-3 col-padding-small"
+              *ngIf="showOpts.company"
+            >
+              <input
+                [ngClass]="!showAll ? 'borderless' : 'input-3'"
+                placeholder="Empresa"
+                type="text"
+                class="form-control font-size-12 "
+                formControlName="company"
+                maxlength="50"
+              />
+            </div>
+
+            <div
+              [ngClass]="{ 'form-group-10': showAll }"
+              class="col-12 col-md-3 col-padding-small"
+              *ngIf="showOpts.seeVHByUser"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('seeVHByUser')"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="seeVHByUser"
+                placeholder="Visualización de VH"
+                [async-data]="yesOrNotArray"
+              >
+              </async-select>
+            </div>
+          </ng-container>
+
+          <div
+            *ngIf="showOpts.peopleDiscapacity"
+            [ngClass]="{ 'form-group-10': showAll }"
+            class="col-12 col-md-3 col-padding-small"
+          >
+            <async-select
+              class="font-size-12 text-light-gray"
+              [borderlessSelect]="!showAll ? true : false"
+              [defaultValue]="getFormValue('peopleDiscapacity')"
+              (onChange)="handleAsyncSelectChange($event)"
+              name="peopleDiscapacity"
+              placeholder="Con discapacidad"
+              [async-data]="yesOrNotArray"
+            ></async-select>
+          </div>
+
+          <!-- Show more container -->
+          <ng-container *ngIf="showAll">
+            <div
+              *ngIf="showOpts.minAge"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <input
+                [textMask]="{ mask: maskNumber }"
+                maxlength="2"
+                placeholder="Edad minima"
+                type="text"
+                [ngClass]="!showAll ? 'borderless' : 'input-3'"
+                class="form-control font-size-12 placeholder-gray"
+                formControlName="minAge"
+              />
+            </div>
+            <div
+              *ngIf="showOpts.maxAge"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <input
+                [textMask]="{ mask: maskNumber }"
+                maxlength="2"
+                placeholder="Edad maxima"
+                type="text"
+                class="form-control font-size-12  placeholder-gray"
+                [ngClass]="!showAll ? 'borderless' : 'input-3'"
+                formControlName="maxAge"
+              />
+            </div>
+            <div
+              *ngIf="showOpts.minSalary"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <input
+                placeholder="Salario minimo"
+                type="text"
+                class="form-control font-size-12 placeholder-gray"
+                [ngClass]="!showAll ? 'borderless' : 'input-3'"
+                [textMask]="{ mask: maskCurrency }"
+                maxlength="11"
+                formControlName="minSalary"
+              />
+            </div>
+            <div
+              *ngIf="showOpts.maxSalary"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <input
+                placeholder="Salario maximo"
+                type="text"
+                class="form-control font-size-12 "
+                [ngClass]="!showAll ? 'borderless' : 'input-3'"
+                [textMask]="{ mask: maskCurrency }"
+                maxlength="11"
+                formControlName="maxSalary"
+              />
+            </div>
+
+            <div
+              *ngIf="showOpts.availabilityToTravel"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('availabilityToTravel')"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="availabilityToTravel"
+                placeholder="Disponibilidad para viajar"
+                [async-data]="yesOrNotArray"
+              >
+              </async-select>
+            </div>
+
+            <div
+              *ngIf="showOpts.workdayId"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('workdayId')"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="workdayId"
+                placeholder="Jornada/horario de interés"
+                [async-data]="$workdays"
+              ></async-select>
+            </div>
+
+            <div
+              *ngIf="showOpts.contractTypeId"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('contractTypeId')"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="contractTypeId"
+                placeholder="Tipo de contrato"
+                [async-data]="$contractTypes"
+              ></async-select>
+            </div>
+
+            <div
+              *ngIf="showOpts.studying"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('studying')"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="studying"
+                placeholder="Estudiando"
+                [async-data]="yesOrNotArray"
+              ></async-select>
+            </div>
+
+            <div
+              *ngIf="showOpts.searchUniversity"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <input
+                placeholder="Universidad"
+                type="text"
+                class="form-control font-size-12 "
+                [ngClass]="!showAll ? 'borderless' : 'input-3'"
+                maxlength="50"
+                formControlName="searchUniversity"
+              />
+            </div>
+
+            <div
+              *ngIf="showOpts.languages"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('languages')"
+                (onChange)="handleAsyncSelectChange($event)"
+                selectValueFromProperty="name"
+                name="languages"
+                placeholder="Maneja idiomas"
+                [async-data]="$languajes"
+              >
+              </async-select>
+            </div>
+
+            <div
+              *ngIf="showOpts.drivingLicenseId"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('drivingLicenseId')"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="drivingLicenseId"
+                placeholder="Licencia de conducción"
+                [async-data]="$drivingLicenses"
+              >
+              </async-select>
+            </div>
+
+            <div
+              *ngIf="showOpts.sectorId"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('sectorId')"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="sectorId"
+                placeholder="Sector"
+                [async-data]="$sectors"
+              ></async-select>
+            </div>
+
+            <div
+              *ngIf="showOpts.availabilityToRelocation"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('availabilityToRelocation')"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="availabilityToRelocation"
+                placeholder="Disponibilidad para reubicación"
+                [async-data]="yesOrNotArray"
+              ></async-select>
+            </div>
+
+            <div
+              *ngIf="showOpts.yearsExperience"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <input
+                [textMask]="{ mask: maskNumber }"
+                maxlength="2"
+                placeholder="Años de experiencia"
+                type="text"
+                [ngClass]="!showAll ? 'borderless' : 'input-3'"
+                class="form-control font-size-12 "
+                formControlName="yearsExperience"
+              />
+            </div>
+
+            <div
+              *ngIf="showOpts.contractDate"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <div class="input-group">
+                <input
+                  [ngClass]="!showAll ? 'borderless' : 'input-3'"
+                  type="text"
+                  class="form-control font-size-12 "
+                  formControlName="contractDate"
+                  ngbDatepicker
+                  #fContract="ngbDatepicker"
+                  placeholder="Fecha de contratación"
+                  readonly
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="button-addon2"
+                    (click)="fContract.toggle()"
+                  >
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              *ngIf="showOpts.createdAt"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <div class="input-group">
+                <input
+                  [ngClass]="!showAll ? 'borderless' : 'input-3'"
+                  type="text"
+                  class="form-control font-size-12 "
+                  formControlName="createdAt"
+                  ngbDatepicker
+                  #fCreatedAt="ngbDatepicker"
+                  placeholder="Fecha de creación"
+                  readonly
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="button-createdAt"
+                    (click)="fCreatedAt.toggle()"
+                  >
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              *ngIf="showOpts.stateId"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('stateId')"
+                (onChange)="getCities($event)"
+                name="stateId"
+                placeholder="Departamento"
+                [async-data]="$states"
+              >
+              </async-select>
+            </div>
+            <div
+              *ngIf="showOpts.cityId"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [disabled]="!$cities"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('cityId')"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="cityId"
+                placeholder="Ciudad"
+                [async-data]="$cities"
+              >
+              </async-select>
+            </div>
+
+            <div
+              *ngIf="showOpts.userTypeId"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('userTypeId')"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="userTypeId"
+                placeholder="Creado por psicologo"
+                [async-data]="createdByUser"
+              ></async-select>
+            </div>
+
+            <div
+              *ngIf="showOpts.confidentialCompany"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                [defaultValue]="getFormValue('confidentialCompany')"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="confidentialCompany"
+                placeholder="Empresa confidencial"
+                [async-data]="yesOrNotArray"
+              >
+              </async-select>
+            </div>
+
+            <div
+              *ngIf="showOpts.profilePicture"
+              class="col-12 col-md-3 col-padding-small form-group-10"
+            >
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                (onChange)="handleAsyncSelectChange($event)"
+                name="profilePicture"
+                placeholder="Persona con fotografía"
+                [async-data]="yesOrNotArray"
+              >
+              </async-select>
+            </div>
+
+            <div *ngIf="showOpts.location" class="col-12 col-md-3 col-padding-small form-group-10">
+              <async-select
+                class="font-size-12 text-light-gray"
+                [borderlessSelect]="!showAll ? true : false"
+                (onChange)="handleLocationChange()"
+                [defaultValue]="locationFakeValue"
+                name="location"
+                placeholder="Ubicación"
+                [async-data]="locationArray"
+              >
+              </async-select>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Icon for toggling more filters -->
+      <div
+        class="col-12 col-md-auto d-flex justify-content-center my-2 my-md-0"
+      >
+        <img
+          src="../../../assets/vacancies/filterIcon.png"
+          [ngClass]="{ 'mt-3': showAll }"
+          class="filter-icon"
+          (click)="showAll = !showAll"
+        />
+      </div>
+
+      <!-- Button for apply filters -->
+      <div class="col-12 col-md relative">
+        <button
+          (click)="applyFilter()"
+          [disabled]="filteredForm.invalid"
+          class="filter-button btn btn-block  btn-ok--blue text-center"
+        >
+          Aplicar
+        </button>
+        <ng-container *ngIf="filteredForm.dirty">
+          <div class="clear-filters-icon pointer" (click)="clearFilters()">
+            <i class="fa fa-times"></i>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

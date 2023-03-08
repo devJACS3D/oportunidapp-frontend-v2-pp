@@ -1,0 +1,54 @@
+<card-wrapper [rounded]="0">
+	<ng-container *ngIf="(studies.length && studies.length > 0 );else noDataTemplate">
+		<div class="row">
+			<div class="col-md-9 col-xs-12 col-sm-12">
+				<div class="mb-4" *ngFor="let study of studies">
+					<card-information-user [info]="study" [isInTramite]="study.isInTramite"
+						(onClickEdit)="onClickEdit($event)" (onClickRemove)="onClickRemove($event)">
+					</card-information-user>
+				</div>
+			</div>
+			<div class="col-md-3 col-xs-12 col-sm-12">
+				<button-information-user [btnTitle]="'Añadir información academica'" (onClickAdd)="onClickAdd($event)">
+				</button-information-user>
+			</div>
+		</div>
+		<div class="row mt-4" *ngIf="pagination">
+			<div class="col-md-12 ml-2">
+				<app-pagination [pagination]="pagination" [loader]="loadingPage" (_changePage)="goToPage($event)">
+				</app-pagination>
+			</div>
+		</div>
+	</ng-container>
+</card-wrapper>
+
+<ng-template #noDataTemplate>
+	<!-- IF LOADING -->
+	<ng-container *ngIf="loadingPage && !_error">
+		Cargando...
+	</ng-container>
+	<!-- IF NOT LOADING -->
+	<ng-container *ngIf="!loadingPage">
+		<div class="row text-center">
+			<div class="col-12">
+				<i class="fa fa-inbox noResults" aria-hidden="true"></i> <br>
+				<!-- IF DATA NOT FOUND -->
+				<ng-container *ngIf="!studies?.length && !_error">
+					<h4 class="h4 text-secondary">
+						Aún no se han creado registros.
+					</h4>
+					<br>
+					<button class="btn btn-ok btn-ok--blue" (click)="onClickAdd(true)">
+						Añadir información académica
+					</button>
+				</ng-container>
+				<!-- IF ERROR DATA -->
+				<ng-container *ngIf="_error">
+					<h4 class="h4 text-secondary">
+						Error cargando información académica
+					</h4>
+				</ng-container>
+			</div>
+		</div>
+	</ng-container>
+</ng-template>

@@ -1,0 +1,43 @@
+@import "../../../sass/_vars.scss";
+$text-secondary-active: #915701;
+
+.btn-order.active{
+    color: $text-primary !important;
+}
+
+
+.row-vacancy:nth-child(even){
+    background-color: #f3f3f3;
+    padding: 6px 0px;
+}
+
+.vacancies-index-cards{
+    padding: 20px 0px 0px;
+    margin-bottom: 10px;
+    .row-vacancy{
+        padding: 20px 30px;
+    }
+    .image-empty-column{
+        padding-left: 95px;
+    }
+}
+
+.vacancies-card{
+    position: relative;
+    right: -13px;
+}
+
+.btn-vacancy-details{
+    width: 150px;
+}
+
+.vacancy-label-title, .post-description-title{
+    font-size: 14px;
+    color: #6c757d !important;
+    font-weight: 100 !important;
+}
+
+.card-vacancy-name{
+    color: #6c757d !important;
+    font-size: 16px;
+}

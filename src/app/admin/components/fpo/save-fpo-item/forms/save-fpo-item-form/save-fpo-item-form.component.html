@@ -1,0 +1,98 @@
+<form class="container-fluid" [formGroup]="fpoItemForm" (ngSubmit)="handleSubmit()">
+
+  <div class="row form-group">
+    <div class="col-12 col-md-6">
+      <div class="row">
+        <div class="col-12">
+          <label class="font-weight-semi-bold">Factores FPO</label>
+        </div>
+        <div class="col-12">
+          <ng-select 
+          notFoundText="No se han encontrado resultados"
+          typeToSearchText="Buscar"
+          clearAllText="Limpiar"
+          formControlName="factorId" 
+          [typeahead]="factorSearch$" 
+          [virtualScroll]="true"
+          [loading]="loadingFactor" 
+          placeholder="Seleccionar Factor" 
+          appendTo="body">
+            <ng-option *ngFor="let factor of factors$ | async" [value]="factor">{{factor.name}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="row">
+        <div class="col-12">
+          <label class="font-weight-semi-bold">Facetas</label>
+        </div>
+        <div class="col-12">
+          <ng-select
+          notFoundText="No se han encontrado resultados"
+          typeToSearchText="Buscar"
+          clearAllText="Limpiar" 
+          (change)="setArray($event)" 
+          [virtualScroll]="true" 
+          [loading]="loadingFacet"
+          placeholder="Seleccionar faceta" 
+          appendTo="body">
+            <ng-option *ngFor="let facet of facets$ | async" [value]="facet.id">{{facet.name}}</ng-option>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="(items$ | async); let items">
+    <ng-container *ngIf="items.length">
+      <div class="col-md-6 col-12">
+        <div class="row flex-column">
+          <div class="col-12">
+            <h5 class="font-weight-semi-bold">Positivos</h5>
+            <hr>
+          </div>
+          <ng-container *ngFor="let item of items.controls.slice(0,6);let i = index">
+            <div class="col-12" [formGroup]="item">
+              <label class="font-weight-bold">Item {{i+1}}</label>
+              <input formControlName="content" type="text" class="form-control input-3">
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-md-6 col-12">
+        <div class="row flex-column">
+          <div class="col-12">
+            <h5 class="font-weight-semi-bold">Negativos</h5>
+            <hr>
+          </div>
+          <ng-container *ngFor="let item of items.controls.slice(6);let i = index">
+            <div class="col-12" [formGroup]="item">
+              <label class="font-weight-bold">Item {{i+1}}</label>
+              <input formControlName="content" type="text" class="form-control input-3">
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+    </ng-container>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-12 mt-3">
+      <button type="submit" [disabled]="disabled() || (submitting$ | async)" class="btn btn-block btn-ok--blue"
+        (click)="handleSubmit()">
+        <ng-container *ngIf="!(submitting$ | async);else saving">
+          Guardar
+        </ng-container>
+
+        <ng-template #saving>
+          Guardando...
+          <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+        </ng-template>
+      </button>
+    </div>
+  </div>
+
+</form>

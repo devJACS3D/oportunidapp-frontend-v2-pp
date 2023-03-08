@@ -1,0 +1,26 @@
+<ng-container *ngIf="!loadingFile">
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ BUTTON WITH ICON AND TEXT ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <ng-container *ngIf="type == downloadType.CHAT_MESSAGES">
+    <div (click)="downloadFile()"
+      class="mt-1 d-flex btn-cursor-pointer align-items-center justify-content-center pt-1 pb-1 pl-2 pr-2 download-chat-messages">
+      <img class="download-icon mr-1" width="23" height="23" src="assets/download-icon-filled.png" alt="document">
+      <small *ngIf="title">{{title}}</small>
+    </div>
+  </ng-container>
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ BUTTON NORMAL DOWNLOAD ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <ng-container *ngIf="type == downloadType.NORMAL">
+    <img class="download-icon" [ngClass]="file && 'btn-cursor-pointer'" [src]="downloadIcon(file)" alt="document"
+      (click)="downloadFile()">
+  </ng-container>
+</ng-container>
+<!------------------------------------------------------------------------------------------------------------------------>
+<!------------------------------------ ICON LOADING ---------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------>
+<ng-container *ngIf="loadingFile">
+  <i class="fa fa-download" class="fa fa-circle-o-notch fa-spin" [ngStyle]="{'color': loadingColor || '#003068'}"
+    aria-hidden="true"></i>
+</ng-container>

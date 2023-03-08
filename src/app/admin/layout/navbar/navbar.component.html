@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-light shadow-sm bg-white">
+	<a class="navbar-brand"   style="margin-left: 40px;">
+		<img src="assets/banner.png" style="width: 90px;">
+	</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+		aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+		<ul class="navbar-nav" style="margin-right: 20px;">
+			<ng-container *ngIf="(_currentUser | async) as _user; else LoadingTemplate">
+				<li class="nav-item d-flex align-items-center" style="margin-left: 35px;">
+
+					<div class="img-rounded" [style.background]="'url(' + getUrlImage(_user?.image) + ')'"
+						style="width: 2.3rem; height: 2.3rem;"></div>
+				</li>
+
+				<li class="nav-item" ngbDropdown placement="bottom-right">
+					<a class="nav-link dropdown-toggle" style="cursor: pointer; font-size: 0.85rem;"
+						id="navbarDropdownMenuLink" ngbDropdownToggle>
+						{{ _user.name}}
+					</a>
+					<div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink">
+						<ng-container *ngIf="_user.isBusinessProfile">
+							<a class="dropdown-item" routerLink="./business/profile/me">
+								Mi Perfil
+							</a>
+						</ng-container>
+						<ng-container *ngIf="!_user.isBusinessProfile">
+							<a class="dropdown-item" routerLink="./profile">
+								Mi Perfil
+							</a>
+						</ng-container>
+						<a class="dropdown-item" style="cursor: pointer;" (click)="logOut(_user)">
+							Cerrar sesión
+						</a>
+					</div>
+				</li>
+			</ng-container>
+		</ul>
+	</div>
+</nav>
+
+<ng-template #LoadingTemplate>
+	<li class="nav-item d-flex align-items-center" style="margin-left: 35px;">
+		<!-- <img src="assets/user.png"> -->
+		<div class="img-rounded" [style.background]="'url(assets/user.png)'" style="width: 2.3rem; height: 2.3rem;">
+		</div>
+	</li>
+
+	<li class="nav-item" ngbDropdown placement="bottom-right">
+		<a class="nav-link dropdown-toggle" style="cursor: pointer;">
+			Usuario
+		</a>
+	</li>
+</ng-template>

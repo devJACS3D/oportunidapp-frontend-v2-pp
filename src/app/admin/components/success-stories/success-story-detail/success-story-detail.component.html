@@ -1,0 +1,51 @@
+<div class="row" *ngIf="_loadingInit">
+	<div class="col-12">
+		Cargando...
+	</div>
+</div>
+
+<div class="row" *ngIf="!_loadingInit && _error != ''">
+	<div class="col text-center text-secondary">
+		<i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+		<h4 class="h4 ">
+			Error cargando información de usuario
+		</h4>
+		<p class="text-center">
+			{{ _error }}
+		</p>
+	</div>
+</div>
+
+<div class="row" *ngIf="!_loadingInit && _error == ''">
+	<div class="col">
+		<div class="row mb-5">
+			<div class="col">
+				<button class="btn btn-ok--blue" (click)="goBack()" style="color: white;">
+					<i class="fa fa-arrow-left" aria-hidden="true"></i>
+				</button>
+				&nbsp;
+				<span class="h4">Casos de éxito</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="bg-image-responsive" [style.background]="'url(' + _storyImage.Url + ')'"
+					style="width: 15rem; height: 15rem;"></div>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<div class="col">
+				<span class="text-dark h4">{{ _Entity.name }}</span>
+			</div>
+		</div>
+
+		<div class="row mt-4">
+			<div class="col">
+				<p>
+					{{ _Entity.comment }}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

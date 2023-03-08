@@ -1,0 +1,147 @@
+
+
+.input-loading {
+    padding-right: 2rem;
+    background: url('../assets/select-loader.svg') no-repeat center right 0.5rem/1.125rem 1.125rem;
+}
+
+.input-verified {
+    padding-right: 2rem !important;
+    background: url('../assets/success.png') no-repeat center right 0.5rem/1.125rem 1.125rem !important;
+}
+
+.input-unavailable {
+    padding-right: 2rem !important;
+    background: url('../assets/error.png') no-repeat center right 0.5rem/1.125rem 1.5rem !important;
+}
+
+
+.input-1{
+    border-radius: 0%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    z-index: 1;
+    position: relative;
+    background: transparent;
+
+    &:focus{
+        box-shadow: unset;
+    }
+
+    &__label{
+        position: absolute;
+        top: 0;
+        left: 10px;
+        padding: 7px 0 0 13px;
+        transition: all 200ms;
+        opacity: 0.5;
+        z-index: 0;
+    }
+
+    &:focus + &__label, &:valid + &__label{
+        font-size: 80%;
+        transform: translate3d(0, -100%, 0);
+        opacity: 1;
+    }
+}
+
+.input-2{
+    border-color: rgb(240, 240, 247);
+    border-color: rgb(229,229,229);
+    height: 50px;
+}
+
+.input-3{
+    border-color: #6b6b6b91;
+    height: 50px;
+}
+
+
+.borderless{
+  border: none !important;
+  border: 0 !important;
+  outline: none !important;
+}
+
+input, select, textarea{
+    &.form-control{
+        &.ng-invalid.ng-touched.ng-dirty{
+            color: $error-color  !important;
+        }
+
+        &.ng-invalid.ng-touched{
+            border-color: $error-color  !important;
+        }
+
+        &.ng-invalid.ng-dirty{
+            border-color: $error-color  !important;
+            color: $error-color !important;
+        }
+
+        &.ng-valid:focus{
+            color: $focus-color;
+            // border-color: $focus-color;
+        }
+
+        &:focus{
+            // font-weight: bold;
+            // border: 1px solid #ced4da;
+            box-shadow: none;
+        }
+
+        &:focus::placeholder{
+            color: $focus-color;
+            font-weight: bold;
+        }
+    }
+}
+
+.invalid-value{
+    border-color: $error-color  !important;
+    color: $error-color !important;
+}
+
+.select-loading{
+    padding-right: 3.4375rem;
+    background: url('../assets/select-loader.svg') no-repeat center right 1.75rem/1.125rem 1.125rem;
+}
+
+
+
+/* email & password styles */
+.pwValid{
+    color: #4fc84f;
+}
+
+.pwInvalid{
+    color: red;
+}
+
+.invalid-control{
+    font-size: 0.95rem;
+}
+
+.section-title{
+    color: $text-primary;
+    font-weight: lighter;
+    font-size: 1.3rem;
+}
+
+label{
+    &.label-info{
+        margin-bottom: 0px;
+    }
+}
+
+
+.post-description{
+    white-space: pre-line;
+}
+
+.form-control:disabled {
+    cursor: not-allowed;
+}
+
+.rounded-pill{
+    border-radius: 20px !important;
+}

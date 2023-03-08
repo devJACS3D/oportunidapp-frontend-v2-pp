@@ -1,0 +1,33 @@
+<h3 class="mt-2 mb-2 text-left">Añadir comentario</h3>
+<form [formGroup]="formComments">
+  <div class="row mt-4">
+    <div class="col-md-12 col-xs-12 col-sm-12 form-group">
+      <textarea
+        class="form-control input-2 "
+        formControlName="comment"
+        rows="6"
+        maxlength="200"
+      >
+      </textarea>
+      <field-error [fcontrol]="formComments.get('comment')"></field-error>
+    </div>
+  </div>
+  <div class="row mt-3 mb-3 d-flex justify-content-center">
+    <button
+      [disabled]="(loading$ | async) || formComments.invalid"
+      (click)="onClick()"
+      class="btn btn-ok--blue"
+    >
+      <ng-container *ngIf="!(loading$ | async); else loading">
+        Guardar
+      </ng-container>
+      <ng-template #loading>
+        Guardando
+        <i
+          class="fa fa-circle-o-notch fa-spin text-white"
+          aria-hidden="true"
+        ></i>
+      </ng-template>
+    </button>
+  </div>
+</form>

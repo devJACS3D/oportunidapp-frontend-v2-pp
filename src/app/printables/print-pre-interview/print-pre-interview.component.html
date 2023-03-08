@@ -1,0 +1,88 @@
+<div class="bg-oportunidapp">
+  <div class="bg-left">
+    <img [src]="utils.assets('banner.png')" alt="" />
+  </div>
+  <div class="container" *ngIf="preinterviews$ | async; let preinterview">
+    <!-- ................................................................................................. -->
+    <!-- HEADER AND USER INFO -->
+    <!-- ................................................................................................. -->
+    <div class="row justify-content-center my-5">
+      <div class="col-8">
+        <h2 class="font-weight-bold text-center">{{ title }}</h2>
+      </div>
+    </div>
+
+    <div class="row my-5">
+      <div class="col-12 col-md">
+        <label class="font-weight-bold">Nombre:</label>
+        <span class="ml-1">{{ preinterview.user?.fullName }} </span>
+      </div>
+      <div class="col-12 col-md">
+        <label class="font-weight-bold">Edad:</label>
+        <span class="ml-1">{{ preinterview.user?.age || "No aplica." }} </span>
+      </div>
+      <div class="col-12 col-md">
+        <label class="font-weight-bold">Cédula:</label>
+        <span class="ml-1"
+          >{{ preinterview.user?.identification || "No aplica." }}
+        </span>
+      </div>
+    </div>
+
+    <!-- ................................................................................................. -->
+    <!-- TEST NAME -->
+    <!-- ................................................................................................. -->
+    <div class="row justify-content-center my-4">
+      <div class="col-8">
+        <h2 class="font-weight-bold text-center">
+          Concepto y estado de aprobación
+        </h2>
+      </div>
+    </div>
+
+    <!-- ................................................................................................. -->
+    <!-- TABLE -->
+    <!-- ................................................................................................. -->
+    <div class="row my-4">
+      <div class="col-12">
+        <table class="table-print table-border-on-right">
+          <thead>
+            <tr>
+              <th
+                style="background-color: #00528c;"
+                [ngClass]="{ 'border-lr-only': i == 0 }"
+                class="text-white font-weight-bold"
+                *ngFor="let h of headers; let i = index"
+              >
+                {{ h }}
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <ng-container
+              *ngFor="let reference of preinterview.references; let i = index"
+            >
+              <tr [ngClass]="0 === (i + 1) % 2 ? 'bg-cell-info' : ''">
+                <td class="font-weight-bold">
+                  {{ reference.comment || "No aplica" }}
+                </td>
+                <td class="font-weight-bold">
+                  {{ reference.statusId === 4 ? "Si" : "No" }}
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <a class="text-alignt right text-primary pointer" (click)="print()"
+          >Imprimir este registro</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+
+export enum BUSINESSTYPES {
+    OUTSOURCING = 1,
+    TEMPORALIDAD = 2
+}

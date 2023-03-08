@@ -1,0 +1,78 @@
+<!-- Titulo del componente -->
+<div class="row">
+	<div class="col-12 text-center">
+		<h4 class="section-title text-center font-weight-bold my-4">Últimas vacantes disponibles</h4>
+	</div>
+</div>
+
+<br>
+<ng-container *ngIf="!_loadingInit; else LoadingTemplate">
+
+	<ng-container *ngIf="_error == ''; else errorTemplate">
+		<ng-container *ngIf="_vacancies?.length; else noDataTemplate">
+			<div class="row justify-content-center">
+				<div class="col-md-10">
+					<div class="row card-deck">
+						<ng-container *ngFor="let item of _vacancies">
+							<div class="col-md-4 col-sm-6" style="margin-top: 25px;">
+								<app-card-vacancy [vacancy]="item" (viewDetail)="viewDetail($event)"></app-card-vacancy>
+							</div>
+						</ng-container>
+					</div>
+				</div>
+			</div>
+
+			<br><br>
+			<div class="row">
+				<div class="col-12 text-center">
+					<button class="btn btn btn-outline-secondary" routerLink="./vacantes">
+						Ver más vacantes
+					</button>
+				</div>
+			</div>
+		</ng-container>
+	</ng-container>
+
+
+
+</ng-container>
+
+
+<ng-template #LoadingTemplate>
+	<div class="row justify-content-center">
+		<div class="col-md-10">
+			<div class="row card-deck">
+				<ng-container *ngFor="let item of arrayOne(3)">
+					<div class="col-md-4 col-sm-6" style="margin-bottom: 25px;">
+						<app-card-vacancy style="width: 100%;"></app-card-vacancy>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #errorTemplate>
+	<div class="row">
+		<div class="col text-center text-secondary">
+			<i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+			<h4 class="h4">
+				Error cargando información de vacantes
+			</h4>
+			<p class="text-center">
+				{{ _error }}
+			</p>
+		</div>
+	</div>
+</ng-template>
+
+<ng-template #noDataTemplate>
+	<div class="row">
+		<div class="col text-center text-secondary">
+			<i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+			<h4 class="h4">
+				Aún no hay vacantes disponibles
+			</h4>
+		</div>
+	</div>
+</ng-template>

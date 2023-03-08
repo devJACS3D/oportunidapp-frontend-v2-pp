@@ -1,0 +1,26 @@
+<div class="card cardInformationUser">
+  <div class="row">
+    <div class="col-md-8 col-xs-8 col-sm-8">
+      <div class="title-information pl-4 pt-3">
+        <p>{{title}}
+          <ng-container *ngIf="isInTramite">
+            <img src="assets/info-circle.png" class="ml-1" alt="info-circle" tooltipClass="ngTooltipRight"
+              [ngbTooltip]="message ? message : 'Documento en trámite'" placement="right">
+          </ng-container>
+        </p>
+        <p>{{subTitle}}</p>
+        <p>{{ startDate ? (startDate | date : 'dd/MM/yyyy')+" - " : ''}}{{finishedDate ? (finishedDate | date :
+          'dd/MM/yyyy') : 'Actualidad'}}
+        </p>
+      </div>
+    </div>
+    <div class="col-md-4 col-xs-4 col-sm-4 pt-5 pb-5">
+      <div class="d-flex justify-content-end pt-3 pr-4">
+        <img class="btn-cursor-pointer mr-3" src="assets/userprofile/pencil.png" style="width: 42px;"
+          (click)="onClickEdit.emit(info)">
+        <img class="btn-cursor-pointer" src="assets/userprofile/trash.png" style="width: 42px;"
+          (click)="onClickRemove.emit(info)">
+      </div>
+    </div>
+  </div>
+</div>

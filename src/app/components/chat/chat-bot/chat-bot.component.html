@@ -1,0 +1,136 @@
+<ng-container *ngIf="(_currentUser | async) as _user">
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ FLOATING BUTTON CHAT BOT ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <floating-button [icon]="utils.assets('chat_icon.png')" (onClick)="onMenuButtons()">
+  </floating-button>
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ BUTTONS HISTORY AND CHAT BOT ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <ng-container *ngIf="menuButton && !showChatBot">
+    <div class="d-flex flex-column floating-buttons-fixed">
+      <button class="mt-2 btn btn-ok--blue-light  btn-ok--width" (click)="showChatBot=true">
+        Chat bot
+      </button>
+      <button class="mt-2 btn btn-ok--dark-blue btn-ok--width" routerLink="../home/chat">
+        Historial de chat
+      </button>
+    </div>
+  </ng-container>
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <!------------------------------------ CHAT BOT ---------------------------------------------------------------------->
+  <!------------------------------------------------------------------------------------------------------------------------>
+  <ng-container *ngIf="showChatBot">
+    <div class="d-flex flex-column floating-chat-fixed">
+      <div class="row">
+        <div class="col-12 " style="background-color: #f1a501; ">
+          <div class="row p-2 d-flex justify-content-center  align-items-center text-center">
+            <div class="col-2">
+            </div>
+            <div class="col-8">
+              <h5 class="text-white mt-2">Chat oportunidad</h5>
+            </div>
+            <div class="col-2">
+              <i class="fa fa-times text-white btn-cursor-pointer" (click)="onCloseChatBot()"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 p-0">
+          <div class="scrollbar content-chat-bot">
+            <ng-container *ngIf="(faqs.length);else noDataTemplate">
+              <ng-container *ngIf="!showAnswerFaq; then faQs else personalityChatBot"></ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <!------------------------------------ FAQS ---------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <ng-template #faQs>
+      <div class="col-12 p-0">
+        <div style="background-color: #f8f8f8;">
+          <h6 class="ml-3 pt-2" style="font-size: 13px; font-style: normal;">Preguntas frecuentes</h6>
+          <div class="scrollbar" style="height: 23vh;">
+            <div class="m-3 p-2 btn-cursor-pointer" style="background-color: #f0f0f7; width: fit-content; border-radius: 10px;
+              color: #5a789e; font-size: 13px; font-style: normal;
+              " *ngFor="let fqa of faqs" (click)="onSendFaqMessages(fqa.name, true)">
+              {{fqa.name}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12" style="background-color: white;">
+        <div class="row">
+          <div class="col-12">
+            <p class="pl-1" style="font-style: normal; font-family: Source Sans Pro;">Enviar Mensaje</p>
+          </div>
+          <div class="col-12">
+            <textarea maxlength="200" class="form-control scrollbar" cols="9" rows="4"
+              style="resize: none; border-radius: 10px;" [(ngModel)]="message"></textarea>
+          </div>
+          <div class="col-12 text-center">
+            <button [disabled]="!message.length" class="mt-3 mb-3 btn btn-ok--custom-blue"
+              (click)="onSendFaqMessages(message, true)">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <!------------------------------------ PERSONALITY CHAT BOT ---------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------------------------>
+    <ng-template #personalityChatBot>
+      <div class="col-12">
+        <div class="personalityChatBot p-3  scrollbar" #scrollBar>
+          <div class="mb-3 d-flex " [ngClass]="answer.from && 'flex-row-reverse'" *ngFor="let answer of answersFaqs">
+            <div class="p-3 " [ngClass]="answer.from ? 'send-message' : 'received-message'">
+              <pre class="pre-chat">{{answer.message}}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 bg-white">
+        <div class="content-loading">
+          <ng-container *ngIf="loadingMessage">
+            <div class="loadingText">Escribiendo</div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-12 bg-white">
+        <div class="mt-2 d-flex justify-content-around">
+          <textarea maxlength="200" placeholder="Escribir mensaje..." class="form-control scrollbar mr-2"
+            style="resize: none; border-radius: 10px; height: 39px;" [(ngModel)]="message"></textarea>
+          <button [disabled]="!message.length" class="btn btn-ok--blue-light rounded" width="100%"
+            (click)="onSendFaqMessages(message, false)">Enviar</button>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #noDataTemplate>
+    <!-- IF LOADING -->
+    <ng-container *ngIf="loadingPage && !_error">
+      Cargando...
+    </ng-container>
+    <!-- IF NOT LOADING -->
+    <ng-container *ngIf="!loadingPage">
+      <div class="mt-5 text-center">
+        <div class="col-12">
+          <i class="fa fa-inbox noResults" aria-hidden="true"></i> <br>
+          <!-- IF DATA NOT FOUND -->
+          <ng-container *ngIf="!faqs?.length && !_error">
+            <h4 class="h4 text-secondary">
+              No se han encontrado resultados
+            </h4>
+          </ng-container>
+          <!-- IF ERROR DATA -->
+          <ng-container *ngIf="_error">
+            <h4 class="h4 text-secondary">
+              Error cargando el listado de preguntas frecuentes
+            </h4>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </ng-template>
+</ng-container>

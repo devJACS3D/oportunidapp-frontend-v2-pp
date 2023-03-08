@@ -1,0 +1,212 @@
+<nav class="navbar navbar-expand-lg fixed-md-top navbar-light shadow-sm bg-white">
+  <a
+    class="navbar-brand pointer"
+    (click)="goToHome()"
+    style="margin-left: 40px;"
+  >
+    <img src="assets/banner.png" style="width: 90px;" />
+  </a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div
+    class="collapse navbar-collapse justify-content-end"
+    id="navbarNavAltMarkup"
+  >
+    <ul class="navbar-nav" style="height: 100%;">
+      <li
+        class="nav-item d-flex justify-content-center align-items-center"
+        (click)="visitPage(page.HOME)"
+      >
+        <a
+          class="nav-link"
+          routerLink="/home"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >INICIO</a
+        >
+      </li>
+      <li
+        class="nav-item d-flex justify-content-center align-items-center"
+        (click)="visitPage(page.VACANCIES)"
+      >
+        <a
+          class="nav-link"
+          routerLink="/home/vacantes"
+          routerLinkActive="active"
+          >VACANTES</a
+        >
+      </li>
+      <li
+        class="nav-item d-flex justify-content-center align-items-center"
+        (click)="visitPage(page.BLOG)"
+      >
+        <a
+          class="nav-link"
+          routerLink="/home/blogs/posts"
+          routerLinkActive="active"
+          >BLOG</a
+        >
+      </li>
+      <li
+        class="nav-item d-flex justify-content-center align-items-center"
+        (click)="visitPage(page.OUR_ALLIES)"
+      >
+        <a
+          class="nav-link"
+          routerLink="/home/partners/"
+          routerLinkActive="active"
+          >NUESTROS ALIADOS</a
+        >
+      </li>
+      <li
+        class="nav-item d-flex justify-content-center align-items-center"
+        (click)="visitPage(page.OUR_CLIENTS)"
+      >
+        <a
+          class="nav-link"
+          routerLink="/home/clients/"
+          routerLinkActive="active"
+          >NUESTROS CLIENTES</a
+        >
+      </li>
+      <li
+        class="nav-item d-flex justify-content-center align-items-center"
+        (click)="visitPage(page.SUCCESS_CASES)"
+      >
+        <a
+          class="nav-link"
+          routerLink="/home/success-cases/succeeds"
+          routerLinkActive="active"
+          >CASOS DE ÉXITO</a
+        >
+      </li>
+      <ng-container *ngIf="_currentUser | async as _user; else NoLogged">
+        <ng-container *ngIf="_user.isBusinessProfile">
+          <li class="nav-item d-flex justify-content-center align-items-center">
+            <a
+              class="nav-link"
+              routerLink="./postulant"
+              routerLinkActive="active"
+              >POSTULANTES</a
+            >
+          </li>
+          <li class="nav-item d-flex justify-content-center align-items-center">
+            <a
+              class="nav-link"
+              routerLink="./benefits"
+              routerLinkActive="active"
+              >BENEFICIOS</a
+            >
+          </li>
+          <li class="nav-item d-flex justify-content-center align-items-center">
+            <a class="nav-link" routerLink="./figures" routerLinkActive="active"
+              >CIFRAS</a
+            >
+          </li>
+          <li
+            class="nav-item d-flex justify-content-center align-items-center"
+            (click)="visitPage(page.MEMBERSHIPS)"
+          >
+            <a
+              class="nav-link"
+              routerLink="/home/pricing"
+              routerLinkActive="active"
+              >MEMBRESIAS</a
+            >
+          </li>
+        </ng-container>
+
+        <div
+          class="d-flex justify-content-center align-items-center"
+        >
+          <li class="nav-item d-flex align-items-center justify-content center m-0">
+            <div
+              class="img-rounded"
+              [style.background]="'url(' + getUrlImage(_user?.image) + ')'"
+              style="width: 2.3rem; height: 2.3rem;"
+            ></div>
+          </li>
+
+          <li
+            class="nav-item"
+            class="profile-dropdown"
+            ngbDropdown
+            placement="bottom-right"
+          >
+            <a
+              class="nav-link dropdown-toggle"
+              style="cursor: pointer;"
+              id="navbarDropdownMenuLink"
+              ngbDropdownToggle
+            >
+              <ng-container *ngIf="_user.isAgentProfile; else otherName">
+                {{ _user.firstName + " " + _user.lastName }}
+              </ng-container>
+
+              <ng-template #otherName>
+                {{ _user.name }}
+              </ng-template>
+            </a>
+            <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuLink">
+              <ng-container
+                *ngIf="_user.isBusinessProfile || _user.isAdminProfile || _user.isPsychologistProfile"
+              >
+                <a
+                  class="dropdown-item"
+                  style="cursor: pointer;"
+                  (click)="adminPanel(_user)"
+                >
+                  Mi Perfil
+                </a>
+              </ng-container>
+              <ng-container *ngIf="_user.isAgentProfile">
+                <a class="dropdown-item" routerLink="./profile">
+                  Mi Perfil
+                </a>
+              </ng-container>
+              <a
+                class="dropdown-item"
+                style="cursor: pointer;"
+                (click)="logOut(_user)"
+              >
+                Cerrar sesión
+              </a>
+            </div>
+          </li>
+        </div>
+      </ng-container>
+    </ul>
+  </div>
+</nav>
+
+<ng-template #NoLogged>
+  <div class="d-flex flex-column flex-md-row" style="gap:10px">
+    <li class="nav-item d-flex align-items-center justify-content-center">
+      <a
+        class="btn btn-ok btn-ok--blue btn-navbar"
+        style="width: 125px;"
+        [routerLink]="[{ outlets: { modal: ['login'] } }]"
+      >
+        Ingresar
+      </a>
+    </li>
+    <li class="nav-item d-flex align-items-center justify-content-center">
+      <a
+        class="btn btn-outline-secondary btn-navbar"
+        style="width: 125px;"
+        [routerLink]="[{ outlets: { modal: ['register'] } }]"
+      >
+        Regístrate
+      </a>
+    </li>
+  </div>
+</ng-template>

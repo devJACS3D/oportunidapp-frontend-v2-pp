@@ -1,0 +1,31 @@
+<div class="modal-backdrop" style="background-color: #0000007a;"></div>
+<div class="modal modal-2 animated fadeInDown" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+  <div class="modal-dialog modal-dialog-centered animated fadeInDown" role="document">
+    <div class="modal-content">
+      <div class="d-flex justify-content-center">
+        <button class="btn btn-rounded btn-rounded-close" (click)="close()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="modal-body modal-body--logis">
+        <h5>Empresas con vacante {{nomVacante}} registradas</h5>
+        <h4>Empresa - Subcarpeta</h4>
+        <br>
+        <span *ngFor="let item of listaEmpresas">
+          <p>
+            <span>{{ item.nombre }}</span>
+
+            <span *ngIf="item.subcarpeta != undefined">
+              - {{ item.subcarpeta.nomPuesto }}
+            </span>
+          </p>
+          <button type="button" class="btn btn-ok--blue"
+            (click)="selectVacante(item.idPadreEmp, item.idEmp, item.subcarpeta, item.idVacante)">
+            Cargar
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

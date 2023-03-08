@@ -1,0 +1,28 @@
+.details-body{
+    font-size: 14px;
+    .col-description{
+        padding-top: 5px;
+    }
+}
+.card-transparency{
+    background: rgba(255, 255, 255, 0.5);
+}
+.col-icon{
+    padding: 0px 5px;
+}
+
+
+.details-body >.row {
+    height: 48px;
+    padding-left: 15px;
+}
+
+.details-body >.row .form-group {
+    margin-bottom: 0px;
+}
+
+.card-title{
+    color: #6c757d;
+    font-size: 18px;
+    font-weight: 100;
+}

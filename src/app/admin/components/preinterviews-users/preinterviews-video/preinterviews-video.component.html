@@ -1,0 +1,54 @@
+<div class="modal-backdrop" style="background-color: #0000007a;"></div>
+<div
+  class="modal modal-2 animated fadeInDown"
+  tabindex="-1"
+  role="dialog"
+  style="display: block; overflow-y: auto;"
+>
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content">
+      <div class="d-flex justify-content-end">
+        <button
+          class="btn btn-rounded btn-rounded-close"
+          (click)="onModalVideo({close: true})"
+        >
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <!------------------------------------------------------------------------------------------------------------------------>
+      <!------------------------------------ SHOW VIDEO PRE-INTERVIEW ---------------------------------------------------------------------->
+      <!------------------------------------------------------------------------------------------------------------------------>
+      <ng-container *ngIf="preinterview">
+        <div class="modal-body modal-body--logis p-5">
+          <h3 class="mt-2 text-left ml-3 mr-3">
+            {{ preinterview.user.fullName }} - {{ preinterview.vacancy.name }}
+          </h3>
+          <div class="row mt-5 ml-3 mr-3">
+            <div class="col-12">
+              <app-video [src]="video.Location" [autoplay]="true"></app-video>
+            </div>
+          </div>
+          <!------------------------------------------------------------------------------------------------------------------------>
+          <!------------------------------------ BUTTONS APPROVED AND REJECT ---------------------------------------------------------------------->
+          <!------------------------------------------------------------------------------------------------------------------------>
+          <ng-container *ngIf="preinterview.statusId === 3">
+            <div class="row mt-3 mb-3 d-flex justify-content-center p-3">
+              <button
+                class="btn  btn-ok--blue pt-2 pb-2 ml-2 input-2 btn-videopreinterviews btn-videopreinterviews-notfound"
+                (click)="openModalReject()"
+              >
+                {{ textRejected }}
+              </button>
+              <button
+                class="btn btn-ok--blue pt-2 pb-2 ml-2 input-2 btn-videopreinterviews"
+                (click)="openModalApprove()"
+              >
+                {{ textApproved }}
+              </button>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

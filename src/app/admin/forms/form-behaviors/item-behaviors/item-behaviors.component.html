@@ -1,0 +1,127 @@
+<div class="card animated fadeInDown" [formGroup]="item">
+    <div class="card-header">
+      <div class="row">
+        <div class="col">
+          <input type="text" class="form-control-plaintext" readonly formControlName="skillName" placeholder="Pregunta 1">
+        </div>
+  
+        <div class="col">
+          <button type="button" class="btn btn-light float-right" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+           aria-controls="collapseExample">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+          </button>
+          <button type="button" class="btn float-right" (click)="removed.emit(index)" style="margin-right: 8px;">
+            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" [ngbCollapse]="isCollapsed">
+      <div class="row">
+        <div class="col-md-6 text-center">
+          <h5>Preguntas</h5>
+          <hr>
+        </div>
+        <div class="col-md-6 text-center">
+          <h5>Feedbacks</h5>
+          <hr>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-auto form-group">
+              <h5>1</h5>
+            </div>
+            <div class="col form-group">
+              <input type="text" class="form-control input-2" formControlName="question_1" maxlength="200" placeholder="Pregunta 1">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-auto form-group">
+              <h5>2</h5>
+            </div>
+            <div class="col form-group">
+              <input type="text" class="form-control input-2" formControlName="question_2" maxlength="200" placeholder="Pregunta 2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-auto form-group">
+              <h5>3</h5>
+            </div>
+            <div class="col form-group">
+              <input type="text" class="form-control input-2" formControlName="question_3" maxlength="200" placeholder="Pregunta 3">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-auto form-group">
+              <h5>4</h5>
+            </div>
+            <div class="col form-group">
+              <input type="text" class="form-control input-2" formControlName="question_4" maxlength="200" placeholder="Pregunta 4">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-auto form-group">
+              <h5>5</h5>
+            </div>
+            <div class="col form-group">
+              <input type="text" class="form-control input-2" formControlName="question_5" maxlength="200" placeholder="Pregunta 5">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+  
+          <div class="row">
+            <div class="col-auto form-group">
+              <h5>1</h5>
+            </div>
+            <div class="col form-group">
+              <textarea class="form-control input-2" formControlName="feedback_1" maxlength="500" cols="30" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-auto form-group">
+              <h5>2</h5>
+            </div>
+            <div class="col form-group">
+              <textarea class="form-control input-2" formControlName="feedback_2" maxlength="500" cols="30" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-auto form-group">
+              <h5>3</h5>
+            </div>
+            <div class="col form-group">
+              <textarea class="form-control input-2" formControlName="feedback_3" maxlength="500" cols="30" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-auto form-group">
+                <h5>4</h5>
+              </div>
+              <div class="col form-group">
+                <textarea class="form-control input-2" formControlName="feedback_4" maxlength="500" cols="30" rows="3"></textarea>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- 
+  <div class="form-group row" [formGroup]="item">
+    <div class="col-sm-6">
+      <label [attr.for]="'name'+index">Name</label>
+      <input type="text" class="form-control input-2" [attr.id]="'name'+index" formControlName="name">
+    </div>
+    <div class="col-sm-6">
+      <label [attr.for]="'quantity'+index">Quantity</label>
+      <input type="number" class="form-control input-2" [attr.id]="'quantity'+index" formControlName="quantity">
+    </div>
+    <div class="col-sm-1 py-1">
+      <button type="button" class="btn" (click)="removed.emit(index)">-</button>
+    </div>
+  </div> -->

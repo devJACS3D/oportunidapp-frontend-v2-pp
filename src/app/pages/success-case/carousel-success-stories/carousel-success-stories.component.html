@@ -1,0 +1,36 @@
+<div class="row no-gutters align-items-center">
+	<div class="col-auto">
+		<button class="btn btn-light text-info" style="border-radius: 999em;" (click)="moveTo('prev')"
+			[disabled]="_indexSelected == 0 || _loadingInit">
+			<i class="fa fa-arrow-left" aria-hidden="true"></i>
+		</button>
+	</div>
+	<div class="col">
+		<div id="carousel">
+			<ng-container *ngIf="!_loadingInit; else LoadingInitTemplate">
+				<ng-container *ngFor="let item of _successStories; let i = index;">
+					<div [class]="item.class" (click)="moveToSelected(i);">
+						<app-card-success-stories [successStory]="item"></app-card-success-stories>
+					</div>
+				</ng-container>
+			</ng-container>
+		</div>
+	</div>
+	<div class="col-auto">
+		<button class="btn btn-light text-info" style="border-radius: 999em;" (click)="moveTo('next')"
+			[disabled]="_indexSelected == (_successStories.length - 1) || _loadingInit">
+			<i class="fa fa-arrow-right" aria-hidden="true"></i>
+		</button>
+	</div>
+</div>
+
+
+
+
+<ng-template #LoadingInitTemplate>
+	<ng-container *ngFor="let item of arrayOne(3); let i = index">
+		<div [class]="_loadClass[i]">
+			<app-card-success-stories></app-card-success-stories>
+		</div>
+	</ng-container>
+</ng-template>

@@ -1,0 +1,29 @@
+<ng-container *ngIf="chartType == 'bar'">
+  <div style="display: block;">
+    <canvas
+      baseChart
+      [datasets]="chartData"
+      [labels]="chartLabels"
+      [options]="barChartOptions"
+      [plugins]="barChartPlugins"
+      [legend]="barChartLegend"
+      [chartType]="chartType"
+    >
+    </canvas>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="chartType == 'radar'">
+  <div style="display: block;">
+    <canvas
+      baseChart
+      [datasets]="chartData"
+      [labels]="chartLabels"
+      [options]="barChartOptions"
+      [plugins]="barChartPlugins"
+      [legend]="barChartLegend"
+      [chartType]="chartType"
+    >
+    </canvas>
+  </div>
+</ng-container>

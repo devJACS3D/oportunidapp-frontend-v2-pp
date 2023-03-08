@@ -1,0 +1,4 @@
+export enum DOWNLOAD_TYPE {
+    NORMAL,
+    CHAT_MESSAGES
+}

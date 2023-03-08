@@ -1,0 +1,76 @@
+@import '../../../../sass/vars';
+
+.text-content > p {
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 1px;
+    color: #bcbcbc;
+}
+
+hr {
+    border: 1px solid #e5e5e5 !important;
+}
+
+textarea {
+    resize: none;
+}
+textarea::placeholder {
+    color: #bcbcbc;
+}
+
+.btn-send-message {
+    background-color: $color-blue-button;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+}
+
+header {
+    font-family: "Lobster", cursive;
+    text-align: center;
+    font-size: 25px;
+}
+
+#info {
+    font-size: 18px;
+    color: #555;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+a, .fa-spin {
+    color: #074e8c;
+}
+
+small{
+    font-size: 10px
+}
+
+.title-profile {
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 25px;
+}
+
+.send-message {
+    background: #ffffff;
+    border: 1px solid #e4eaf1;
+    box-shadow: 0px 4px 24px rgba(164, 175, 183, 0.1);
+    border-radius: 7px 0px 7px 7px;
+    width: fit-content;
+}
+.received-message {
+    background: #d1e8f3;
+    color: #426994;
+    border: 1px solid #e4eaf1;
+    box-shadow: 0px 4px 24px rgba(164, 175, 183, 0.1);
+    border-radius: 0px 7px 7px 7px;
+    width: fit-content;
+}

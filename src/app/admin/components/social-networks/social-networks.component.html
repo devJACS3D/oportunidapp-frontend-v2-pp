@@ -1,0 +1,83 @@
+<div class="container">
+  <!-- Title page -->
+  <div class="row mt-4">
+    <p class="ml-3 title-page">Redes Sociales</p>
+  </div>
+
+  <ng-container *ngIf="(data.length && data.length > 0 );else noDataTemplate">
+    <!-- Table -->
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive-sm">
+          <table class="table card-table">
+            <thead>
+              <tr>
+                <th *ngFor="let head of tableHeaders" scope="col">{{head}}</th>
+                <!-- actions -->
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Separator for showing a space between thead an tbody -->
+              <tr class="table-separator">
+                <td [colSpan]="this.tableHeaders.length"></td>
+              </tr>
+
+              <tr *ngFor="let social of data; let i = index">
+                <td class="font-weight-light">{{social.name}}</td>
+                <td class="font-weight-light">{{getExpirationDate(social)}}</td>
+                <td class="font-weight-light">
+                  <toggle-switch [checked]="social.showInVacancies" (onChange)="handleChange($event, i)">
+                  </toggle-switch>
+                </td>
+                <td class="font-weight-light" *ngIf="social.tokenRequired">
+                  <button class="btn-ok--custom-link-blue" (click)="onGenerateToken(social)" [disabled]="loading">
+                    <i *ngIf="loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+                    Generar Autorización
+                  </button>
+                </td>
+                <td class="font-weight-light" *ngIf="!social.tokenRequired">
+                  No Aplica
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 mx-auto">
+        <button class="btn btn-block btn-ok--blue mt-3" [disabled]="disabledSave" (click)="saveConfig()">Guardar</button>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="row mt-4" *ngIf="pagination">
+      <div class="col-md-12 ml-2">
+        <app-pagination [pagination]="pagination" [loader]="loadingPage" (_changePage)="goToPage($event)">
+        </app-pagination>
+      </div>
+    </div>
+  </ng-container>
+  <!-- No data template -->
+  <ng-template #noDataTemplate>
+    <div class="row p-2" *ngIf="!_error">
+      <div class="col text-center text-secondary">
+        <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+        <h4 class="h4 text-secondary">
+          No se encontrarón resultados.
+        </h4>
+      </div>
+    </div>
+
+    <!-- Error  -->
+    <div class="row" *ngIf="_error">
+      <div class="col text-center text-secondary">
+        <i class="fa fa-inbox fa-4x" aria-hidden="true"></i>
+        <h4 class="h4 ">
+          Error cargando información
+        </h4>
+        <p class="text-center">
+          {{ _error }}
+        </p>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,29 @@
+<ng-container *ngIf="item">
+	<div class="card shadow animated fadeIn" style="height: 100%;">
+		<div class="bg-image-responsive" [style.background]="'url(' + utils.getImgSrc(item.images[0]) + ')'"
+			style="width: 100%; height: 230px; border-top-right-radius: 10px; border-top-left-radius: 10px;"></div>
+		<div class="text-center card-body card-body--grey">
+			<span class="h6 card-title card-title--blue">{{ item.name }}</span>
+		</div>
+		<div class="text-center card-body">
+			<p class="card-text card-text--info text-secondary post-description">
+				{{ item.comment | subStr: 0:60 }}
+			</p>
+		</div>
+	</div>
+</ng-container>
+
+
+<ng-container *ngIf="!item">
+	<div class="card shadow animated fadeIn" style="height: 100%;">
+		<div class="bg-image-responsive text-center" style="width: 100%; height: 10em; padding-top: 2.8em;">
+			<i class="fa fa-picture-o fa-4x ph-loading-img" aria-hidden="true"></i>
+		</div>
+		<div class="text-center card-body card-body--grey">
+			<div class="ph-loading-sm"></div>
+		</div>
+		<div class="text-center card-body">
+			<div class="ph-loading-lg"></div>
+		</div>
+	</div>
+</ng-container>

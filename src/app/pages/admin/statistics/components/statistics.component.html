@@ -1,0 +1,9 @@
+<div class="container">
+
+  <tabs-wrapper (tabChange)="handleTabChange($event)" #tabsWrapper>
+      <tab #tabChild (click)="tabsWrapper.selectTab(tabChild)" *ngFor="let tab of tabs;let i = index"
+        [tabTitle]="tab" [tabValue]="i"></tab>
+  </tabs-wrapper>
+
+  <router-outlet></router-outlet>
+</div>

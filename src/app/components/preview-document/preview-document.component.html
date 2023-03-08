@@ -1,0 +1,20 @@
+<div class="d-flex justify-content-center text-center preview-container">
+  <p class="mt-4">{{title}}</p>
+</div>
+
+<ng-container *ngIf="showContent">
+  <div class="preview-content d-flex flex-column justify-content-center align-items-center text-center text-white">
+    <div class="btn-cursor-pointer" (click)="downloadFile()">
+      <ng-container *ngIf="!loadingFile">
+        <img class="mr-1" src="assets/files/eye.png" style="width: 20px"> Ver
+      </ng-container>
+      <ng-container *ngIf="loadingFile">
+        <i class="fa fa-download" class="fa fa-circle-o-notch fa-spin" [ngStyle]="{'color': loadingColor || '#003068'}"
+          aria-hidden="true"></i>
+      </ng-container>
+    </div>
+    <div class="btn-cursor-pointer mt-2" (click)="onPreviewDocument.emit({remove: true})">
+      <img class="mr-1" src="assets/files/trash.png" style="width: 13px"> Eliminar
+    </div>
+  </div>
+</ng-container>

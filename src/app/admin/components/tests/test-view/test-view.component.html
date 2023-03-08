@@ -1,0 +1,116 @@
+<div class="modal-backdrop"style="background-color: #0000007a;"></div>
+<div class="modal modal-2 animated fadeInUp" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+	<div class="modal-dialog modal-dialog-centered modal-md" role="document">
+		<div class="modal-content" (clickOutside)="close()">
+			<div class="d-flex justify-content-center">
+				<button class="btn btn-rounded btn-rounded-close border-white" (click)="close()">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</button>
+			</div>
+			<div class="modal-body modal-body--logis">
+
+				<!-- ................................................................................................. -->
+				<!-- Test header -->
+				<!-- ................................................................................................. -->
+				<div class="row mb-3">
+					<div class="col">
+						<h5 class="font-weight-bold">Test psicotécnico</h5>
+					</div>
+				</div>
+				<!-- ................................................................................................. -->
+				<!-- Test info -->
+				<!-- ................................................................................................. -->
+				<ng-container *ngIf="test">
+					<div class="row mb-3">
+						<div class="col-auto">
+							<img [src]="utils.getImgSrc(test.user.image)" alt="">
+						</div>
+						<div class="col">
+							<p class="font-weight-semi-bold">{{test.user.fullName}}</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<p class="small">{{test.feedback}}</p>
+						</div>
+					</div>
+					<hr>
+
+					<!-- ................................................................................................. -->
+					<!-- Tests questions -->
+					<!-- ................................................................................................. -->
+					<ng-container *ngIf="test?.questionsTest?.questions.length > 0">
+
+						<div class="row" *ngFor="let question of test.questionsTest.questions; let idx = index">
+							<div class="col-12">
+								<h5 class="font-weight-bold fs-1rem">
+									{{idx+1}}. ¿{{question}}?
+								</h5>
+							</div>
+							<!-- ................................................................................................. -->
+							<!-- Tests answers -->
+							<!-- ................................................................................................. -->
+							<div class="col-12">
+								<p>
+									{{test.answers[idx]}}
+								</p>
+							</div>
+						</div>
+
+					</ng-container>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- <div class="modal-backdrop" style="background-color: #0000007a;"></div>
+<div class="modal modal-2 animated fadeInUp" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+	<div class="modal-dialog modal-dialog-centered modal-md" role="document">
+		<div class="modal-content">
+			<div class="d-flex justify-content-center">
+				<button class="btn btn-rounded btn-rounded-close" (click)="close()">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</button>
+			</div>
+			<div class="modal-body modal-body--logis">
+				<div class="row" *ngIf="_loadingInit">
+					<div class="col-md-12">
+						Cargando...
+					</div>
+				</div>
+				<div class="row" *ngIf="!_loadingInit && !_testResult">
+					<div class="col-md-12">
+						Error cargando formulario
+					</div>
+				</div>
+				<ng-container *ngIf="!_loadingInit && _testResult">
+					<h4>{{ _testResult[0].test.name }}</h4>
+					<br>
+					<ng-container *ngFor="let item of _testResult">
+						<div class="card">
+							<div class="card-header">
+								{{ item.questionsTest.skill.name }}
+							</div>
+							<div class="card-body">
+								<ng-container *ngFor="let question of item.questionsTest.questions; let i = index">
+									<div class="row">
+										<div class="col">
+											<span class="font-weight-bold text-dark">{{ i + 1 }}. {{ question }}</span>
+										</div>
+									
+									</div>
+									<div class="row mb-2">
+										<div class="col">
+											<pre>   Respuesta: <span class="font-weight-bold text-secondary">{{ item.answers[i] }}</span></pre>
+										</div>
+									</div>
+								</ng-container>
+							</div>
+						</div>
+					</ng-container>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</div> -->

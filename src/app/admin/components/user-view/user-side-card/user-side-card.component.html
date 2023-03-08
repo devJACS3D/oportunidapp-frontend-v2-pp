@@ -1,0 +1,70 @@
+<card-wrapper>
+
+  <div class="row mb-4">
+    <div class="col text-center">
+      <img style="height: 184px;width: 184px;" [src]="utils.getImgSrc(user.image)" class="img-fluid img-rounded" alt="user image">
+    </div>
+  </div>
+
+  <!-- Information begin -->
+  <div class="row mt-2">
+    <div class="col-12 text-center">
+      <h4 class="text-semi-dark fs-1rem font-weight-bold mb-4">{{getFullName()}}</h4>
+
+
+      <div class="row">
+        <div class="col-12">
+          <ngb-rating [rate]="3" max="5" [readonly]="true">
+            <ng-template let-fill="fill" let-index="index">
+              <span class="star" [class.filled]="fill === 100" [class.bad]="index < 3">&#9733;</span>
+            </ng-template>
+          </ngb-rating>
+        </div>
+      </div>
+
+      <div class="row align-items-center mt-4">
+        <div *ngIf="!utils.isUndefined(user?.credentialUser)" class="col-12 d-flex justify-content-center justify-content-md-around align-items-center">
+          <img [src]="utils.assets('userprofile/Solid.png')" alt="Last signin">
+          <p class="fs-1rem m-0 font-weight-light">
+            Último ingreso: {{user.credentialUser.last_singin | date: 'dd/MMM/yy' : 'en-US' :
+            'en-US'}}
+          </p>
+        </div>
+        <div *ngIf="!utils.isUndefined(user.updatedAt)" class="col-12 d-flex justify-content-center justify-content-md-around align-items-center">
+          <img [src]="utils.assets('userprofile/time.png')" alt="Last update">
+          <p class="fs-1rem m-0 font-weight-light">
+            Última actualización: {{user.updatedAt | date: 'dd/MMM/yy' : 'en-US' :
+            'en-US'}}
+          </p>
+        </div>
+        <div *ngIf="!utils.isUndefined(user?.cv)" class="col-12 d-flex justify-content-center align-items-center">
+          <button-download-files [file]="user.cv"></button-download-files>
+          <p class="ml-1 fs-1rem m-0 font-weight-light">
+            Ver hoja de vida adjunta
+          </p>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <app-progress-bar [value]="user.completePercent"></app-progress-bar>
+        </div>
+      </div>
+
+      <div class="row mt-4" *ShowAuthorized="[AUTHORIZED.ADMIN,AUTHORIZED.PSYCHOLOGIST]">
+        <div class="col text-center">
+          <a class="text-dark pointer">Ver proceso</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</card-wrapper>
+
+<ng-template #t let-fill="fill">
+	<span class="star" [class.full]="fill === 100">
+		<span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+	</span>
+</ng-template>

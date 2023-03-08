@@ -1,0 +1,14 @@
+<div class="card-deck" style="width: 78%; margin: auto;">
+	<div class="card" style="margin-right: 5px; margin-bottom: 20px;">
+		<!-- <img [src]="urlImage" class="img-fluid" > -->
+		<div class="bg-image-responsive" [style.background]="'url(' + urlImage + ')'" style="width: 100%; height: 100%;"></div>
+	</div>
+	<div class="card" style="margin-bottom: 20px;">
+		<div class="card-body blog-card">
+			<p class="card-text card-subtitle text-secondary" style="margin-bottom: 10px;">Por: {{ item.author }}</p>
+			<h6 class="card-title font-weight-bold blog-title">{{ item.name }}</h6>
+			<p class="card-text card-text--info text-secondary">{{ item.description | subStr:0:400}}</p>
+			<button href="#" class="btn btn-outline-dark" (click)="goToDetail(item)">Leer más</button>
+		</div>
+	</div>
+</div>

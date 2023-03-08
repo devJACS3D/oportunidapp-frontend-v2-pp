@@ -1,0 +1,169 @@
+<div class="modal-backdrop" style="background-color: #0000007a;"></div>
+<div class="modal modal-2 animated fadeInDown" tabindex="-1" role="dialog" style="display: block; overflow-y: auto;">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="d-flex justify-content-end" style="margin-right: -15px;">
+				<button class="btn btn-rounded btn-rounded-close" (click)="close()">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</button>
+			</div>
+
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-7 text-center text-muted divider">
+						<div class="row">
+							<div class="box-container d-flex align-items-center">
+								<span>
+									<i class="fa fa-video-camera fa-4x" aria-hidden="true"></i>
+								</span>
+							</div>
+						</div>
+						<br>
+						<h3>Servicio Temporalidad</h3>
+						<div class="row">
+							<div class="col">
+								<p class="text-justify text-secondary px-3">
+									It is a long established fact that a reader will be distracted by the readable
+									content of a page when looking at its layout. The point of using Lorem Ipsum is that
+									it has a more-or-less normal distribution of letters.
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-5" style="padding-left: 40px;">
+						<div class="row">
+							<div class="col-12 text-center">
+								<img src="assets/logo.png" style="width: 4.7rem;">
+							</div>
+						</div>
+						<div class="row mb-5">
+							<div class="col text-center">
+								<span class="text-secondary small">
+									Por favor completar para crear tu cuenta
+								</span>
+							</div>
+						</div>
+
+						<form [formGroup]="formRegister">
+							<div class="row mb-2">
+								<div class="col form-group text-left">
+									<input type="text" class="form-control input-1" required formControlName="nit"
+										mask='999999999-9' maxlength="11" (focus)="clearMessage()">
+									<label class="input-1__label">N.I.T.</label>
+									<span class="text-danger invalid-control"
+										*ngIf="formRegister.controls.nit.invalid && formRegister.controls.nit.dirty">
+										Campo nit requerido.
+									</span>
+								</div>
+							</div>
+
+							<div class="row mb-2">
+								<div class="col form-group text-left">
+									<input type="text" class="form-control input-1" required maxlength="60"
+										formControlName="email" (focus)="clearMessage()"
+										[ngClass]="{'input-verified': formRegister.controls.email.valid, 'input-unavailable': formRegister.controls.email.errors && formRegister.controls.email.errors.emailTaken}">
+									<label class="input-1__label">Correo electrónico</label>
+									<span class="text-success invalid-control"
+										*ngIf="formRegister.controls.email.valid; else invalidEmail">
+										Correo disponible.
+									</span>
+									<ng-template #invalidEmail>
+										<ng-container *ngIf="formRegister.controls.email.dirty">
+											<span class="text-danger invalid-control"
+												*ngIf="formRegister.controls.email.value == ''">
+												Campo requerido.
+											</span>
+											<span class="text-danger invalid-control"
+												*ngIf="formRegister.controls.email.errors && formRegister.controls.email.errors.pattern">
+												Formato de correo incorrecto.
+											</span>
+											<span class="text-danger invalid-control"
+												*ngIf="formRegister.controls.email.errors && formRegister.controls.email.errors.emailTaken">
+												Correo no disponible.
+											</span>
+										</ng-container>
+									</ng-template>
+									<span class="text-secondary invalid-control"
+										*ngIf="formRegister.controls.email.status === 'PENDING'">
+										Verificando email ...
+									</span>
+								</div>
+							</div>
+
+							<div class="row mb-2">
+								<div class="col form-group text-left" [ngbPopover]="popContent" #pPassword="ngbPopover"
+									[autoClose]="false" triggers="manual">
+									<input type="password" class="form-control input-1" formControlName="password"
+										maxlength="20" required (focus)="clearMessage(); pPassword.open()"
+										(focusout)="pPassword.close()">
+									<label class="input-1__label">Contraseña</label>
+									<span class="text-danger invalid-control"
+										*ngIf="formRegister.controls.password.invalid && formRegister.controls.password.dirty">
+										Campo requerido.
+									</span>
+								</div>
+							</div>
+
+							<div class="row mb-2">
+								<div class="col form-group text-left">
+									<input type="password" class="form-control input-1" required maxlength="20"
+										formControlName="passwordConfirmation" (focus)="clearMessage()">
+									<label class="input-1__label">Confirmar contraseña</label>
+									<span class="text-danger"
+										*ngIf="formRegister.controls.passwordConfirmation.dirty && formRegister.controls.password.value !== formRegister.controls.passwordConfirmation.value">
+										<small>La contraseña no coincide</small>
+									</span>
+								</div>
+							</div>
+						</form>
+
+						<div class="row">
+							<div class="col form-group">
+								<div class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" [(ngModel)]="_terms"
+										[ngModelOptions]="{standalone: true}" id="customCheck1">
+									<label class="custom-control-label" for="customCheck1">He leído y acepto las
+										<a href="{{docsApp.usagePolicies}}" target="_BLANCK">política de uso</a> y los
+										<a href="{{docsApp.terms}}" target="_BLANCK">términos y condiciones</a>
+									</label>
+								</div>
+								<span class="text-danger" *ngIf="!_terms && _showErrorMessage">
+									<small>Debe aceptar términos y condiciones para continuar</small>
+								</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col form-group">
+								<span class="text-danger">
+									{{ errorMessage }}
+								</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col text-center">
+								<button class="btn btn-ok--blue" [disabled]="_loading" (click)="register()">
+									<i *ngIf="_loading" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+									Regístrate
+								</button>
+							</div>
+						</div>
+						<br>
+
+						<div class="row justify-content-center">
+							<div class="col-auto form-group" style="font-size: 0.9rem;">
+								<span class="text-secondary">¿Ya tienes cuenta ?</span> &nbsp;
+								<a routerLink="../login">Inicia aquí</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<ng-template #popContent let-greeting="greeting">
+	<app-password-requirements [password]="formRegister.controls.password.value"></app-password-requirements>
+</ng-template>

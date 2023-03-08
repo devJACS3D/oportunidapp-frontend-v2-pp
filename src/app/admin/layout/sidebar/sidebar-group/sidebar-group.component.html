@@ -1,0 +1,45 @@
+<div
+  class="group-container position-relative"
+  [ngClass]="{ active: showItems }"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: false }"
+  #rla="routerLinkActive"
+>
+  <a
+    class="d-flex align-items-center p-4 pointer"
+    style="gap: 10px; text-decoration: none;"
+    (click)="itemGroup.showItems = !itemGroup.showItems"
+  >
+    <img src="assets/menu_icons/{{ itemGroup.icon }}" />
+    <span class="menu-title" *ngIf="!hiddenText">
+      {{ itemGroup.title }}
+    </span>
+
+    <!-- <i class="fa"
+			[ngClass]="{'fa-chevron-down': !showItems && !rla?.isActive, 'fa-chevron-up': showItems || rla?.isActive}"
+			aria-hidden="true"></i> -->
+  </a>
+
+  <div
+    class="sub-menu-container-v2 p-2"
+    [ngClass]="{ 'show-v2 scrollbar': itemGroup.showItems }"
+    [ngStyle]="{ 'left': hiddenText ? '80px' : '220px' }"
+  >
+    <ng-container *ngFor="let item of itemGroup.children">
+      <!-- Items -->
+      <!-- <app-sidebar-item *ngIf="item.type == 'item'" [item]="item"></app-sidebar-item> -->
+      <a
+        class="d-flex align-items-center p-4 pointer"
+        style="gap: 10px; text-decoration: none;"
+        routerLink="{{ item.url }}"
+        routerLinkActive="active"
+        (click)="onItemClick.next(item)"
+      >
+        <img *ngIf="item.icon" src="assets/menu_icons/{{ item.icon }}" />
+        <span class="menu-title">
+          {{ item.title }}
+        </span>
+      </a>
+    </ng-container>
+  </div>
+</div>
